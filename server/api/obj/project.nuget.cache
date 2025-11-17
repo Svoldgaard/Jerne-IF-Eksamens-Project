@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dpREEysRRf8=",
+  "dgSpecHash": "MzYq1IgtrA0=",
   "success": true,
-  "projectFilePath": "C:\\EASV\\Project-Template-Eksamen\\server\\api\\api.csproj",
+  "projectFilePath": "C:\\EASV\\Jerne-IF-Eksamens-Project\\server\\api\\api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nadja\\.nuget\\packages\\fluid.core\\2.25.0\\fluid.core.2.25.0.nupkg.sha512",
     "C:\\Users\\nadja\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

@@ -3629,11 +3629,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\EASV\\Project-Template-Eksamen\\server\\api\\api.csproj",
+      "projectUniqueName": "C:\\EASV\\Jerne-IF-Eksamens-Project\\server\\api\\api.csproj",
       "projectName": "api",
-      "projectPath": "C:\\EASV\\Project-Template-Eksamen\\server\\api\\api.csproj",
+      "projectPath": "C:\\EASV\\Jerne-IF-Eksamens-Project\\server\\api\\api.csproj",
       "packagesPath": "C:\\Users\\nadja\\.nuget\\packages\\",
-      "outputPath": "C:\\EASV\\Project-Template-Eksamen\\server\\api\\obj\\",
+      "outputPath": "C:\\EASV\\Jerne-IF-Eksamens-Project\\server\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nadja\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -3648,8 +3648,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\EASV\\Project-Template-Eksamen\\server\\dataaccess\\dataaccess.csproj": {
-              "projectPath": "C:\\EASV\\Project-Template-Eksamen\\server\\dataaccess\\dataaccess.csproj"
+            "C:\\EASV\\Jerne-IF-Eksamens-Project\\server\\dataaccess\\dataaccess.csproj": {
+              "projectPath": "C:\\EASV\\Jerne-IF-Eksamens-Project\\server\\dataaccess\\dataaccess.csproj"
             }
           }
         }

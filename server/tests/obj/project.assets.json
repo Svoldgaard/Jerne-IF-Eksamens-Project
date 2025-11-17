@@ -4124,11 +4124,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\EASV\\Project-Template-Eksamen\\server\\tests\\tests.csproj",
+      "projectUniqueName": "C:\\EASV\\Jerne-IF-Eksamens-Project\\server\\tests\\tests.csproj",
       "projectName": "tests",
-      "projectPath": "C:\\EASV\\Project-Template-Eksamen\\server\\tests\\tests.csproj",
+      "projectPath": "C:\\EASV\\Jerne-IF-Eksamens-Project\\server\\tests\\tests.csproj",
       "packagesPath": "C:\\Users\\nadja\\.nuget\\packages\\",
-      "outputPath": "C:\\EASV\\Project-Template-Eksamen\\server\\tests\\obj\\",
+      "outputPath": "C:\\EASV\\Jerne-IF-Eksamens-Project\\server\\tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nadja\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -4143,8 +4143,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\EASV\\Project-Template-Eksamen\\server\\api\\api.csproj": {
-              "projectPath": "C:\\EASV\\Project-Template-Eksamen\\server\\api\\api.csproj"
+            "C:\\EASV\\Jerne-IF-Eksamens-Project\\server\\api\\api.csproj": {
+              "projectPath": "C:\\EASV\\Jerne-IF-Eksamens-Project\\server\\api\\api.csproj"
             }
           }
         }
