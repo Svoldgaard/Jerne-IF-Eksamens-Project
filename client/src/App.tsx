@@ -45,7 +45,6 @@ function App() {
             path: "/regler",
             element: <Regler/>
         }
-
     ])
 
   return <RouterProvider router={router}/>
