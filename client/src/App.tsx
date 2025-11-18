@@ -1,35 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './UI/CSS/App.css'
+import Login from './UI/Login.tsx'
+import SpilSide from './UI/Bruger/SpilSide.tsx'
+import {createBrowserRouter, RouterProvider} from "react-router";
+import AktivSpil from "./UI/Bruger/AktivSpil.tsx";
+import SpilhistorikBruger from "./UI/Bruger/SpilhistorikBruger.tsx";
+import ProfilBruger from "./UI/Bruger/ProfilBruger.tsx";
+import ForsideBruger from "./UI/Bruger/ForsideBruger.tsx";
+import Regler from "./UI/Regler.tsx";
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const router = createBrowserRouter([
+        {
+            path: "/",
+            element: <Login/>
+        },
+        {
+          path: "/forside",
+          element: <ForsideBruger/>
+        },
+        {
+            path: "/købplade",
+            element: <SpilSide/>
+        },
+        {
+            path: "/aktiv-spil",
+            element: (
+                <AktivSpil
+                    boards={[
+                        { id: "Loading...", activeIndices: [] }
+                    ]}
+                />
+            )
+        },
+        {
+            path: "/spilhistorik",
+            element: <SpilhistorikBruger/>
+        },
+        {
+            path: "/profil",
+            element: <ProfilBruger/>
+        },
+        {
+            path: "/regler",
+            element: <Regler/>
+        }
+    ])
+
+  return <RouterProvider router={router}/>
 }
 
 export default App
