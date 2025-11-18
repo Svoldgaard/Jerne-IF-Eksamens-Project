@@ -1,18 +1,18 @@
 
-function ForsideBruger() {
+function ForsideAdmin() {
     return (
         <div>
             <div>
-            <button>
-                Køb Plade
-            </button>
-            <button>
-                Aktive Spil
-            </button>
+                <button>
+                    Aktive Plader
+                </button>
+                <button>
+                    Spilhistorik
+                </button>
             </div>
             <div>
                 <button>
-                    Spilhistorik
+                    Regler
                 </button>
                 <button>
                     Profil
@@ -22,4 +22,4 @@ function ForsideBruger() {
     )
 }
 
-export default ForsideBruger;
+export default ForsideAdmin;

@@ -1,6 +1,12 @@
 import './UI/CSS/App.css'
 import Login from './UI/Login.tsx'
-import {createBrowserRouter, Route, RouterProvider} from "react-router";
+import SpilSide from './UI/Bruger/SpilSide.tsx'
+import {createBrowserRouter, RouterProvider} from "react-router";
+import AktivSpil from "./UI/Bruger/AktivSpil.tsx";
+import SpilhistorikBruger from "./UI/Bruger/SpilhistorikBruger.tsx";
+import ProfilBruger from "./UI/Bruger/ProfilBruger.tsx";
+import ForsideBruger from "./UI/Bruger/ForsideBruger.tsx";
+import Regler from "./UI/Regler.tsx";
 
 function App() {
 
@@ -8,7 +14,38 @@ function App() {
         {
             path: "/",
             element: <Login/>
+        },
+        {
+          path: "/forside",
+          element: <ForsideBruger/>
+        },
+        {
+            path: "/købplade",
+            element: <SpilSide/>
+        },
+        {
+            path: "/aktiv-spil",
+            element: (
+                <AktivSpil
+                    boards={[
+                        { id: "Loading...", activeIndices: [] }
+                    ]}
+                />
+            )
+        },
+        {
+            path: "/spilhistorik",
+            element: <SpilhistorikBruger/>
+        },
+        {
+            path: "/profil",
+            element: <ProfilBruger/>
+        },
+        {
+            path: "/regler",
+            element: <Regler/>
         }
+
     ])
 
   return <RouterProvider router={router}/>
