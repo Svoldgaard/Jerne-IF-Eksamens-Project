@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DDKUJKfQMzY=",
+  "dgSpecHash": "9/iJoTjwg5E=",
   "success": true,
-  "projectFilePath": "C:\\EASV\\Project-Template-Eksamen\\server\\tests\\tests.csproj",
+  "projectFilePath": "C:\\EASV\\Jerne-IF-Eksamens-Project\\server\\tests\\tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nadja\\.nuget\\packages\\bouncycastle.cryptography\\2.4.0\\bouncycastle.cryptography.2.4.0.nupkg.sha512",
     "C:\\Users\\nadja\\.nuget\\packages\\coverlet.collector\\6.0.2\\coverlet.collector.6.0.2.nupkg.sha512",

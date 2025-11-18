@@ -3252,11 +3252,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\EASV\\Project-Template-Eksamen\\server\\dataaccess\\dataaccess.csproj",
+      "projectUniqueName": "C:\\EASV\\Jerne-IF-Eksamens-Project\\server\\dataaccess\\dataaccess.csproj",
       "projectName": "dataaccess",
-      "projectPath": "C:\\EASV\\Project-Template-Eksamen\\server\\dataaccess\\dataaccess.csproj",
+      "projectPath": "C:\\EASV\\Jerne-IF-Eksamens-Project\\server\\dataaccess\\dataaccess.csproj",
       "packagesPath": "C:\\Users\\nadja\\.nuget\\packages\\",
-      "outputPath": "C:\\EASV\\Project-Template-Eksamen\\server\\dataaccess\\obj\\",
+      "outputPath": "C:\\EASV\\Jerne-IF-Eksamens-Project\\server\\dataaccess\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nadja\\AppData\\Roaming\\NuGet\\NuGet.Config"
