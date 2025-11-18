@@ -12,4 +12,10 @@ public partial class Login
     public string Password { get; set; } = null!;
 
     public int Rolleid { get; set; }
+
+    public virtual ICollection<Plade> Plades { get; set; } = new List<Plade>();
+
+    public virtual ICollection<Profil> Profils { get; set; } = new List<Profil>();
+
+    public virtual Rolle Rolle { get; set; } = null!;
 }

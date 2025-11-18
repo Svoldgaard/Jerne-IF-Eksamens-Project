@@ -16,6 +16,8 @@ public partial class MyDbContext : DbContext
 
     public virtual DbSet<Plade> Plades { get; set; }
 
+    public virtual DbSet<Price> Prices { get; set; }
+
     public virtual DbSet<Profil> Profils { get; set; }
 
     public virtual DbSet<Rolle> Rolles { get; set; }
@@ -40,6 +42,10 @@ public partial class MyDbContext : DbContext
                 .HasMaxLength(200)
                 .HasColumnName("password");
             entity.Property(e => e.Rolleid).HasColumnName("rolleid");
+
+            entity.HasOne(d => d.Rolle).WithMany(p => p.Logins)
+                .HasForeignKey(d => d.Rolleid)
+                .HasConstraintName("fk_login_rolle");
         });
 
         modelBuilder.Entity<Plade>(entity =>
@@ -55,8 +61,28 @@ public partial class MyDbContext : DbContext
             entity.Property(e => e.Gentag)
                 .HasDefaultValue(false)
                 .HasColumnName("gentag");
+            entity.Property(e => e.Priceid).HasColumnName("priceid");
             entity.Property(e => e.Ugetal).HasColumnName("ugetal");
             entity.Property(e => e.Valgtetal).HasColumnName("valgtetal");
+
+            entity.HasOne(d => d.Bruger).WithMany(p => p.Plades)
+                .HasForeignKey(d => d.Brugerid)
+                .HasConstraintName("fk_plade_login");
+
+            entity.HasOne(d => d.Price).WithMany(p => p.Plades)
+                .HasForeignKey(d => d.Priceid)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("fk_plade_price");
+        });
+
+        modelBuilder.Entity<Price>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("price_pkey");
+
+            entity.ToTable("price", "jerneif");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Price1).HasColumnName("price");
         });
 
         modelBuilder.Entity<Profil>(entity =>
@@ -84,6 +110,10 @@ public partial class MyDbContext : DbContext
             entity.Property(e => e.Mobil)
                 .HasMaxLength(20)
                 .HasColumnName("mobil");
+
+            entity.HasOne(d => d.Bruger).WithMany(p => p.Profils)
+                .HasForeignKey(d => d.Brugerid)
+                .HasConstraintName("fk_profil_login");
         });
 
         modelBuilder.Entity<Rolle>(entity =>

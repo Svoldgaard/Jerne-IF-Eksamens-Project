@@ -14,4 +14,10 @@ public partial class Plade
     public bool Gentag { get; set; }
 
     public int Brugerid { get; set; }
+
+    public int? Priceid { get; set; }
+
+    public virtual Login Bruger { get; set; } = null!;
+
+    public virtual Price? Price { get; set; }
 }

@@ -18,4 +18,6 @@ public partial class Profil
     public int Brugerid { get; set; }
 
     public bool Aktiv { get; set; }
+
+    public virtual Login Bruger { get; set; } = null!;
 }
