@@ -1,4 +1,4 @@
-import '../CSS/SpilSideGrid.css'
+import '../CSS/SpilSide.css'
 
 export type ClickableGridUIProps ={
     activeIndices?: number[];

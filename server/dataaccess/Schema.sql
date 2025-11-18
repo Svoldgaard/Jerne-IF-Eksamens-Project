@@ -1,10 +1,10 @@
-﻿drop schema if exists JerneIF cascade;
-create schema if not exists JerneIF;
+﻿drop schema if exists jerneif cascade;
+create schema if not exists jerneif;
 
 -- ===========================
 -- Table: Rolle
 -- ===========================
-CREATE TABLE JerneIF.Rolle (
+CREATE TABLE jerneif.Rolle (
                                RolleID SERIAL PRIMARY KEY,
                                RolleNavn VARCHAR(100) NOT NULL
 );
@@ -12,7 +12,7 @@ CREATE TABLE JerneIF.Rolle (
 -- ===========================
 -- Table: Login
 -- ===========================
-CREATE TABLE JerneIF.Login (
+CREATE TABLE jerneif.Login (
                                BrugerID SERIAL PRIMARY KEY,
                                Brugernavn VARCHAR(100) NOT NULL UNIQUE,
                                Password VARCHAR(200) NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE JerneIF.Login (
 -- ===========================
 -- Table: Profil
 -- ===========================
-CREATE TABLE JerneIF.Profil (
+CREATE TABLE jerneif.Profil (
                                 ID SERIAL PRIMARY KEY,
                                 FNavn VARCHAR(100) NOT NULL,
                                 LNavn VARCHAR(100) NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE JerneIF.Profil (
 -- ===========================
 -- Table: Plade
 -- ===========================
-CREATE TABLE JerneIF.Plade (
+CREATE TABLE jerneif.Plade (
                                ID VARCHAR(50) PRIMARY KEY,
                                ValgteTal INT NOT NULL,
                                Ugetal INT NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE JerneIF.Plade (
 -- ===========================
 -- Table: Vindertal
 -- ===========================
-CREATE TABLE JerneIF.Vindertal (
+CREATE TABLE jerneif.Vindertal (
                                    ID SERIAL PRIMARY KEY,
                                    Vindertal INT NOT NULL,
                                    Ugetal INT NOT NULL
