@@ -11,5 +11,5 @@ Get-Content .env | ForEach-Object {
 dotnet tool install -g dotnet-ef
 
 # Run scaffolding
-dotnet ef dbcontext scaffold $env:CONN_STR Npgsql.EntityFrameworkCore.PostgreSQL --context MyDbContext --no-onconfiguring --schema library --force --output-dir efscaffold
+dotnet ef dbcontext scaffold $env:CONN_STR Npgsql.EntityFrameworkCore.PostgreSQL --context MyDbContext --no-onconfiguring --schema JerneIF --force --output-dir dataaccess
 
