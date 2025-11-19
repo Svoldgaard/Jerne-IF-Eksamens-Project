@@ -1,10 +1,12 @@
 import {useNavigate} from "react-router";
+import Header from "../../Component/Header.tsx";
 
 function ForsideBruger() {
     const navigate = useNavigate();
 
     return (
         <div>
+            <Header/>
             <div>
             <button onClick={() => navigate("/købplade")}>
                 Køb Plade
