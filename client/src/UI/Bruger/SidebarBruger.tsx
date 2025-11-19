@@ -22,7 +22,7 @@ function SidebarBruger(){
 
     return (
         <div style = {{ position: "relative"}}>
-            <button className="button" onClick={() => setMenuOpen(!menuOpen)}>
+            <button className="sidebar-button" onClick={() => setMenuOpen(!menuOpen)}>
                 ☰
             </button>
             {menuOpen && (

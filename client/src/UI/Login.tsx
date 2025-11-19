@@ -11,12 +11,12 @@ function Login() {
     const [showPassword, setShowPassword] = useState(false);
 
     return(
-        <div className="page">
-            <span className="logo">
+        <div className="page-login">
+            <span className="logo-login">
                 <img src={Logo} alt="Logo"/>
             </span>
-            <div className="background">
-                <div className="content">
+            <div className="background-login">
+                <div className="content-login">
                     <div className="input-wrapper">
                         <input
                             type="text"
@@ -53,7 +53,7 @@ function Login() {
                     </div>
                     <p></p>
                     <div className="button-wrapper">
-                        <button type='submit' className="button arrow-button">
+                        <button type='submit' className="button">
                             LOG IND
                         </button>
                     </div>

@@ -1,0 +1,33 @@
+
+.background-forside{
+    /*margin-top: 50px;*/
+
+    width: 1140px;
+    margin: 0 auto;
+
+    flex: 1; /* fills space above footer */
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    background: #FFFFFF;
+    padding: 20px;
+}
+
+.page-forside{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: hidden; /* prevents unnecessary scroll */
+    margin: 0;
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.button-forside{
+
+}

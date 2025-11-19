@@ -7,6 +7,7 @@ import SpilhistorikBruger from "./UI/Bruger/SpilhistorikBruger.tsx";
 import ProfilBruger from "./UI/Bruger/ProfilBruger.tsx";
 import ForsideBruger from "./UI/Bruger/ForsideBruger.tsx";
 import Regler from "./UI/Regler.tsx";
+import ForsideAdmin from "./UI/Admin/ForsideAdmin.tsx";
 
 function App() {
 
@@ -20,7 +21,11 @@ function App() {
           element: <ForsideBruger/>
         },
         {
-            path: "/købplade",
+            path: "/forside-admin",
+            element: <ForsideAdmin/>
+        },
+        {
+            path: "/køb-plade",
             element: <SpilSide/>
         },
         {

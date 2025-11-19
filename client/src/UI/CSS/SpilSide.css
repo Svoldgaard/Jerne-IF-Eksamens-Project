@@ -1,13 +1,12 @@
 .cg-container {
-    display: inline-block;
-    text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
 .cg-grid {
     display: grid;
-    gap: 15px;
     margin: 20px auto;
-    width: fit-content;
+    max-width: fit-content;
 }
 
 .cg-cell {
@@ -23,6 +22,7 @@
     border: none;
     background: #d9d9d9;
     transition: background 0.2s;
+
 }
 
 .cg-cell:hover {
@@ -32,50 +32,77 @@
 .cg-cell.cg-cell-active {
     background-color: red;
     color: white;
-    
     border: none !important;
-    
 }
 
 p{
     color: #000000;
 }
 
-.background{
-    margin-top: 200px;
+.background-spilside{
+    /*margin-top: 50px;*/
 
     width: 1140px;
-
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
 
     flex: 1; /* fills space above footer */
+    flex-direction: column;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: stretch;
     background: #FFFFFF;
+    padding: 20px;
 }
 
-.page {
+.page-plade {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     overflow: hidden; /* prevents unnecessary scroll */
+    margin: 0;
+
 }
 
-.content{
+.content-plade{
     margin-top: 0;
 }
 
-/*.logo{*/
-/*    position: absolute;*/
-/*    top: 30px;*/
-/*    left: 50px;*/
-/*    z-index: 10;*/
+.logo-plade{
+    position: absolute;
+    top: 10px;
+    left: 200px;
+    z-index: 10;
+}
 
-/*}*/
+.logo-plade img{
+    width: 80px;
+    height: auto;
+}
 
-/*.logo img{*/
-/*    width: 100px;*/
-/*    height: auto;*/
-/*}*/
+.main-container{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.button-plade {
+    background: #d9d9d9;
+    color: #000000;
+    border: none;
+    height: 40px;
+    width: 100px;
+}
+
+.button-gem{
+    background: #d9d9d9;
+    color: #000000;
+    border: none;
+    height: 40px;
+    width: 200px;
+    font-size: 16px;
+}
+
+.checkbox-plade{
+    height: 15px;
+    width: 15px;
+}

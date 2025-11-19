@@ -11,11 +11,11 @@
     align-items: center;
     gap: 8px;
 
-    background-image: url('../../../public/ArrowRight.png'); /* adjust path if needed */
+    background-image: url('../../../public/ArrowRight.png');
     background-repeat: no-repeat;
-    background-position: right 10px center;  /* 10px from the right, vertically centered */
-    background-size: 16px 16px;             /* size of the arrow */
-    padding-right: 30px;                     /* leave space for arrow */
+    background-position: right 10px center;
+    background-size: 16px 16px;
+    padding-right: 30px;
     cursor: pointer;
 }
 .button-wrapper {
@@ -24,7 +24,7 @@
     margin-top: 10px;
     margin-left: 125px;
     justify-content: center;
-    background: #00A637;
+    background: none;
     width: 100px;
     height: 30px;
     gap: 8px;
@@ -50,8 +50,8 @@
     padding-left: 50px;
 
     background-repeat: no-repeat;
-    background-position: 10px center;  /* perfect centering */
-    background-size: 25px 25px;        /* consistent size */
+    background-position: 10px center;
+    background-size: 25px 25px;
 
     display: flex;
     align-items: center;
@@ -88,7 +88,7 @@
 }
 
 .eye-icon {
-    width: 20px;   /* adjust size */
+    width: 20px;
     height: 20px;
 }
 
@@ -103,7 +103,7 @@ a{
     margin-top: 10px;
 }
 
-.background{
+.background-login{
     margin-top: 200px;
 
     width: 1140px;
@@ -111,25 +111,25 @@ a{
     margin-left: auto;
     margin-right: auto;
 
-    flex: 1; /* fills space above footer */
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     background: #FFFFFF;
 }
 
-.page {
+.page-login {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     overflow: hidden; /* prevents unnecessary scroll */
 }
 
-.content{
+.content-login{
     margin-top: 0;
 }
 
-.logo{
+.logo-login{
     position: absolute;
     top: 30px;
     left: 50%;
@@ -137,7 +137,7 @@ a{
 
 }
 
-.logo img{
+.logo-login img{
     width: 130px;
     height: auto;
 }

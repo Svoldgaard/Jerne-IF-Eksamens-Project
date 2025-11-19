@@ -21,3 +21,56 @@
     color: white;
     border-color: #3b8f41;
 }
+
+.background-aktivspil{
+    /*margin-top: 50px;*/
+
+    width: 1140px;
+    margin: 0 auto;
+
+    flex: 1; /* fills space above footer */
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    background: #FFFFFF;
+    padding: 20px;
+}
+
+.page-aktivspil{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: hidden; /* prevents unnecessary scroll */
+    margin: 0;
+}
+
+.logo-aktivspil{
+    position: absolute;
+    top: 10px;
+    left: 200px;
+    z-index: 10;
+}
+
+.logo-aktivspil img{
+    width: 80px;
+    height: auto;
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.board-separator{
+
+}
+
+.button-aktivspil {
+    background: #d9d9d9;
+    color: #000000;
+    border: none;
+    height: 40px;
+    width: 100px;
+}
