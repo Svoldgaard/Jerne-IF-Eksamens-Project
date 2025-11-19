@@ -1,40 +1,54 @@
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router";
 
 function SidebarBruger(){
     const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+             if (menuOpen && menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setMenuOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [menuOpen]);
 
     return (
-        <div>
+        <div style = {{ position: "relative"}}>
             <button className="button" onClick={() => setMenuOpen(!menuOpen)}>
                 ☰
             </button>
             {menuOpen && (
-                <div className= "sidebar - menu">
-                    <button onClick={() => {navigate("/forside"); setMenuOpen(false);}}>
+                <div className= "sidebar-menu" ref={menuRef}>
+                    <div onClick={() => {navigate("/forside"); setMenuOpen(false);}}>
                         Forside
-                    </button>
+                    </div>
 
-                    <button onClick={() => {navigate("/profil"); setMenuOpen(false);}}>
+                    <div onClick={() => {navigate("/profil"); setMenuOpen(false);}}>
                         Profil
-                    </button>
+                    </div>
 
-                    <button onClick={() => {navigate("/regler"); setMenuOpen(false);}}>
+                    <div onClick={() => {navigate("/regler"); setMenuOpen(false);}}>
                         Regler
-                    </button>
+                    </div>
 
-                    <button onClick={() => {navigate("/aktiv-spil"); setMenuOpen(false);}}>
+                    <div onClick={() => {navigate("/aktiv-spil"); setMenuOpen(false);}}>
                         Aktive Spil
-                    </button>
+                    </div>
 
-                    <button onClick={() => {navigate("/spilhistorik"); setMenuOpen(false);}}>
+                    <div onClick={() => {navigate("/spilhistorik"); setMenuOpen(false);}}>
                         Spilhistorik
-                    </button>
+                    </div>
 
-                    <button onClick={() => {navigate("Køb-plade"); setMenuOpen(false);}}>
+                    <div onClick={() => {navigate("/køb-plade"); setMenuOpen(false);}}>
                         Køb Plade
-                    </button>
+                    </div>
 
                 </div>
             )}
