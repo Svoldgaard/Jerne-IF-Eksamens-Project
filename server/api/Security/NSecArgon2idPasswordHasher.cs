@@ -1,0 +1,41 @@
+using System.Security.Cryptography;
+using dataaccess.Entity;
+using Microsoft.AspNetCore.Identity;
+
+namespace Api.Security;
+
+public class NSecArgon2IdPasswordHasher : IPasswordHasher<Login>
+{
+    public string HashPassword(Login user, string password)
+    {
+        var salt = RandomNumberGenerator.GetBytes(128 / 8);
+        var hash = GenerateHash(password, salt);
+        return $"argon2id${Convert.ToBase64String(salt)}${Convert.ToBase64String(hash)}";
+    }
+
+    public PasswordVerificationResult VerifyHashedPassword(
+        Login user,
+        string hashedPassword,
+        string providedPassword
+    )
+    {
+        var parts = hashedPassword.Split('$');
+        var salt = Convert.FromBase64String(parts[1]);
+        var storedHash = Convert.FromBase64String(parts[2]);
+        var providedHash = GenerateHash(providedPassword, salt);
+        return CryptographicOperations.FixedTimeEquals(storedHash, providedHash)
+            ? PasswordVerificationResult.Success
+            : PasswordVerificationResult.Failed;
+    }
+
+    public byte[] GenerateHash(string password, byte[] salt)
+    {
+        var hashAlgo = new NSec.Cryptography.Argon2id(new NSec.Cryptography.Argon2Parameters
+        {
+            DegreeOfParallelism = 1,
+            MemorySize = 12288,
+            NumberOfPasses = 3,
+        });
+        return hashAlgo.DeriveBytes(password, salt, 128);
+    }
+}
