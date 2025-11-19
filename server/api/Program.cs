@@ -1,20 +1,65 @@
 using api;
-using dataaccess;
+using Api.Security;
+using Api.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
 
 public class Program
 {
-    public static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+    public static void ConfigureServices(IServiceCollection services, IConfiguration configuration,WebApplicationBuilder builder)
     {
         var appOptions = services.AddAppOptions(configuration);
 
-        //services.AddScoped<ILibraryService<BookDto, CreateBookDto, UpdateBookDto>, BookService>();
-        //services.AddScoped<BookDetailsService>();
+          var connectionString = builder.Configuration.GetConnectionString("AppDb");
+        builder.Services.AddDbContext<AppDbContext>(options =>
+            options
+                .UseNpgsql(connectionString)
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+        );
+        builder.Services.AddScoped<DbSeeder>();
 
-         // services.AddDbContext<MyDbContext>(conf =>
-         // {
-         //     conf.UseNpgsql(appOptions.DbConnectionString);
-         // });
+        // Repositories
+        builder.Services.AddScoped<IRepository<User>, UserRepository>();
+
+        // Services
+        builder.Services.AddScoped<IPasswordHasher<User>, KonciousArgon2idPasswordHasher>();
+        builder.Services.AddScoped<IAuthService, AuthService>();
+        builder.Services.AddScoped<ITokenService, JwtService>();
+        
+        // Authentication & Authorization
+        builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = JwtService.ValidationParameters(
+                    builder.Configuration);
+                // add this for debugging
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        Console.WriteLine($"Authentication failed: {context.Exception}");
+                        return Task.CompletedTask;
+                    },
+                    OnTokenValidated = context =>
+                    {
+                        Console.WriteLine("Token Validated Successfully");
+                        return Task.CompletedTask;
+                    },
+                };
+            });
+        builder.Services.AddAuthorization(options =>
+        {
+            options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser()
+                .Build();
+        });
 
         services.AddControllers();
         services.AddOpenApiDocument();
