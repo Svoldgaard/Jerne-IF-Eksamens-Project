@@ -31,6 +31,9 @@ function ProfilBruger() {
                     placeholder="Email"
                 />
             </div>
+            <button>
+                Gem
+            </button>
         </div>
     )
 }
