@@ -4,7 +4,7 @@
 ## Get latest from `dotnet new gitignore`
 
 # dotenv files
-.env
+dataaccess/.env
 
 # User-specific files
 *.rsuser
@@ -404,7 +404,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-.idea/
+../.idea/
 
 ##
 ## Visual studio for Mac
