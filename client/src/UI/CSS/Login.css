@@ -1,0 +1,142 @@
+.button {
+    background: #00A637;
+    color: #FFFFFF;
+    border: none;
+    height: 40px;
+    width: 120px;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    background-image: url('../../../public/ArrowRight.png'); /* adjust path if needed */
+    background-repeat: no-repeat;
+    background-position: right 10px center;  /* 10px from the right, vertically centered */
+    background-size: 16px 16px;             /* size of the arrow */
+    padding-right: 30px;                     /* leave space for arrow */
+    cursor: pointer;
+}
+.button-wrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-left: 125px;
+    justify-content: center;
+    background: #00A637;
+    width: 100px;
+    height: 30px;
+    gap: 8px;
+}
+
+.button .icon {
+    width: 10px;
+    height: 10px;
+
+}
+
+.input{
+    background: #F44336;
+    color: #FFFFFF;
+    border: #F44336;
+    /*margin-top: 15px;*/
+    height: 40px;
+    width: 300px;
+    font-size: 16px;
+    padding-left: 50px;
+
+    background-repeat: no-repeat;
+    background-position: 10px center;  /* perfect centering */
+    background-size: 25px 25px;        /* consistent size */
+
+    display: flex;
+    align-items: center;
+}
+
+.input:focus{
+    border: none;
+    outline: none;
+}
+
+.user-input {
+    background-image: url('../../../public/User.png');
+}
+
+.lock-input {
+    background-image: url('../../../public/Lock.png');
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.show-password-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.eye-icon {
+    width: 20px;   /* adjust size */
+    height: 20px;
+}
+
+::placeholder{
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+a{
+    color: #000000;
+    text-decoration: underline;
+    margin-top: 10px;
+}
+
+.background{
+    margin-top: 200px;
+
+    width: 1140px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    flex: 1; /* fills space above footer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: hidden; /* prevents unnecessary scroll */
+}
+
+.content{
+    margin-top: 0;
+}
+
+.logo{
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+
+.logo img{
+    width: 130px;
+    height: auto;
+}
+
+

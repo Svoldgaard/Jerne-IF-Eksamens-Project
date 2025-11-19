@@ -20,9 +20,9 @@ export default function SpilSide({
     return (
         <div>
             <div>
-                <label>
+                <p>
                     Nuværende spil:
-                </label>
+                </p>
             </div>
             <div className={`cg-container ${className}`}>
                 <div
@@ -46,9 +46,9 @@ export default function SpilSide({
                 </div>
             </div>
             <div>
-                <label>
+                <p>
                     Pris:
-                </label>
+                </p>
             </div>
             <div>
                 <button>
@@ -56,10 +56,10 @@ export default function SpilSide({
                 </button>
             </div>
             <div>
-                <label>
+                <p>
                     Gentag hver uge
                     <input type="checkbox"/>
-                </label>
+                </p>
             </div>
         </div>
     );
