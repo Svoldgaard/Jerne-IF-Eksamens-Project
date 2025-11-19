@@ -40,3 +40,42 @@
 p{
     color: #000000;
 }
+
+.background{
+    margin-top: 200px;
+
+    width: 1140px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    flex: 1; /* fills space above footer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: hidden; /* prevents unnecessary scroll */
+}
+
+.content{
+    margin-top: 0;
+}
+
+.logo{
+    position: absolute;
+    top: 30px;
+    left: 50px;
+    z-index: 10;
+
+}
+
+.logo img{
+    width: 100px;
+    height: auto;
+}

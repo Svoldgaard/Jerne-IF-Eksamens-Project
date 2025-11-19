@@ -2,6 +2,7 @@ import '../CSS/SpilSide.css'
 import Logo from "../../../public/Logo.png";
 //import Baggrund from "../../Component/Baggrund.tsx";
 import {useState} from "react";
+import Header from "../../Component/Header.tsx";
 
 export type ClickableGridUIProps ={
     activeIndices?: number[];
@@ -32,10 +33,12 @@ export default function SpilSide({
     };
 
     return (
-        <div>
+        <div className="page">
             <span className="logo">
                 <img src={Logo} alt="Logo"/>
             </span>
+            <Header/>
+            <div className="background">
             <div>
                 <p> Nuværende spil: </p>
             </div>
@@ -78,6 +81,7 @@ export default function SpilSide({
                     Gentag hver uge
                     <input type="checkbox"/>
                 </p>
+            </div>
             </div>
         </div>
     );
