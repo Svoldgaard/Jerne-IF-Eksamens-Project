@@ -1,20 +1,23 @@
+import {useNavigate} from "react-router";
 
 function ForsideAdmin() {
+    const navigate = useNavigate();
+
     return (
         <div>
             <div>
-                <button>
+                <button onClick={() => navigate ("/aktiv-plader")}>
                     Aktive Plader
                 </button>
-                <button>
+                <button onClick={() => navigate ("/spilhistorik") }>
                     Spilhistorik
                 </button>
             </div>
             <div>
-                <button>
+                <button onClick={() => navigate ("/regler") }>
                     Regler
                 </button>
-                <button>
+                <button onClick={() => navigate ("/profil") }>
                     Profil
                 </button>
             </div>
