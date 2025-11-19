@@ -33,14 +33,17 @@
 .button .icon {
     width: 10px;
     height: 10px;
+}
 
+.button:focus{
+    border: none;
+    outline: none;
 }
 
 .input{
     background: #F44336;
     color: #FFFFFF;
     border: #F44336;
-    /*margin-top: 15px;*/
     height: 40px;
     width: 300px;
     font-size: 16px;

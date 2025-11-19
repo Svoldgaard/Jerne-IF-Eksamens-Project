@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
     return (
         <footer className="footer">
             <div className="footer-left">
-                Jerne IF - Ingemanns alle 193 - 6700 Esbjerg - Tlf. 28449233
+                Jerne IF - Ingemanns alle 193 - 6700 Esbjerg - Tlf. 28442923
             </div>
             <div className="footer-right">
                 <img src={EarlyBird} alt="Early Bird" className="footer-logo" />

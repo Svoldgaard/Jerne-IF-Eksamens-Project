@@ -1,4 +1,6 @@
 import '../CSS/SpilSide.css'
+import Logo from "../../../public/Logo.png";
+import Baggrund from "../../Component/Baggrund.tsx";
 
 export type ClickableGridUIProps ={
     activeIndices?: number[];
@@ -19,10 +21,12 @@ export default function SpilSide({
 
     return (
         <div>
+            <span className="logo">
+                <img src={Logo} alt="Logo"/>
+            </span>
+            <Baggrund>
             <div>
-                <p>
-                    Nuværende spil:
-                </p>
+                <p> Nuværende spil: </p>
             </div>
             <div className={`cg-container ${className}`}>
                 <div
@@ -46,9 +50,7 @@ export default function SpilSide({
                 </div>
             </div>
             <div>
-                <p>
-                    Pris:
-                </p>
+                <p> Pris: </p>
             </div>
             <div>
                 <button>
@@ -61,6 +63,7 @@ export default function SpilSide({
                     <input type="checkbox"/>
                 </p>
             </div>
+                <Baggrund/>
         </div>
     );
 }
