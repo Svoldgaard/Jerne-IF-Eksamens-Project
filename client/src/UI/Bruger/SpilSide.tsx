@@ -1,6 +1,7 @@
 import '../CSS/SpilSide.css'
 import Logo from "../../../public/Logo.png";
 import Baggrund from "../../Component/Baggrund.tsx";
+import {useState} from "react";
 
 export type ClickableGridUIProps ={
     activeIndices?: number[];
@@ -17,7 +18,20 @@ export default function SpilSide({
     const rows = 4;
     const cols = 4;
     const total = rows * cols;
-    const activeSet = new Set(activeIndices);
+
+    //const activeSet = new Set(activeIndices);
+
+    const [selectedPigeons, setSelectedPigeons] = useState<number[]>([]);
+
+   //logic for changing colors when button is pressed
+    const togglePigeon = (index: number) => {
+        if (selectedPigeons.includes(index))
+        {
+            setSelectedPigeons(selectedPigeons.filter(pigeonId => pigeonId !== index));
+        } else{
+            setSelectedPigeons([...selectedPigeons, index]);
+        }
+    };
 
     return (
         <div>
@@ -56,6 +70,30 @@ export default function SpilSide({
                 <button>
                     Betal
                 </button>
+        <div className={`cg-container ${className}`}>
+            <div
+            role="grid"
+            aria-rowcount={rows}
+            aria-colcount={cols}
+            className="cg-grid"
+            style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}
+            >
+                {Array.from({length: total}).map((_, idx) => {
+
+                    const isActive = selectedPigeons.includes(idx);
+
+                    return (
+                    <button
+                        key={idx}
+                        role="gridcell"
+                        aria-selected={isActive}
+                        className={`cg-cell ${isActive ? "cg-cell-active" : ""}`}
+                        onClick={() => togglePigeon(idx)}
+                    >
+                        {idx + 1}
+                    </button>
+                    );
+                })}
             </div>
             <div>
                 <p>
