@@ -1,6 +1,6 @@
 import '../CSS/SpilSide.css'
 import Logo from "../../../public/Logo.png";
-import Baggrund from "../../Component/Baggrund.tsx";
+//import Baggrund from "../../Component/Baggrund.tsx";
 import {useState} from "react";
 
 export type ClickableGridUIProps ={
@@ -10,8 +10,6 @@ export type ClickableGridUIProps ={
 };
 
 export default function SpilSide({
-    activeIndices = [],
-    onCellClick,
     className ="",
     }: ClickableGridUIProps) {
 
@@ -38,7 +36,6 @@ export default function SpilSide({
             <span className="logo">
                 <img src={Logo} alt="Logo"/>
             </span>
-            <Baggrund>
             <div>
                 <p> Nuværende spil: </p>
             </div>
@@ -50,17 +47,21 @@ export default function SpilSide({
                 className="cg-grid"
                 style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}
                 >
-                    {Array.from({length: total}).map((_, idx) => (
+
+                    {Array.from({length: total}).map((_, idx) => {
+                        const isActive = selectedPigeons.includes(idx);
+                        return(
                         <button
                             key={idx}
                             role="gridcell"
-                            aria-selected={activeSet.has(idx)}
-                            className={`cg-cell ${activeSet.has(idx) ? "cg-cell-active" : ""}`}
-                            onClick={onCellClick ? () => onCellClick(idx) : undefined}
+                            aria-selected={isActive}
+                            className={`cg-cell ${isActive ? "cg-cell-active" : ""}`}
+                            onClick={() => togglePigeon(idx)}
                         >
                             {idx + 1}
                         </button>
-                    ))}
+                );
+                    })}
                 </div>
             </div>
             <div>
@@ -70,38 +71,14 @@ export default function SpilSide({
                 <button>
                     Betal
                 </button>
-        <div className={`cg-container ${className}`}>
-            <div
-            role="grid"
-            aria-rowcount={rows}
-            aria-colcount={cols}
-            className="cg-grid"
-            style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}
-            >
-                {Array.from({length: total}).map((_, idx) => {
+                </div>
 
-                    const isActive = selectedPigeons.includes(idx);
-
-                    return (
-                    <button
-                        key={idx}
-                        role="gridcell"
-                        aria-selected={isActive}
-                        className={`cg-cell ${isActive ? "cg-cell-active" : ""}`}
-                        onClick={() => togglePigeon(idx)}
-                    >
-                        {idx + 1}
-                    </button>
-                    );
-                })}
-            </div>
             <div>
                 <p>
                     Gentag hver uge
                     <input type="checkbox"/>
                 </p>
             </div>
-                <Baggrund/>
         </div>
     );
 }
