@@ -1,8 +1,8 @@
 import '../CSS/SpilSide.css'
 import Logo from "../../../public/Logo.png";
 //import Baggrund from "../../Component/Baggrund.tsx";
-import {useState} from "react";
 import Header from "../../Component/Header.tsx";
+import {useTogglePigeon} from "../../Hooks/PigeonGameBoard.ts";
 
 export type ClickableGridUIProps ={
     activeIndices?: number[];
@@ -20,17 +20,7 @@ export default function SpilSide({
 
     //const activeSet = new Set(activeIndices);
 
-    const [selectedPigeons, setSelectedPigeons] = useState<number[]>([]);
-
-   //logic for changing colors when button is pressed
-    const togglePigeon = (index: number) => {
-        if (selectedPigeons.includes(index))
-        {
-            setSelectedPigeons(selectedPigeons.filter(pigeonId => pigeonId !== index));
-        } else{
-            setSelectedPigeons([...selectedPigeons, index]);
-        }
-    };
+    const {selectedPigeons, togglePigeon} = useTogglePigeon();
 
     return (
         <div className="page">
