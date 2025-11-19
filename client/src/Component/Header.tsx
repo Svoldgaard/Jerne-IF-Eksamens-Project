@@ -1,5 +1,6 @@
 import * as React from "react";
 import SidebarBruger from "../UI/Bruger/SidebarBruger.tsx";
+import '../UI/CSS/Header.css';
 
 
 const Header: React.FC = () => {

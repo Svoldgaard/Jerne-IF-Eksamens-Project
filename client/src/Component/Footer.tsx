@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
             </div>
             <div className="footer-right">
                 <img src={EarlyBird} alt="Early Bird" className="footer-logo" />
-                <p className="footer-logo-text">En løsning fra <strong>EarlyBirds</strong></p>
+                <p className="footer-logo-text">En løsning fra <strong>EarlyBird</strong></p>
             </div>
         </footer>
     );

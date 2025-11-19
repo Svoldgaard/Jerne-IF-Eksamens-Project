@@ -1,9 +1,10 @@
+import '../../UI/CSS/Sidebar.css';
 
 function SidebarBruger(){
 
     return (
         <div>
-            <button className="button" onClick={() => setMenuOpen(!menuOpen)}>
+            <button className="button">
                 ☰
             </button>
         </div>
