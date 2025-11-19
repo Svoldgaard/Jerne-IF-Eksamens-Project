@@ -20,7 +20,7 @@ export default function SpilSide({
 
     //const activeSet = new Set(activeIndices);
 
-    const {selectedPigeons, togglePigeon} = useTogglePigeon();
+    const {selectedPigeons, togglePigeon, currentPrice} = useTogglePigeon();
 
     return (
         <div className="page">
@@ -29,9 +29,11 @@ export default function SpilSide({
             </span>
             <Header/>
             <div className="background">
-            <div>
+
+            <div className="text-container-game">
                 <p> Nuværende spil: </p>
             </div>
+
             <div className={`cg-container ${className}`}>
                 <div
                 role="grid"
@@ -57,12 +59,12 @@ export default function SpilSide({
                     })}
                 </div>
             </div>
-            <div>
-                <p> Pris: </p>
+            <div className="text-container-game">
+                <p> Pris: {currentPrice} DKK </p>
             </div>
-            <div>
+            <div className="betale-knap">
                 <button>
-                    Betal
+                    Betal ({currentPrice} DKK)
                 </button>
                 </div>
 
