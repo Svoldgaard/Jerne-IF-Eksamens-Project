@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\EASV\\Project-Template-Eksamen\\server\\tests\\tests.csproj": {}
+    "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/tests/tests.csproj": {}
   },
   "projects": {
-    "C:\\EASV\\Project-Template-Eksamen\\server\\api\\api.csproj": {
+    "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/api/api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\EASV\\Project-Template-Eksamen\\server\\api\\api.csproj",
+        "projectUniqueName": "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/api/api.csproj",
         "projectName": "api",
-        "projectPath": "C:\\EASV\\Project-Template-Eksamen\\server\\api\\api.csproj",
-        "packagesPath": "C:\\Users\\nadja\\.nuget\\packages\\",
-        "outputPath": "C:\\EASV\\Project-Template-Eksamen\\server\\api\\obj\\",
+        "projectPath": "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/api/api.csproj",
+        "packagesPath": "/Users/majkensvoldgaard/.nuget/packages/",
+        "outputPath": "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\nadja\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/majkensvoldgaard/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -26,8 +26,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\EASV\\Project-Template-Eksamen\\server\\dataaccess\\dataaccess.csproj": {
-                "projectPath": "C:\\EASV\\Project-Template-Eksamen\\server\\dataaccess\\dataaccess.csproj"
+              "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/dataaccess/dataaccess.csproj": {
+                "projectPath": "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/dataaccess/dataaccess.csproj"
               }
             }
           }
@@ -84,15 +84,11 @@
               "version": "[9.0.10, 9.0.10]"
             },
             {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "name": "Microsoft.NETCore.App.Host.osx-arm64",
               "version": "[9.0.10, 9.0.10]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.10, 9.0.10]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
               "version": "[9.0.10, 9.0.10]"
             }
           ],
@@ -104,21 +100,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\nadja\\.dotnet\\sdk\\10.0.100-rc.2.25502.107/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/Users/majkensvoldgaard/.dotnet/sdk/10.0.100-rc.2.25502.107/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\EASV\\Project-Template-Eksamen\\server\\dataaccess\\dataaccess.csproj": {
+    "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/dataaccess/dataaccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\EASV\\Project-Template-Eksamen\\server\\dataaccess\\dataaccess.csproj",
+        "projectUniqueName": "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/dataaccess/dataaccess.csproj",
         "projectName": "dataaccess",
-        "projectPath": "C:\\EASV\\Project-Template-Eksamen\\server\\dataaccess\\dataaccess.csproj",
-        "packagesPath": "C:\\Users\\nadja\\.nuget\\packages\\",
-        "outputPath": "C:\\EASV\\Project-Template-Eksamen\\server\\dataaccess\\obj\\",
+        "projectPath": "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/dataaccess/dataaccess.csproj",
+        "packagesPath": "/Users/majkensvoldgaard/.nuget/packages/",
+        "outputPath": "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/dataaccess/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\nadja\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/majkensvoldgaard/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -182,10 +178,6 @@
             {
               "name": "Microsoft.NETCore.App.Ref",
               "version": "[9.0.10, 9.0.10]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[9.0.10, 9.0.10]"
             }
           ],
           "frameworkReferences": {
@@ -193,21 +185,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\nadja\\.dotnet\\sdk\\10.0.100-rc.2.25502.107/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/Users/majkensvoldgaard/.dotnet/sdk/10.0.100-rc.2.25502.107/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\EASV\\Project-Template-Eksamen\\server\\tests\\tests.csproj": {
+    "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/tests/tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\EASV\\Project-Template-Eksamen\\server\\tests\\tests.csproj",
+        "projectUniqueName": "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/tests/tests.csproj",
         "projectName": "tests",
-        "projectPath": "C:\\EASV\\Project-Template-Eksamen\\server\\tests\\tests.csproj",
-        "packagesPath": "C:\\Users\\nadja\\.nuget\\packages\\",
-        "outputPath": "C:\\EASV\\Project-Template-Eksamen\\server\\tests\\obj\\",
+        "projectPath": "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/tests/tests.csproj",
+        "packagesPath": "/Users/majkensvoldgaard/.nuget/packages/",
+        "outputPath": "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/tests/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\nadja\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/majkensvoldgaard/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -219,8 +211,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\EASV\\Project-Template-Eksamen\\server\\api\\api.csproj": {
-                "projectPath": "C:\\EASV\\Project-Template-Eksamen\\server\\api\\api.csproj"
+              "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/api/api.csproj": {
+                "projectPath": "/Users/majkensvoldgaard/Desktop/Jerne-IF-Eksamens-Project/server/api/api.csproj"
               }
             }
           }
@@ -285,10 +277,6 @@
             {
               "name": "Microsoft.NETCore.App.Ref",
               "version": "[9.0.10, 9.0.10]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[9.0.10, 9.0.10]"
             }
           ],
           "frameworkReferences": {
@@ -296,7 +284,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\nadja\\.dotnet\\sdk\\10.0.100-rc.2.25502.107/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/Users/majkensvoldgaard/.dotnet/sdk/10.0.100-rc.2.25502.107/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
