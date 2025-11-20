@@ -30,8 +30,8 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
             <Header/>
             <div className="background-spilside">
 
-            <div className="text-container-game">
-                <p> Nuværende spil: </p>
+            <div>
+                <a className="text"> Nuværende spil: </a>
             </div>
 
             <div className={`cg-container ${className}`}>
@@ -55,24 +55,22 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
                         >
                             {idx + 1}
                         </button>
-                );
+                        );
                     })}
                 </div>
             </div>
-            <div className="text-container-game">
-                <p> Pris: {currentPrice} DKK </p>
-            </div>
-            <div className="betale-knap button-gem">
-                <button>
-                    Betal ({currentPrice} DKK)
+
+                <p className="text"> Pris: {currentPrice} DKK </p>
+
+            <div>
+                <button className="button-gem">
+                    Betal {/*({currentPrice} DKK)*/}
                 </button>
                 </div>
 
-                <div>
-                    <p>
-                        Gentag hver uge
+                <div className="repeat-row">
+                    <p>Gentag hver uge</p>
                         <input type="checkbox" className="checkbox-plade"/>
-                    </p>
                 </div>
             </div>
             </div>

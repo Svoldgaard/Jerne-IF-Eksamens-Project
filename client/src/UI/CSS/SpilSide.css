@@ -5,7 +5,8 @@
 
 .cg-grid {
     display: grid;
-    margin: 20px auto;
+    margin-top: 20px;
+    margin-bottom: -5px;
     max-width: fit-content;
 }
 
@@ -66,15 +67,6 @@ p{
     margin-top: 0;
 }
 
-.text-container-game {
-    margin-top: -300px;
-}
-
-.betale-knap{
-    margin-top: 330px;
-
-
-}
 
 .logo-plade{
     position: absolute;
@@ -109,9 +101,26 @@ p{
     height: 40px;
     width: 200px;
     font-size: 16px;
+    margin-bottom: 20px;
 }
 
 .checkbox-plade{
     height: 15px;
     width: 15px;
+}
+
+.text{
+    color: #000000;
+    margin-bottom: 20px;
+}
+
+.repeat-row {
+    display: flex;
+    align-items: center;   /* <-- vertically centers checkbox + text */
+    gap: 8px;              /* spacing between text and checkbox */
+    justify-content: center;
+}
+
+.repeat-row p {
+    margin: 0;
 }
