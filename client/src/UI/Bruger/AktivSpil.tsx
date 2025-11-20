@@ -1,4 +1,7 @@
 import '../CSS/AktivSpil.css'
+import Logo from "../../../public/Logo.png";
+import Header from "../../Component/Header.tsx";
+import Footer from "../../Component/Footer.tsx";
 
 export type Board = {
     id: string;
@@ -16,6 +19,14 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
     const total = rows * cols;
 
     return (
+        <div className="page-aktivspil">
+            <span className="logo-plade">
+                <img src={Logo} alt="Logo"/>
+            </span>
+            <div className="main-container">
+                <Header/>
+            <div className="background-aktivspil">
+
         <div className={`boards-list-container ${className}`}>
             {boards.map((board) => {
                 const activeSet = new Set(board.activeIndices);
@@ -32,19 +43,24 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
                                     className={
                                         activeSet.has(idx)
                                             ? "cg-cell cg-cell-active"
-                                            : "cg-cell"
+                                            : "cg-cell button-aktivspil"
                                     }
                                 >
                                     {idx + 1}
                                 </div>
                             ))}
                         </div>
-
+                        <div>
                         <hr className="board-separator" />
+                        </div>
                     </div>
                 );
             })}
 
+        </div>
+            </div>
+            </div>
+            <Footer/>
         </div>
     );
 }

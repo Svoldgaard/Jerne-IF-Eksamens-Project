@@ -15,24 +15,19 @@ public class AuthController(IAuthService service, ITokenService tokenService) : 
     [HttpPost]
     [Route("login")]
     [AllowAnonymous]
-    public async Task<LoginResponse> Login([FromBody] LoginRequest request)
+    public LoginResponse Login([FromBody] LoginRequest request)
     {
         var userInfo = service.Authenticate(request);
-        var token = tokenService.CreateToken(userInfo);
+        var token =  tokenService.CreateToken(userInfo);
         return new LoginResponse(token);
     }
     
     [HttpPost]
     [Route("logout")]
-    public async Task<IResult> Logout()
+    public Task<IResult> Logout()
     {
         throw new NotImplementedException();
     }
 
-    [HttpGet]
-    [Route("userinfo")]
-    public async Task<AuthUserInfo?> UserInfo()
-    {
-        return service.GetUserInfo(User);
-    }
+    
 }

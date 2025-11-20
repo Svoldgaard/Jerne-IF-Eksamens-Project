@@ -1,3 +1,4 @@
+import '../../UI/CSS/Sidebar.css';
 
 function SidebarAdmin(){
 

@@ -1,5 +1,7 @@
 
-.button{
+.sidebar-button{
     background-color: #F44336;
     color: white;
+    border: none;
+    font-size: 30px;
 }

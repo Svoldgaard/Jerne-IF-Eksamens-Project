@@ -1,6 +1,13 @@
 {
   "extends": "../../tsconfig.settings.json",
-  "include": ["**/*.ts", "**/*.tsx", "../vite-env.d.ts"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "../Component/**/*.ts",
+    "../Component/**/*.tsx",
+    "../Hooks/**/*.ts",
+    "../Hooks/**/*.tsx",
+    "../vite-env.d.ts"],
   "references": [{
     "path": "../Core"
   }, {

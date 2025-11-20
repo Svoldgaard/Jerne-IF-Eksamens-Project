@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using dataaccess.Entity;
 
-namespace dataaccess.DbContext;
+namespace dataaccess.MyDbContext;
 
 public partial class MyDbContext : DbContext
 {

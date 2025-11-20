@@ -1,8 +1,9 @@
 import '../CSS/SpilSide.css'
 import Logo from "../../../public/Logo.png";
 //import Baggrund from "../../Component/Baggrund.tsx";
-import {useState} from "react";
 import Header from "../../Component/Header.tsx";
+import {useTogglePigeon} from "../../Hooks/PigeonGameBoard.ts";
+import Footer from "../../Component/Footer.tsx";
 
 export type ClickableGridUIProps ={
     activeIndices?: number[];
@@ -10,38 +11,29 @@ export type ClickableGridUIProps ={
     className?: string;
 };
 
-export default function SpilSide({
-    className ="",
-    }: ClickableGridUIProps) {
-
+export default function SpilSide({ className =""}: ClickableGridUIProps) {
     const rows = 4;
     const cols = 4;
     const total = rows * cols;
 
     //const activeSet = new Set(activeIndices);
 
-    const [selectedPigeons, setSelectedPigeons] = useState<number[]>([]);
-
-   //logic for changing colors when button is pressed
-    const togglePigeon = (index: number) => {
-        if (selectedPigeons.includes(index))
-        {
-            setSelectedPigeons(selectedPigeons.filter(pigeonId => pigeonId !== index));
-        } else{
-            setSelectedPigeons([...selectedPigeons, index]);
-        }
-    };
+    const {selectedPigeons, togglePigeon, currentPrice} = useTogglePigeon();
 
     return (
-        <div className="page">
-            <span className="logo">
+        <div className="page-plade">
+            <span className="logo-plade">
                 <img src={Logo} alt="Logo"/>
             </span>
+
+            <div className="main-container">
             <Header/>
-            <div className="background">
+            <div className="background-spilside">
+
             <div>
-                <p> Nuværende spil: </p>
+                <a className="text"> Nuværende spil: </a>
             </div>
+
             <div className={`cg-container ${className}`}>
                 <div
                 role="grid"
@@ -58,31 +50,31 @@ export default function SpilSide({
                             key={idx}
                             role="gridcell"
                             aria-selected={isActive}
-                            className={`cg-cell ${isActive ? "cg-cell-active" : ""}`}
+                            className={`cg-cell button-plade ${isActive ? "cg-cell-active" : ""}`}
                             onClick={() => togglePigeon(idx)}
                         >
                             {idx + 1}
                         </button>
-                );
+                        );
                     })}
                 </div>
             </div>
+
+                <p className="text"> Pris: {currentPrice} DKK </p>
+
             <div>
-                <p> Pris: </p>
-            </div>
-            <div>
-                <button>
-                    Betal
+                <button className="button-gem">
+                    Betal {/*({currentPrice} DKK)*/}
                 </button>
                 </div>
 
-            <div>
-                <p>
-                    Gentag hver uge
-                    <input type="checkbox"/>
-                </p>
+                <div className="repeat-row">
+                    <p>Gentag hver uge</p>
+                        <input type="checkbox" className="checkbox-plade"/>
+                </div>
             </div>
             </div>
+            <Footer/>
         </div>
     );
 }

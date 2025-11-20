@@ -1,6 +1,9 @@
 using api;
 using Api.Security;
 using Api.Services;
+using dataaccess.Entity;
+using DataAccess.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DataAccess.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -15,18 +18,19 @@ public class Program
         var appOptions = services.AddAppOptions(configuration);
 
           var connectionString = builder.Configuration.GetConnectionString("AppDb");
-        builder.Services.AddDbContext<AppDbContext>(options =>
+        builder.Services.AddDbContext<DbContext>(options =>
             options
                 .UseNpgsql(connectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
         );
-        builder.Services.AddScoped<DbSeeder>();
+        
 
         // Repositories
-        builder.Services.AddScoped<IRepository<User>, UserRepository>();
+        builder.Services.AddScoped<IRepository<Login>, LoginRepository>();
+
 
         // Services
-        builder.Services.AddScoped<IPasswordHasher<User>, KonciousArgon2idPasswordHasher>();
+        builder.Services.AddScoped<IPasswordHasher<Login>, NSecArgon2IdPasswordHasher>();
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<ITokenService, JwtService>();
 
@@ -76,7 +80,7 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         
-        ConfigureServices(builder.Services, builder.Configuration);
+        ConfigureServices(builder.Services, builder.Configuration, builder);
 
         var app = builder.Build();
 
