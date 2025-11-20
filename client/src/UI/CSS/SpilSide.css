@@ -114,6 +114,9 @@ p{
     margin-bottom: 20px;
 }
 
+.button-gem:hover{
+    background: #c3c3c3;
+}
 .repeat-row {
     display: flex;
     align-items: center;   /* <-- vertically centers checkbox + text */

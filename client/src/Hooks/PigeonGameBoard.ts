@@ -13,12 +13,22 @@ export function useTogglePigeon() {
 
         if (isCurrentlySelected) {
             setSelectedPigeons(selectedPigeons.filter(pigeonId => pigeonId !== index));
+
+            setShowAlertMax(false);
+
         } else {
             if (currentCount < MAX_SELECTION) {
-                setSelectedPigeons([...selectedPigeons, index]);
-            } else{
-                console.warn(`Cannot select more than ${MAX_SELECTION} pigeons.`);
+                const newSelection = [...selectedPigeons, index]
+                setSelectedPigeons(newSelection);
+
+                if (MIN_SELECTION == currentCount+1) {
+                    setShowAlertMin(false);
+                }
+            } else {
+                setShowAlertMax(true);
+
             }
+
         }
     };
 
@@ -37,6 +47,21 @@ export function useTogglePigeon() {
 
     }
 
+    const [showAlertMax, setShowAlertMax] = useState(false);
+    const [showAlertMin, setShowAlertMin] = useState(false);
+
+    const handleAlertMin = () => {
+        if(!isMinSelected){
+            setShowAlertMin(true);
+
+            return false;
+        }
+
+        setShowAlertMin(false);
+        return true;
+
+    }
+
 
     const isSelected = (index: number) => selectedPigeons.includes(index);
     const isMinSelected = selectedPigeons.length >= MIN_SELECTION;
@@ -49,5 +74,8 @@ export function useTogglePigeon() {
         isSelected,
         isMinSelected,
         isMaxSelected,
-        currentPrice};
+        currentPrice
+    ,handleAlertMin,
+    showAlertMin,
+    showAlertMax,};
 }
