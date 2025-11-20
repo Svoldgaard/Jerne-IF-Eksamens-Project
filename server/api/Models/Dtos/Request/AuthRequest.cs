@@ -9,4 +9,4 @@ public record RegisterRequest(
     [Required] string Name
 );
 
-public record LoginRequest([Required][EmailAddress] string Email, [Required] string Password);
+public record LoginRequest([Required] string Username, [Required] string Password);

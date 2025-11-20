@@ -1,27 +1,19 @@
-using DataAccess.Entities;
+using dataaccess.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories;
 
-public class PostRepository(AppDbContext context) : BaseRepository<Post>(context)
+
+public class UserRepository(DbContext context) : BaseRepository<Profil>(context)
 {
-    protected override DbSet<Post> Set => Context.Posts;
+    protected override DbSet<Profil> Set => Context.Set<Profil>();
 }
 
-public class UserRepository(AppDbContext context) : BaseRepository<User>(context)
-{
-    protected override DbSet<User> Set => Context.Users;
-}
 
-public class CommentRepository(AppDbContext context) : BaseRepository<Comment>(context)
-{
-    protected override DbSet<Comment> Set => Context.Comments;
-}
-
-public abstract class BaseRepository<T>(AppDbContext context) : IRepository<T>
+public abstract class BaseRepository<T>(DbContext context) : IRepository<T>
     where T : class
 {
-    protected AppDbContext Context => context;
+    protected DbContext Context => context;
     protected abstract DbSet<T> Set { get; }
 
     public async Task Add(T entity)
