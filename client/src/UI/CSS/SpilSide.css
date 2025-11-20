@@ -66,15 +66,6 @@ p{
     margin-top: 0;
 }
 
-.text-container-game {
-    margin-top: -300px;
-}
-
-.betale-knap{
-    margin-top: 330px;
-
-
-}
 
 .logo-plade{
     position: absolute;
@@ -114,4 +105,8 @@ p{
 .checkbox-plade{
     height: 15px;
     width: 15px;
+}
+
+.text{
+    color: #000000;
 }

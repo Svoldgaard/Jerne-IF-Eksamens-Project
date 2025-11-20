@@ -47,7 +47,7 @@ function Login() {
                     </div>
                     <div>
                         <p></p>
-                        <a>
+                        <a className="a">
                             Glemt Password
                         </a>
                     </div>
