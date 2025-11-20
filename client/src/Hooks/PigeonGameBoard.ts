@@ -29,11 +29,11 @@ export function useTogglePigeon() {
             return 0;
         }
 
-        const basePrice = 50;
-        const extraCostPerPigeon = 20;
+        const basePrice = 20;
+       //const extraCostPerPigeon = 20;
         const extraPigeons = count - MIN_SELECTION;
 
-        return basePrice + (extraPigeons * extraCostPerPigeon);
+        return basePrice * Math.pow(2, extraPigeons);
 
     }
 
