@@ -55,13 +55,12 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
                         >
                             {idx + 1}
                         </button>
-                );
+                        );
                     })}
                 </div>
             </div>
-            <div>
-                <a className="text"> Pris: {currentPrice} DKK </a>
-            </div>
+
+                <p className="text"> Pris: {currentPrice} DKK </p>
 
             <div>
                 <button className="button-gem">
@@ -69,11 +68,9 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
                 </button>
                 </div>
 
-                <div>
-                    <p>
-                        Gentag hver uge
+                <div className="repeat-row">
+                    <p>Gentag hver uge</p>
                         <input type="checkbox" className="checkbox-plade"/>
-                    </p>
                 </div>
             </div>
             </div>
