@@ -110,3 +110,7 @@ p{
 .text{
     color: #000000;
 }
+
+.button-gem:hover{
+    background: #c3c3c3;
+}
