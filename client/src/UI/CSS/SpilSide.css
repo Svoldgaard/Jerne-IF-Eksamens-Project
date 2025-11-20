@@ -5,7 +5,8 @@
 
 .cg-grid {
     display: grid;
-    margin: 20px auto;
+    margin-top: 20px;
+    margin-bottom: -5px;
     max-width: fit-content;
 }
 
@@ -100,6 +101,7 @@ p{
     height: 40px;
     width: 200px;
     font-size: 16px;
+    margin-bottom: 20px;
 }
 
 .checkbox-plade{
@@ -109,8 +111,20 @@ p{
 
 .text{
     color: #000000;
+    margin-bottom: 20px;
+}
+
+.repeat-row {
+    display: flex;
+    align-items: center;   /* <-- vertically centers checkbox + text */
+    gap: 8px;              /* spacing between text and checkbox */
+    justify-content: center;
 }
 
 .button-gem:hover{
     background: #c3c3c3;
+}
+
+.repeat-row p {
+    margin: 0;
 }
