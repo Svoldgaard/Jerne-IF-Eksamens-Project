@@ -19,7 +19,7 @@ function ForsideAdmin() {
                 <button onClick={() => navigate ("/regler") }>
                     Regler
                 </button>
-                <button onClick={() => navigate ("/profil") }>
+                <button onClick={() => navigate ("/profil-admin") }>
                     Profil
                 </button>
             </div>

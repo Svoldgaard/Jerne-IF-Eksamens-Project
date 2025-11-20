@@ -19,7 +19,7 @@ function ForsideBruger() {
                 <button onClick={() => navigate("/spilhistorik")}>
                     Spilhistorik
                 </button>
-                <button onClick={() => navigate("/profil")}>
+                <button onClick={() => navigate("/profil-bruger")}>
                     Profil
                 </button>
             </div>

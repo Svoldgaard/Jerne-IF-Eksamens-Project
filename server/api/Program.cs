@@ -1,6 +1,8 @@
 using api;
 using Api.Security;
 using Api.Services;
+using DataAccess.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +29,8 @@ public class Program
         builder.Services.AddScoped<IPasswordHasher<User>, KonciousArgon2idPasswordHasher>();
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<ITokenService, JwtService>();
+
+        builder.Services.AddScoped<IProfilService, ProfilService>();
         
         // Authentication & Authorization
         builder.Services.AddAuthentication(options =>
