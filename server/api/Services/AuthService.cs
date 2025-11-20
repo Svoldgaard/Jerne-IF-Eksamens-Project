@@ -13,8 +13,6 @@ namespace Api.Services;
 public interface IAuthService
 {
     AuthUserInfo Authenticate(LoginRequest request);
-    Task<AuthUserInfo> Register(RegisterRequest request);
-    AuthUserInfo? GetUserInfo(ClaimsPrincipal principal);
 
 }
 
@@ -22,6 +20,7 @@ public class AuthService(
     ILogger<AuthService> logger,
     IPasswordHasher<Login> passwordHasher,
     IRepository<Login> userRepository
+    
         
 ) : IAuthService
 {
@@ -29,11 +28,11 @@ public class AuthService(
     {
         try
         {
-            var user = userRepository.Query().Single(u => u.Email == request.Email);
-            var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
+            var user = userRepository.Query().Single(u => u.Brugernavn == request.Username);
+            var result = passwordHasher.VerifyHashedPassword(user, user.Password, request.Password);
             if (result == PasswordVerificationResult.Success)
             {
-                return new AuthUserInfo(user.Id, user.UserName, user.Role);
+                return new AuthUserInfo(user.Brugerid,user.Brugernavn, user.Rolleid);
             }
         }
         catch (Exception e)
@@ -43,19 +42,6 @@ public class AuthService(
         throw new AuthenticationError();
     }
 
-    public Task<AuthUserInfo> Register(RegisterRequest request)
-    {
-        throw new NotImplementedException();
-    }
 
-
-    public AuthUserInfo? GetUserInfo(ClaimsPrincipal principal)
-    {
-        var userId = principal.GetUserId();
-        return userRepository
-            .Query()
-            .Where(user => user.Id == userId)
-            .SingleOrDefault()
-            ?.ToDto();
-    }
+    
 }

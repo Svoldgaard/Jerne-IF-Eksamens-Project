@@ -4,4 +4,4 @@ public record RegisterResponse(string UserName);
 
 public record LoginResponse(string Jwt);
 
-public record AuthUserInfo(string Id, string UserName, string Role);
+public record AuthUserInfo(int Id, string UserName, int RoleId);
