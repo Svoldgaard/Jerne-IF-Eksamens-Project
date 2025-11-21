@@ -9,6 +9,7 @@ import ForsideBruger from "./UI/Bruger/ForsideBruger.tsx";
 import Regler from "./UI/Regler.tsx";
 import ForsideAdmin from "./UI/Admin/ForsideAdmin.tsx";
 import OpretBruger from "./UI/OpretBruger.tsx";
+import GlemtPassword from "./UI/GlemtPassword.tsx";
 
 function App() {
 
@@ -58,6 +59,10 @@ function App() {
         {
             path: "/opret-bruger",
             element: <OpretBruger/>
+        },
+        {
+            path: "/glemt-password",
+            element: <GlemtPassword/>
         }
     ])
 

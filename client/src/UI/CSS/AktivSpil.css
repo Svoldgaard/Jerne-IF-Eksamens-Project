@@ -1,7 +1,8 @@
 .cg-grid {
     display: grid;
-    grid-auto-rows: 50px;
+    /*grid-auto-rows: 50px;*/
     gap: 8px;
+
 }
 
 .cg-cell {
@@ -14,12 +15,19 @@
     color: black;
     font-size: 18px;
     cursor: default;
+    width: 100px;
+
 }
 
 .cg-cell-active {
-    background-color: #4caf50;
+    background-color: #F44336;
     color: white;
-    border-color: #3b8f41;
+    border-color: #F44336;
+    border-radius: 6px;
+    height: 40px;
+    font-size: 18px;
+    line-height: 40px;
+
 }
 
 .board-wrapper{
@@ -45,8 +53,9 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    overflow: hidden; /* prevents unnecessary scroll */
     margin: 0;
+    overflow-y: auto;   /* allows vertical scroll */
+    overflow-x: hidden;
 }
 
 .logo-aktivspil{
@@ -68,11 +77,12 @@
 }
 
 .separator{
-    width: 100%;
+    width: calc(100% + 55px);
     border: none;
     border-top: 2px solid #ccc;
-    margin-top: 20px;
+    margin-top: 55px;
     margin-bottom: 20px;
+    margin-left: -55px;
 }
 
 .button-aktivspil {
@@ -135,11 +145,18 @@
     width: 100%;
 }
 
+.boards-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .repeat-row {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 15px;
+    margin-top: 11px;
 }
 
 .uge-aktivspil{

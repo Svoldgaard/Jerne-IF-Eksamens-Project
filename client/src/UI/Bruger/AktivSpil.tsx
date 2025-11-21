@@ -18,6 +18,30 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
     const cols = 4;
     const total = rows * cols;
 
+    const mockBoards: Board[] = [
+        { id: "TX-1001", activeIndices: [3, 5, 10, 8, 15] },
+        { id: "TX-1002", activeIndices: [1, 6, 7, 12, 14,5] },
+        { id: "TX-1003", activeIndices: [2, 4, 8, 15, 3, 5] },
+        { id: "TX-1004", activeIndices: [0, 2, 3, 16, 4, 15] },
+        { id: "TX-1005", activeIndices: [5, 6, 9, 14, 8, 10, 7] }
+    ];
+
+    // const getRandomInt = (min: number, max: number) =>
+    //     Math.floor(Math.random() * (max -min + 1)) + min;
+    //
+    // const mockBoards: Board[] = Array.from({length: 10}, (_, i) => {
+    //     const count = getRandomInt (5, 8);
+    //
+    //     const activeIndices = Array.from({length: 16}, (_, i) => i)
+    //         .sort(() => Math.random() - 0.5)
+    //         .slice(0, count);
+    //
+    //     return {
+    //         id: `TX-${1000 + i}`,
+    //         activeIndices,
+    //     };
+    // })
+
     return (
         <div className="page-aktivspil">
             <span className="logo-aktivspil">
@@ -31,7 +55,7 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
                 </div>
 
         <div className={`boards-list-container ${className}`}>
-            {boards.map((board) => {
+            {mockBoards.map((board, index) => {
                 const activeSet = new Set(board.activeIndices);
                 return(
                     <div key={board.id} className="board-wrapper">
@@ -45,7 +69,7 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
                                     key={idx}
                                     className={
                                         activeSet.has(idx)
-                                            ? "cg-cesll cg-cell-active"
+                                            ? "cg-cell cg-cell-active"
                                             : "cg-cell button-aktivspil"
                                     }
                                 >
@@ -63,13 +87,12 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
                                 </div>
                             </div>
                         </div>
+                        {index < mockBoards.length -1 && <hr className="separator" />}
                     </div>
                 );
 
             })}
-            <div>
-                <hr className="separator" />
-            </div>
+
         </div>
 
             </div>
@@ -78,5 +101,3 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
         </div>
     );
 }
-
-//export default AktivSpil;
