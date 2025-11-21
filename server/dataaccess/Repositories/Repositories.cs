@@ -1,16 +1,17 @@
 using dataaccess.Entity;
+using dataaccess.MyDbContext;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories;
 
 
-public class UserRepository(DbContext context) : BaseRepository<Profil>(context)
+public class UserRepository(MyDbContext context) : BaseRepository<Profil>(context)
 {
     protected override DbSet<Profil> Set => Context.Set<Profil>();
 }
 
 
-public abstract class BaseRepository<T>(DbContext context) : IRepository<T>
+public abstract class BaseRepository<T>(MyDbContext context) : IRepository<T>
     where T : class
 {
     protected DbContext Context => context;
