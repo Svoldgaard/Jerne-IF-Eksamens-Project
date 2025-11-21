@@ -20,19 +20,22 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
 
     return (
         <div className="page-aktivspil">
-            <span className="logo-plade">
+            <span className="logo-aktivspil">
                 <img src={Logo} alt="Logo"/>
             </span>
             <div className="main-container">
                 <Header/>
             <div className="background-aktivspil">
+                <div className="uge-aktivspil">
+                    <a className="text-aktivspil"> Uge: </a>
+                </div>
 
         <div className={`boards-list-container ${className}`}>
             {boards.map((board) => {
                 const activeSet = new Set(board.activeIndices);
                 return(
                     <div key={board.id} className="board-wrapper">
-                        <div className="board-header">Transaktionsnr: {board.id}</div>
+                        <div className="board-row">
                         <div
                             className="cg-grid"
                             style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}
@@ -42,7 +45,7 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
                                     key={idx}
                                     className={
                                         activeSet.has(idx)
-                                            ? "cg-cell cg-cell-active"
+                                            ? "cg-cesll cg-cell-active"
                                             : "cg-cell button-aktivspil"
                                     }
                                 >
@@ -50,14 +53,25 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
                                 </div>
                             ))}
                         </div>
-                        <div>
-                        <hr className="board-separator" />
+                            <div className="board-info">
+                                <div className="repeat-row">
+                                    <p>Gentag hver uge</p>
+                                    <input type="checkbox" className="checkbox-aktivspil"/>
+                                </div>
+                                <div className="board-header">
+                                    Transaktionsnr: {board.id}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 );
-            })}
 
+            })}
+            <div>
+                <hr className="separator" />
+            </div>
         </div>
+
             </div>
             </div>
             <Footer/>

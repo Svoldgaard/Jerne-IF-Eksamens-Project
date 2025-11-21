@@ -43,7 +43,11 @@ function App() {
             element: <SpilhistorikBruger/>
         },
         {
-            path: "/profil",
+            path: "/profil-bruger",
+            element: <ProfilBruger/>
+        },
+        {
+            path: "/profil-admin",
             element: <ProfilBruger/>
         },
         {

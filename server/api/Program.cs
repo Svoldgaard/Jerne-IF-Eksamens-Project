@@ -5,6 +5,8 @@ using dataaccess.Entity;
 using dataaccess.MyDbContext;
 using DataAccess.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using DataAccess.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +15,6 @@ public class Program
 {
     public static void ConfigureServices(IServiceCollection services, IConfiguration configuration, WebApplicationBuilder builder)
     {
-        // App options (your custom method)
         var appOptions = services.AddAppOptions(configuration);
 
         // Use concrete AppDbContext instead of abstract DbContext
@@ -31,6 +32,9 @@ public class Program
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<ITokenService, JwtService>();
 
+
+        builder.Services.AddScoped<IProfilService, ProfilService>();
+        
         // Authentication & Authorization
         builder.Services.AddAuthentication(options =>
             {

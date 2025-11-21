@@ -4,6 +4,8 @@ import Logo from "../../../public/Logo.png";
 import Header from "../../Component/Header.tsx";
 import {useTogglePigeon} from "../../Hooks/PigeonGameBoard.ts";
 import Footer from "../../Component/Footer.tsx";
+import Alert from '@mui/material/Alert';
+
 
 export type ClickableGridUIProps ={
     activeIndices?: number[];
@@ -18,7 +20,7 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
 
     //const activeSet = new Set(activeIndices);
 
-    const {selectedPigeons, togglePigeon, currentPrice} = useTogglePigeon();
+    const {selectedPigeons, togglePigeon, currentPrice, handleAlertMin, showAlertMin, showAlertMax} = useTogglePigeon();
 
     return (
         <div className="page-plade">
@@ -63,9 +65,28 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
                 <p className="text"> Pris: {currentPrice} DKK </p>
 
             <div>
-                <button className="button-gem">
-                    Betal {/*({currentPrice} DKK)*/}
+
+                {showAlertMax && (
+                    <div style={{ maxWidth: '300px', margin: '10px auto' }}>
+                        <Alert severity="warning">
+                            Du har valgt det maksimale antal på 8 duer!
+                        </Alert>
+                    </div>
+                )}
+
+                {showAlertMin && (
+                    <div style={{ maxWidth: '300px', margin: '10px auto' }}>
+                        <Alert severity="warning">
+                            Vælg mindst 5 duer!
+                        </Alert>
+                    </div>
+                )}
+
+
+                <button className="button-gem" onClick={handleAlertMin}>
+                    Betal
                 </button>
+
                 </div>
 
                 <div className="repeat-row">
