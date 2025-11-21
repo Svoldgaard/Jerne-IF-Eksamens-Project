@@ -27,3 +27,8 @@
     flex-direction: column;
     flex-grow: 1;
 }
+
+.input-profil::placeholder{
+    color: #000000;
+    opacity: 1;
+}

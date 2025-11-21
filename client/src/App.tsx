@@ -8,6 +8,7 @@ import ProfilBruger from "./UI/Bruger/ProfilBruger.tsx";
 import ForsideBruger from "./UI/Bruger/ForsideBruger.tsx";
 import Regler from "./UI/Regler.tsx";
 import ForsideAdmin from "./UI/Admin/ForsideAdmin.tsx";
+import OpretBruger from "./UI/OpretBruger.tsx";
 
 function App() {
 
@@ -53,6 +54,10 @@ function App() {
         {
             path: "/regler",
             element: <Regler/>
+        },
+        {
+            path: "/opret-bruger",
+            element: <OpretBruger/>
         }
     ])
 

@@ -1,9 +1,9 @@
-import '../CSS/Profil.css'
-import Logo from "../../../public/Logo.png";
-import Header from "../../Component/Header.tsx";
-import Footer from "../../Component/Footer.tsx";
+import '../UI/CSS/OpretBruger.css'
+import Logo from "../../public/Logo.png";
+import Header from "../Component/Header.tsx";
+import Footer from "../Component/Footer.tsx";
 
-function ProfilAdmin() {
+function ProfilBruger() {
     return (
         <div className="page-profil">
             <span className="logo-plade">
@@ -14,42 +14,49 @@ function ProfilAdmin() {
                 <div className="background-profil">
 
                     <div>
-                        <input
-                            type="text"
-                            placeholder="Navn"
-                            className="input-profil"
-                        />
+                    <input
+                        type="text"
+                        placeholder="Navn"
+                        className="input-opretbruger"
+                    />
                     </div>
                     <div>
                         <input
                             type="text"
                             placeholder="Efternavn"
-                            className="input-profil"
+                            className="input-opretbruger"
                         />
                     </div>
                     <div>
                         <input
                             type="text"
                             placeholder="Brugernavn"
-                            className="input-profil"
+                            className="input-opretbruger"
                         />
                     </div>
                     <div>
                         <input
                             type="text"
                             placeholder="Mobil nr"
-                            className="input-profil"
+                            className="input-opretbruger"
                         />
                     </div>
                     <div>
                         <input
                             type="text"
                             placeholder="Email"
-                            className="input-profil"
+                            className="input-opretbruger"
+                        />
+                    </div>
+                    <div>
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            className="input-opretbruger"
                         />
                     </div>
                     <button>
-                        Gem
+                        Opret
                     </button>
 
                 </div>
@@ -59,4 +66,4 @@ function ProfilAdmin() {
     )
 }
 
-export default ProfilAdmin;
+export default ProfilBruger;
