@@ -2,6 +2,7 @@ using api;
 using Api.Security;
 using Api.Services;
 using dataaccess.Entity;
+using dataaccess.MyDbContext;
 using DataAccess.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DataAccess.Repositories;
@@ -10,29 +11,27 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-
 public class Program
 {
-    public static void ConfigureServices(IServiceCollection services, IConfiguration configuration,WebApplicationBuilder builder)
+    public static void ConfigureServices(IServiceCollection services, IConfiguration configuration, WebApplicationBuilder builder)
     {
         var appOptions = services.AddAppOptions(configuration);
 
-          var connectionString = builder.Configuration.GetConnectionString("AppDb");
-        builder.Services.AddDbContext<DbContext>(options =>
-            options
-                .UseNpgsql(connectionString)
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+        // Use concrete AppDbContext instead of abstract DbContext
+        var connectionString = appOptions.DbConnectionString;
+        builder.Services.AddDbContext<MyDbContext>(options =>
+            options.UseNpgsql(connectionString)
+                   .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
         );
-        
 
         // Repositories
         builder.Services.AddScoped<IRepository<Login>, LoginRepository>();
-
 
         // Services
         builder.Services.AddScoped<IPasswordHasher<Login>, NSecArgon2IdPasswordHasher>();
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<ITokenService, JwtService>();
+
 
         builder.Services.AddScoped<IProfilService, ProfilService>();
         
@@ -46,9 +45,9 @@ public class Program
             })
             .AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = JwtService.ValidationParameters(
-                    builder.Configuration);
-                // add this for debugging
+                options.TokenValidationParameters = JwtService.ValidationParameters(builder.Configuration);
+
+                // Debug logging
                 options.Events = new JwtBearerEvents
                 {
                     OnAuthenticationFailed = context =>
@@ -60,44 +59,47 @@ public class Program
                     {
                         Console.WriteLine("Token Validated Successfully");
                         return Task.CompletedTask;
-                    },
+                    }
                 };
             });
-        builder.Services.AddAuthorization(options =>
-        {
-            options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser()
-                .Build();
-        });
 
+        builder.Services.AddAuthorization();
+
+        // Controllers & OpenAPI / Swagger
         services.AddControllers();
         services.AddOpenApiDocument();
         services.AddProblemDetails();
-        //services.AddExceptionHandler<GlobalExceptionHandler>();
+
+        // CORS
         services.AddCors();
     }
 
     public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        
+
+        // Configure services
         ConfigureServices(builder.Services, builder.Configuration, builder);
 
         var app = builder.Build();
 
+        // Middleware pipeline
         app.UseExceptionHandler();
+        app.UseRouting();
 
         app.UseCors(config => config
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowAnyOrigin()
-            .SetIsOriginAllowed(x => true));
+            .AllowAnyOrigin());
 
-        app.MapControllers();
+        app.UseAuthentication();
+        app.UseAuthorization();
+
         app.UseOpenApi();
         app.UseSwaggerUi();
 
-        //await app.GenerateApiClientsFromOpenApi("/../../client/src/generated-ts-client.ts");
+        app.MapControllers();
 
-        app.Run();
+        await app.RunAsync();
     }
 }

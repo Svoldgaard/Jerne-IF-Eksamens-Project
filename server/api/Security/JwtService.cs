@@ -12,14 +12,21 @@ public interface ITokenService
     string CreateToken(AuthUserInfo user);
 }
 
-public class JwtService(IConfiguration config) : ITokenService
+public class JwtService : ITokenService
 {
+    private readonly IConfiguration _config;
+
+    public JwtService(IConfiguration config)
+    {
+        _config = config;
+    }
+    
     public const string SignatureAlgorithm = SecurityAlgorithms.HmacSha512;
     public const string JwtKey = "JwtKey";
 
     public string CreateToken(AuthUserInfo user)
     {
-        var key = Convert.FromBase64String(config.GetValue<string>(JwtKey)!);
+        var key = Convert.FromBase64String(_config.GetValue<string>(JwtKey)!);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             SigningCredentials = new SigningCredentials(
@@ -40,7 +47,7 @@ public class JwtService(IConfiguration config) : ITokenService
         return new TokenValidationParameters
         {
             IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidAlgorithms = [SignatureAlgorithm],
+            ValidAlgorithms = new[] { SignatureAlgorithm }, // ❌ Must be array
             ValidateIssuerSigningKey = true,
             TokenDecryptionKey = null,
 
