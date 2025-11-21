@@ -22,7 +22,7 @@ function Login() {
                             type="text"
                             placeholder="Brugernavn"
                             required={true}
-                            className="input user-input"
+                            className="input user-input input-login"
                         />
                     </div>
                     <p></p>
@@ -31,7 +31,7 @@ function Login() {
                             type={showPassword? "text" : "password"}
                             placeholder="Password"
                             required={true}
-                            className="input lock-input"
+                            className="input lock-input input-login"
                         />
                         <button
                             type="button"

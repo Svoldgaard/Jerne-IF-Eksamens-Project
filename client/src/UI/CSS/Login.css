@@ -40,7 +40,7 @@
     outline: none;
 }
 
-.input{
+.input-login{
     background: #F44336;
     color: #FFFFFF;
     border: #F44336;
@@ -57,7 +57,7 @@
     align-items: center;
 }
 
-.input:focus{
+.input-login:focus{
     border: none;
     outline: none;
 }
