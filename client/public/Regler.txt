@@ -1,0 +1,35 @@
+Sådan fungerer spillet
+•	Dead Pigeons er et lotterispil, hvor du gætter tal på et spillebræt.
+•	Hver uge trækker administratoren 3 vindertal, som bliver den vindende sekvens.
+•	Du vælger 5–8 tal på dit bræt i forsøget på at matche de vindende tal.
+•	Du kan spille fysisk eller digitalt. Alle deltagere deltager i samme runde.
+
+Priser og betaling
+•	Pris pr. bræt afhænger af, hvor mange tal du vælger:
+
+=== PRICE_TABLE ===
+
+•	Tallene på brættet er altid mellem 1–16.
+•	70% af indtægterne går til præmier, 30% til Jerne IF.
+
+Spillets gang
+•	Du kan kun tilmelde dig spillet indtil lørdag kl. 17:00.
+•	Når vindertallene er trukket, kan ingen tilføje flere gæt.
+•	Næste spil starter automatisk, når administratoren har indtastet de vindende tal.
+
+Gentagelse af brætter
+•	Du kan vælge at spille samme bræt flere uger i træk.
+•	Du kan til enhver tid stoppe gentagelsen.
+
+Balance og betalinger
+•	Du har en balance, som du fylder op med penge.
+•	Når du køber brætter, trækkes beløbet fra din balance.
+•	Balancen kan ikke være negativ.
+•	Når du indsætter penge, kan du tilføje dit MobilePay-transaktionsnummer.
+•	Administratoren godkender betalingen, og beløbet tilføjes balancen.
+•	Præmier bliver udbetalt separat og går ikke til balancen.
+
+Vindere
+•	Der kan være flere vindere, da flere brætter kan indeholde den vindende sekvens.
+•	Én spiller kan købe flere brætter og kan vinde på flere brætter.
+•	Sekvensrækkefølgen på tallene betyder ikke noget. F.eks.: Hvis vindersekvensen er 2-5-1, er brættet 4-1-7-2-5 stadig en vinder.

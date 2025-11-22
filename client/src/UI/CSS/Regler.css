@@ -1,0 +1,75 @@
+
+.background-profil {
+    /*margin-top: 50px;*/
+
+    width: 1140px;
+    margin: 0 auto;
+
+    flex: 1; /* fills space above footer */
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    background: #FFFFFF;
+    padding: 20px;
+}
+
+.page-regler {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: hidden; /* prevents unnecessary scroll */
+    margin: 0;
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.regler{
+    color: #000000;
+    text-align: left;
+    font-size: 16px;
+    font-family: Source Sans Pro, sans-serif;
+    margin-left: 40px;
+}
+
+.header-regler{
+    color: #000000;
+    text-align: left;
+    margin-left: 40px;
+}
+
+.price-table{
+    color: #000000;
+    width: 20%;
+    border-collapse: collapse;
+    /*margin-top: 10px;*/
+    margin-left: 40px;
+    margin-bottom: -20px;
+    font-size: 16px;
+    font-family: Source Sans Pro, sans-serif;
+}
+
+.price-table th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #000000;
+}
+
+.price-table th{
+    font-weight: bold;
+}
+
+.text-regler{
+    color: #000000;
+    text-align: left;
+    font-size: 16px;
+    font-family: Source Sans Pro, sans-serif;
+    margin-left: 40px;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
