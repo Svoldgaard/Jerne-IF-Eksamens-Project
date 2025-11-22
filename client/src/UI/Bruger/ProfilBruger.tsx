@@ -13,42 +13,48 @@ function ProfilBruger() {
                 <Header/>
                 <div className="background-profil">
 
-                    <div>
+                    <h1 className="header-profil">Profil</h1>
+                    <div className="profil-row">
+                        <label>Navn:</label>
                     <input
                         type="text"
                         placeholder="Navn"
                         className="input-profil"
                     />
                     </div>
-                    <div>
+                    <div className="profil-row">
+                        <label>Efternavn:</label>
                         <input
                             type="text"
                             placeholder="Efternavn"
                             className="input-profil"
                         />
                     </div>
-                    <div>
+                    <div className="profil-row">
+                        <label>Brugernavn:</label>
                         <input
                             type="text"
                             placeholder="Brugernavn"
                             className="input-profil"
                         />
                     </div>
-                    <div>
+                    <div className="profil-row">
+                        <label>Mobil nr:</label>
                         <input
                             type="text"
                             placeholder="Mobil nr"
                             className="input-profil"
                         />
                     </div>
-                    <div>
+                    <div className="profil-row">
+                        <label>Email:</label>
                         <input
                             type="text"
                             placeholder="Email"
                             className="input-profil"
                         />
                     </div>
-                    <button>
+                    <button className="button-gem-profil">
                         Gem
                     </button>
 
