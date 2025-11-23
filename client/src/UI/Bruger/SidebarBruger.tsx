@@ -32,7 +32,7 @@ function SidebarBruger(){
                         Forside
                     </div>
 
-                    <div onClick={() => {navigate("/profil"); setMenuOpen(false);}}>
+                    <div onClick={() => {navigate("/profil-bruger"); setMenuOpen(false);}}>
                         Profil
                     </div>
 

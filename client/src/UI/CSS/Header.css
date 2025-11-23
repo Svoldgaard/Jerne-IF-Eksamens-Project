@@ -17,12 +17,15 @@
     flex-direction: column;
     align-items: end;
     background-color: #F44336;
-    border-color: #F44336;
+    border: none;
+    margin-top: 6px;
+    width: 60px;
+    cursor: pointer;
 }
 
 .header-icon {
     width: 30px;
     height: auto;
     margin-bottom: 5px;
-    margin-right: 15px;
+    margin-right: 5px;
 }
