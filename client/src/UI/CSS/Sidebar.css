@@ -5,3 +5,43 @@
     border: none;
     font-size: 30px;
 }
+
+.sidebar-wrapper{
+    position: relative;
+}
+
+.sidebar-menu{
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 200px;
+    background-color: #F44336;
+    padding: 20px;
+    z-index: 10000;
+    text-align: left;
+    margin-left: -10px;
+}
+
+.sidebar-menu div {
+    padding: 12px 0;
+    cursor: pointer;
+}
+
+.sidebar-menu div:hover {
+    /*background: #F44336;*/
+}
+
+.sidebar-menu {
+    animation: slideFromLeft 0.25s ease-out;
+}
+
+@keyframes slideFromLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

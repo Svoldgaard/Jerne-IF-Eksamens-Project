@@ -21,12 +21,13 @@ function SidebarBruger(){
     }, [menuOpen]);
 
     return (
-        <div style = {{ position: "relative"}}>
-            <button className="sidebar-button" onClick={() => setMenuOpen(!menuOpen)}>
+        <div className="sidebar-wrapper" ref={menuRef}>
+            <button className="sidebar-button" onClick={() => setMenuOpen(prev => !prev)}>
                 ☰
             </button>
+
             {menuOpen && (
-                <div className= "sidebar-menu" ref={menuRef}>
+                <div className={`sidebar-menu ${menuOpen ? "open" : "closed"}`}>
                     <div onClick={() => {navigate("/forside"); setMenuOpen(false);}}>
                         Forside
                     </div>

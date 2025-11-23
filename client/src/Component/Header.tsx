@@ -10,9 +10,9 @@ const Header: React.FC = () => {
             <div className="header-left">
                 <SidebarBruger/>
             </div>
-            <div className="header-right">
+            <button className="header-right">
                 <img src={Logout} alt="Logout" className="header-icon" />
-            </div>
+            </button>
         </footer>
     );
 };

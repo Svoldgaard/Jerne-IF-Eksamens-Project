@@ -29,71 +29,69 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
             </span>
 
             <div className="main-container">
-            <Header/>
-            <div className="background-spilside">
+                <Header/>
+                <div className="background-spilside">
 
-            <div>
-                <a className="text"> Nuværende spil: </a>
-            </div>
+                    <div>
+                        <a className="text"> Nuværende spil: </a>
+                    </div>
 
-            <div className={`cg-container ${className}`}>
-                <div
-                role="grid"
-                aria-rowcount={rows}
-                aria-colcount={cols}
-                className="cg-grid"
-                style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}
-                >
-
-                    {Array.from({length: total}).map((_, idx) => {
-                        const isActive = selectedPigeons.includes(idx);
-                        return(
-                        <button
-                            key={idx}
-                            role="gridcell"
-                            aria-selected={isActive}
-                            className={`cg-cell button-plade ${isActive ? "cg-cell-active" : ""}`}
-                            onClick={() => togglePigeon(idx)}
+                    <div className={`cg-container ${className}`}>
+                        <div
+                        role="grid"
+                        aria-rowcount={rows}
+                        aria-colcount={cols}
+                        className="cg-grid"
+                        style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}
                         >
-                            {idx + 1}
+
+                            {Array.from({length: total}).map((_, idx) => {
+                                const isActive = selectedPigeons.includes(idx);
+                                return(
+                                <button
+                                    key={idx}
+                                    role="gridcell"
+                                    aria-selected={isActive}
+                                    className={`cg-cell button-plade ${isActive ? "cg-cell-active" : ""}`}
+                                    onClick={() => togglePigeon(idx)}
+                                >
+                                    {idx + 1}
+                                </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                        <p className="text"> Pris: {currentPrice} DKK </p>
+
+                    <div>
+                        {showAlertMax && (
+                            <div style={{ maxWidth: '300px', margin: '10px auto' }}>
+                                <Alert severity="warning">
+                                    Du har valgt det maksimale antal på 8 duer!
+                                </Alert>
+                            </div>
+                        )}
+
+                        {showAlertMin && (
+                            <div style={{ maxWidth: '300px', margin: '10px auto' }}>
+                                <Alert severity="warning">
+                                    Vælg mindst 5 duer!
+                                </Alert>
+                            </div>
+                        )}
+
+                        <button className="button-gem" onClick={handleAlertMin}>
+                            Betal
                         </button>
-                        );
-                    })}
-                </div>
-            </div>
 
-                <p className="text"> Pris: {currentPrice} DKK </p>
-
-            <div>
-
-                {showAlertMax && (
-                    <div style={{ maxWidth: '300px', margin: '10px auto' }}>
-                        <Alert severity="warning">
-                            Du har valgt det maksimale antal på 8 duer!
-                        </Alert>
                     </div>
-                )}
 
-                {showAlertMin && (
-                    <div style={{ maxWidth: '300px', margin: '10px auto' }}>
-                        <Alert severity="warning">
-                            Vælg mindst 5 duer!
-                        </Alert>
+                    <div className="repeat-row">
+                        <p>Gentag hver uge</p>
+                            <input type="checkbox" className="checkbox-plade"/>
                     </div>
-                )}
-
-
-                <button className="button-gem" onClick={handleAlertMin}>
-                    Betal
-                </button>
-
                 </div>
-
-                <div className="repeat-row">
-                    <p>Gentag hver uge</p>
-                        <input type="checkbox" className="checkbox-plade"/>
-                </div>
-            </div>
             </div>
             <Footer/>
         </div>

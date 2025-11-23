@@ -16,6 +16,8 @@
     display: flex;
     flex-direction: column;
     align-items: end;
+    background-color: #F44336;
+    border-color: #F44336;
 }
 
 .header-icon {
