@@ -4,6 +4,14 @@ import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 
 function VundetPlader() {
+    const data = [
+        {brugernavn: "Karl-Heinz-Schmidt", transaktionsNr: "TX-1002", pris: 40, udbetalt: true},
+        {brugernavn: "LeopoldHoffmann", transaktionsNr: "TX-1003", pris: 160, udbetalt: true},
+        {brugernavn: "Maximiliam_Wagner", transaktionsNr: "TX-1004", pris: 20, udbetalt: true},
+        {brugernavn: "Babara-Schneider", transaktionsNr: "TX-1006", pris: 20, udbetalt: true},
+        {brugernavn: "Franziska_Schulz", transaktionsNr: "TX-1009", pris: 40, udbetalt: true},
+    ]
+
     return (
         <div className="page-vundet-plader">
             <span className="logo-plade">
@@ -13,10 +21,32 @@ function VundetPlader() {
                 <Header/>
                 <div className="background-vundet-plader">
 
-                    <input
-                        type="text"
-                        placeholder="Vundet Plader"
-                    />
+                    <h2 className="header-vundet-plader">Nuværende spil: Uge 48 2025</h2>
+                    <table className="price-table-vundet-plader">
+                        <thead>
+                        <tr>
+                            <th>Brugernavn</th>
+                            <th>Transkations nr</th>
+                            <th>Udbetalt</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {data.map((row) => (
+                            <tr key={row.brugernavn}>
+                                <td>{row.brugernavn}</td>
+                                <td>{row.transaktionsNr}</td>
+                                <td>
+                                    {row.udbetalt}
+                                    <input type="checkbox" className="checkbox-vundet-plader"/>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+
+                    <button className="button-luk-uge">
+                        Luk Uge
+                    </button>
 
                 </div>
             </div>
