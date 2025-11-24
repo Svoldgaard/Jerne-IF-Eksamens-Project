@@ -19,5 +19,5 @@ public partial class Plade
 
     public virtual Login Bruger { get; set; } = null!;
 
-    public virtual Price? Price { get; set; }
+    public virtual Pricing? Price { get; set; }
 }
