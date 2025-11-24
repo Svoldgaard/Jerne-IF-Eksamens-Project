@@ -26,11 +26,13 @@ public class Program
 
         // Repositories
         builder.Services.AddScoped<IRepository<Login>, LoginRepository>();
+        builder.Services.AddScoped<IRepository<Profil>, UserRepository>();
 
         // Services
         builder.Services.AddScoped<IPasswordHasher<Login>, NSecArgon2IdPasswordHasher>();
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<ITokenService, JwtService>();
+        builder.Services.AddScoped<IPriceService, PriceService>();
 
 
         builder.Services.AddScoped<IProfilService, ProfilService>();

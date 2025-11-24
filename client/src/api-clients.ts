@@ -1,4 +1,4 @@
-import { TOKEN_KEY, tokenStorage } from "./atoms/Token.ts";
+import { TOKEN_KEY, tokenStorage } from "./Atoms/Token.ts";
 import {
     AuthClient,
 } from "./models/generated-client.ts";
