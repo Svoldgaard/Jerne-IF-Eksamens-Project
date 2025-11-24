@@ -2,6 +2,9 @@ import {useNavigate} from "react-router";import '../CSS/Forside.css'
 import Logo from "../../../public/Logo.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
+import BoardImage from "../../../public/BoardImage.png";
+import Board from "../../../public/Board.png";
+import Person from "../../../public/Person.png";
 
 function ForsideAdmin() {
     const navigate = useNavigate();
@@ -12,24 +15,37 @@ function ForsideAdmin() {
                 <img src={Logo} alt="Logo"/>
             </span>
             <div className="main-container">
-            <Header/>
+                <Header/>
                 <div className="background-forside">
-            <div>
-                <button onClick={() => navigate ("/aktiv-plader")}>
-                    Aktive Plader
-                </button>
-                <button onClick={() => navigate ("/spilhistorik") }>
-                    Spilhistorik
-                </button>
-            </div>
-            <div>
-                <button onClick={() => navigate ("/regler") }>
-                    Regler
-                </button>
-                <button onClick={() => navigate ("/profil-admin") }>
-                    Profil
-                </button>
-            </div>
+                    <button className="button-forside" onClick={() => navigate("/aktiv-plader")}>
+                        <img src={BoardImage} alt="BoardImage" className="image-forside"/>
+                        <div className="button-label-forside">
+                            <span>Aktive Plader</span>
+                            <span className="arrow-icon">▶</span>
+                        </div>
+                    </button>
+
+                    <button className="button-forside" onClick={() => navigate("/spilhistorik-admin")}>
+                        <img src={Board} alt="Board" className="image-forside"/>
+                        <div className="button-label-forside">
+                            <span>Spilhistorik</span>
+                            <span className="arrow-icon">▶</span>
+                        </div>
+                    </button>
+                    <button className="button-forside" onClick={() => navigate("/regler")}>
+                        <img src={Board} alt="Board" className="image-forside"/>
+                        <div className="button-label-forside">
+                            <span>Regler</span>
+                            <span className="arrow-icon">▶</span>
+                        </div>
+                    </button>
+                    <button className="button-forside" onClick={() => navigate("/profil-admin")}>
+                        <img src={Person} alt="Person" className="image-forside"/>
+                        <div className="button-label-forside">
+                            <span>Profil</span>
+                            <span className="arrow-icon">▶</span>
+                        </div>
+                    </button>
                 </div>
             </div>
             <Footer/>

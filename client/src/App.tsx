@@ -10,6 +10,10 @@ import Regler from "./UI/Regler.tsx";
 import ForsideAdmin from "./UI/Admin/ForsideAdmin.tsx";
 import OpretBruger from "./UI/OpretBruger.tsx";
 import GlemtPassword from "./UI/GlemtPassword.tsx";
+import AktivePlader from "./UI/Admin/AktivePlader.tsx";
+import SpilhistorikAdmin from "./UI/Admin/SpilhistorikAdmin.tsx";
+import Vindertal from "./UI/Admin/Vindertal.tsx";
+import VundetPlader from "./UI/Admin/VundetPlader.tsx";
 
 function App() {
 
@@ -63,6 +67,22 @@ function App() {
         {
             path: "/glemt-password",
             element: <GlemtPassword/>
+        },
+        {
+            path: "/aktive-plader",
+            element: <AktivePlader/>
+        },
+        {
+            path: "/spilhistorik-admin",
+            element: <SpilhistorikAdmin/>
+        },
+        {
+            path: "/vindertal",
+            element: <Vindertal/>
+        },
+        {
+            path: "/vundet-plader",
+            element: <VundetPlader/>
         }
     ])
 
