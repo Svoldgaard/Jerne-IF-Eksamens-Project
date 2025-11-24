@@ -16,7 +16,7 @@ public partial class MyDbContext : DbContext
 
     public virtual DbSet<Plade> Plades { get; set; }
 
-    public virtual DbSet<Price> Prices { get; set; }
+    public virtual DbSet<Pricing> Prices { get; set; }
 
     public virtual DbSet<Profil> Profils { get; set; }
 
@@ -75,14 +75,14 @@ public partial class MyDbContext : DbContext
                 .HasConstraintName("fk_plade_price");
         });
 
-        modelBuilder.Entity<Price>(entity =>
+        modelBuilder.Entity<Pricing>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("price_pkey");
 
-            entity.ToTable("price", "jerneif");
+            entity.ToTable("pricing", "jerneif");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Price1).HasColumnName("price");
+            entity.Property(e => e.Price).HasColumnName("price");
         });
 
         modelBuilder.Entity<Profil>(entity =>
