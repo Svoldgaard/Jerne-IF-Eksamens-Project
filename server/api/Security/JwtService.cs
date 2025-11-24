@@ -1,7 +1,6 @@
-using System;
 using System.Security.Claims;
+using api.Models.Dtos;
 using Api.Models.Dtos.Responses;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
@@ -9,7 +8,7 @@ namespace Api.Security;
 
 public interface ITokenService
 {
-    string CreateToken(AuthUserInfo user);
+    string CreateToken(AuthUserInfoDto user);
 }
 
 public class JwtService : ITokenService
@@ -24,7 +23,7 @@ public class JwtService : ITokenService
     public const string SignatureAlgorithm = SecurityAlgorithms.HmacSha512;
     public const string JwtKey = "JwtKey";
 
-    public string CreateToken(AuthUserInfo user)
+    public string CreateToken(AuthUserInfoDto user)
     {
         var key = Convert.FromBase64String(_config.GetValue<string>(JwtKey)!);
         var tokenDescriptor = new SecurityTokenDescriptor

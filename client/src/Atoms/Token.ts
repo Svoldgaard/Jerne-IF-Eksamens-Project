@@ -5,11 +5,11 @@ import { authClient } from "../api-clients";
 export const TOKEN_KEY = "token";
 export const tokenStorage = createJSONStorage<string | null>(() => sessionStorage);
 
-expprt const tokenAtom = atomWithStorage<string | null>(TOKEN_KEY, null, tokenStorage);
+export const tokenAtom = atomWithStorage<string | null>(TOKEN_KEY, null, tokenStorage);
 
-export const useInfoAtom = atom(async (get) => {
+export const userInfoAtom = atom(async (get) => {
     const token = get(tokenAtom);
     if(!token) return null;
-     const userInfo = await authClient.userInfo();
+     const userInfo = await authClient.login();
      return userInfo;
-})
+});

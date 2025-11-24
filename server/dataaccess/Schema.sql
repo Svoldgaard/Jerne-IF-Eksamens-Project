@@ -34,10 +34,15 @@ CREATE TABLE jerneif.Profil (
         Mobil VARCHAR(20),
         BrugerID INT NOT NULL,
         Aktiv BOOLEAN NOT NULL DEFAULT TRUE,
+        RolleID int NOT NULL,
         CONSTRAINT fk_profil_login
             FOREIGN KEY (BrugerID)
                 REFERENCES jerneif.Login (BrugerID)
-                ON DELETE CASCADE
+                ON DELETE CASCADE,
+        CONSTRAINT fk_profil_rolle
+        FOREIGN KEY (RolleID)
+        REFERENCES jerneif.Rolle (RolleID)
+        ON DELETE CASCADE
 );
 
 -- ===========================

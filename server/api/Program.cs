@@ -26,6 +26,7 @@ public class Program
 
         // Repositories
         builder.Services.AddScoped<IRepository<Login>, LoginRepository>();
+        builder.Services.AddScoped<IRepository<Profil>, UserRepository>();
 
         // Services
         builder.Services.AddScoped<IPasswordHasher<Login>, NSecArgon2IdPasswordHasher>();

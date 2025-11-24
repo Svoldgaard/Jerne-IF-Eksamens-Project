@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { authClient } from "../api-clients";
-import type { AuthUserInfo, LoginRequest } from "../models/generated-client";
+import type { LoginRequest } from "../models/generated-client";
 import { useAtom } from "jotai";
-import { tokenAtom, userInfoAtom } from "../atoms/token";
+import { tokenAtom, userInfoAtom } from "../Atoms/Token";
 
 type AuthHook = {
-    user: AuthUserInfo | null;
+    user: LoginRequest | null;
     login: (request: LoginRequest) => Promise<void>;
     logout: () => void;
 };
@@ -17,7 +17,7 @@ export const userAuth = () => {
 
     const login = async (request: LoginRequest) => {
         const response = await authClient.login(request);
-        setJwt(response.token);
+        setJwt(response.jwt?.toString() ?? null);
         navigate("/forside");
     }
 
