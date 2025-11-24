@@ -27,3 +27,50 @@
     flex-direction: column;
     flex-grow: 1;
 }
+
+.header-vindertal{
+    color: #000000;
+    font-weight: normal;
+}
+
+.text-vindertal{
+    color: #000000;
+    font-size: 22px;
+    margin-top: 60px;
+}
+
+.input-vindertal{
+    height: 40px;
+    width: 40px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.vindertal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.separator{
+    width: 0.5px;
+    height: 50px;
+    background: #000;
+    margin: 0 15px;
+}
+
+.button-gem-vindertal{
+    background: #d9d9d9;
+    color: #000000;
+    border: none;
+    height: 40px;
+    width: 200px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 40px 0 0 470px;
+}
+
+.button-gem-vindertal:hover{
+    background: #c3c3c3;
+}

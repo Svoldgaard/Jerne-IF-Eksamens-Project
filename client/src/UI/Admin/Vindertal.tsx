@@ -13,11 +13,30 @@ function Vindertal() {
                 <Header/>
                 <div className="background-vindertal">
 
-                    <input
-                        type="text"
-                        placeholder="Vindertal"
-                    />
-
+                    <h2 className="header-vindertal">Nuværende spil: Uge 48 2025</h2>
+                    <p className="text-vindertal">Vindertal:</p>
+                    <div className="vindertal">
+                        <input
+                            type="text"
+                            placeholder=""
+                            className="input-vindertal"
+                        />
+                        <span className="separator"></span>
+                        <input
+                            type="text"
+                            placeholder=""
+                            className="input-vindertal"
+                        />
+                        <span className="separator"></span>
+                        <input
+                            type="text"
+                            placeholder=""
+                            className="input-vindertal"
+                        />
+                    </div>
+                    <button className="button-gem-vindertal">
+                        Gem
+                    </button>
                 </div>
             </div>
             <Footer/>
