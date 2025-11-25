@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/pricing")]
 public class PriceController(IPriceService priceService) : ControllerBase
 {
-    [HttpGet]
+    [HttpGet("fetchPricing")]
     public async Task<ActionResult<List<PriceResponse>>> GetPrices()
     {
         try
