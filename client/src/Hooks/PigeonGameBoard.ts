@@ -1,5 +1,6 @@
 import {useEffect, useMemo, useState} from "react";
 import {PriceClient, type PriceResponse} from "../generated-ts-client.ts";
+const baseUrl = "http://localhost:5233";
 
 const MIN_SELECTION = 5;
 const MAX_SELECTION = 8;
@@ -12,7 +13,7 @@ export function useTogglePigeon() {
     const [priceList, setPriceList] = useState<Record<number, number>>({});
 
     const priceClient = useMemo(() => {
-        return new PriceClient('http://localhost:5233');
+        return new PriceClient(baseUrl);
     }, []);
 
     useEffect(() => {
