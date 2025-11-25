@@ -33,6 +33,7 @@ public class Program
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<ITokenService, JwtService>();
         builder.Services.AddScoped<IPriceService, PriceService>();
+        builder.Services.AddScoped<IPladeService, PladeService>();
 
 
         builder.Services.AddScoped<IProfilService, ProfilService>();
