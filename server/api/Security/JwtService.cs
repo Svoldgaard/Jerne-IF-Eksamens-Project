@@ -46,7 +46,7 @@ public class JwtService : ITokenService
         return new TokenValidationParameters
         {
             IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidAlgorithms = new[] { SignatureAlgorithm }, // ❌ Must be array
+            ValidAlgorithms = new[] { SignatureAlgorithm }, 
             ValidateIssuerSigningKey = true,
             TokenDecryptionKey = null,
 
@@ -54,7 +54,7 @@ public class JwtService : ITokenService
             ValidateAudience = false,
             ValidateLifetime = true,
 
-            // Set to 0 when validating on the same system that created the token
+           
             ClockSkew = TimeSpan.Zero,
         };
     }

@@ -15,7 +15,7 @@ CREATE TABLE jerneif.Rolle (
 CREATE TABLE jerneif.Login (
        BrugerID SERIAL PRIMARY KEY,
        Brugernavn VARCHAR(100) NOT NULL UNIQUE,
-       Password VARCHAR(200) NOT NULL,
+       Password VARCHAR(500) NOT NULL,
        RolleID INT NOT NULL,
        CONSTRAINT fk_login_rolle
            FOREIGN KEY (RolleID)

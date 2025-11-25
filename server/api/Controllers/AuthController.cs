@@ -1,4 +1,6 @@
 // Api/Controllers/AuthController.cs
+
+using Api.Etc;
 using Api.Models.Dtos.Requests;
 using Api.Models.Dtos.Responses;
 using Api.Security;
@@ -25,18 +27,30 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
     {
-        var userInfo = await _authService.AuthenticateAsync(request);
-        var token = _tokenService.CreateToken(userInfo);
-        return Ok(new LoginResponse(token, userInfo));
+        try
+        {
+            var userInfo = await _authService.AuthenticateAsync(request);
+            var token = _tokenService.CreateToken(userInfo);
+            return Ok(new LoginResponse(token, userInfo));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = "Login failed", detail = ex.Message });
+        }
     }
+
+
+
 
     [AllowAnonymous]
     [HttpPost("register")]
     public async Task<ActionResult<RegisterResponse>> Register([FromBody] RegisterRequest request)
     {
         var userInfo = await _authService.RegisterAsync(request);
-        return CreatedAtAction(nameof(UserInfo), new { id = userInfo.UserId }, new RegisterResponse(userInfo.UserId, userInfo.UserName, userInfo.Email));
+        return Ok(new RegisterResponse(userInfo.UserId, userInfo.UserName, userInfo.Email));
     }
+
+
 
     [HttpPost("logout")]
     public IActionResult Logout()

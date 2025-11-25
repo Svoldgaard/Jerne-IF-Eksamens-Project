@@ -1,7 +1,5 @@
 import { TOKEN_KEY, tokenStorage } from "./Atoms/Token.ts";
-import {
-    AuthClient,
-} from "./models/generated-client.ts";
+import { AuthClient } from "./generated-ts-client.ts";
 
 const customFetch = async (url: RequestInfo, init?: RequestInit) => {
     const token = tokenStorage.getItem(TOKEN_KEY, null);
@@ -18,6 +16,6 @@ const customFetch = async (url: RequestInfo, init?: RequestInit) => {
     return await fetch(url, init);
 };
 
-const baseUrl = undefined;
+const baseUrl = "http://localhost:5233";
 
-export const authClient = new AuthClient(baseUrl, { fetch: customFetch});
+export const authClient = new AuthClient(baseUrl, { fetch: customFetch });

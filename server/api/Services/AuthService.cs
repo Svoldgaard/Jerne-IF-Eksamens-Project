@@ -40,7 +40,9 @@ public class AuthService : IAuthService
             if (login == null) throw new AuthenticationError();
 
             var result = _passwordHasher.VerifyHashedPassword(login, login.Password, request.Password);
+            _logger.LogInformation("Password verification result: {Result}", result);
             if (result != PasswordVerificationResult.Success) throw new AuthenticationError();
+
 
             return login.ToDto(profile);
         }
@@ -53,29 +55,37 @@ public class AuthService : IAuthService
 
     public async Task<AuthUserInfoDto> RegisterAsync(RegisterRequest request)
     {
+        // Check uniqueness
         if (_profileRepository.Query().Any(p => p.Email == request.Email))
             throw new ValidationException("Email already exists.");
 
+        if (_loginRepository.Query().Any(l => l.Brugernavn == request.UserName))
+            throw new ValidationException("Username already exists.");
+
+        // Create login
         var login = new Login
         {
             Brugernavn = request.UserName,
-            Rolleid = request.RoleId
+            Rolleid = 1
         };
         login.Password = _passwordHasher.HashPassword(login, request.Password);
         await _loginRepository.Add(login);
 
+        // Create profile
         var profile = new Profil
         {
             Brugerid = login.Brugerid,
             Email = request.Email,
             Fnavn = request.FirstName,
             Lnavn = request.LastName,
+            Rolleid = 1,
             Aktiv = true
         };
         await _profileRepository.Add(profile);
 
         return login.ToDto(profile);
     }
+
 
     public async Task<AuthUserInfoDto?> GetUserInfoAsync(ClaimsPrincipal principal)
     {

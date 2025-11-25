@@ -1,12 +1,21 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Api.Models.Dtos.Requests;
-
-public record RegisterRequest(
-    [Required][EmailAddress] string Email,
-    [Required] string UserName,
-    [Required] string FirstName,
-    [Required] string LastName,
-    [Required][MinLength(6)] string Password,
-    int RoleId = 0
-);
+public class RegisterRequest
+{
+    [Required, EmailAddress]
+    public string Email { get; set; } = null!;
+    
+    [Required]
+    public string UserName { get; set; } = null!;
+    
+    [Required]
+    public string FirstName { get; set; } = null!;
+    
+    [Required]
+    public string LastName { get; set; } = null!;
+    
+    [Required, MinLength(6)]
+    public string Password { get; set; } = null!;
+    
+    public int RoleId { get; set; } = 1;
+}
