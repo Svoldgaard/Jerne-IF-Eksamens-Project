@@ -10,4 +10,6 @@ public partial class Rolle
     public string Rollenavn { get; set; } = null!;
 
     public virtual ICollection<Login> Logins { get; set; } = new List<Login>();
+
+    public virtual ICollection<Profil> Profils { get; set; } = new List<Profil>();
 }
