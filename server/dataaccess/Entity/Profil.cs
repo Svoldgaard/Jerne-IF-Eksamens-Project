@@ -19,5 +19,9 @@ public partial class Profil
 
     public bool Aktiv { get; set; }
 
+    public int Rolleid { get; set; }
+
     public virtual Login Bruger { get; set; } = null!;
+
+    public virtual Rolle Rolle { get; set; } = null!;
 }
