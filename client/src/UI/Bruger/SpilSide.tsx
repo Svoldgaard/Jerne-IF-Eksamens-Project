@@ -107,7 +107,10 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
 
                     <div className="repeat-row">
                         <p>Gentag hver uge</p>
-                            <input type="checkbox" className="checkbox-plade"/>
+                            <input type="checkbox"
+                                   className="checkbox-plade"
+                                    checked={isRepeatCheked}
+                                    onChange={(e) => setIsRepeat(e.target.checked)}/>
                     </div>
                 </div>
             </div>
