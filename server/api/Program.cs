@@ -99,7 +99,6 @@ public class Program
 
         app.UseOpenApi();
         app.UseSwaggerUi();
-        await app.GenerateApiClientsFromOpenApi("/../../client/src/generated-ts-client.ts");
 
         app.MapControllers();
 

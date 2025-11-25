@@ -1,4 +1,6 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
+import {PriceClient, type PriceResponse} from "../generated-ts-client.ts";
+const baseUrl = "http://localhost:5233";
 
 const MIN_SELECTION = 5;
 const MAX_SELECTION = 8;
@@ -10,20 +12,19 @@ export function useTogglePigeon() {
 
     const [priceList, setPriceList] = useState<Record<number, number>>({});
 
+    const priceClient = useMemo(() => {
+        return new PriceClient(baseUrl);
+    }, []);
+
     useEffect(() => {
         const fetchPrices = async () => {
             try {
-                const response = await fetch('http://localhost:5233/api/price');
-                
-                if(!response.ok){
-                    throw new Error('HTTP error! status: ${response.status}');
-                }
-                const data = await response.json();
-                
+                const data: PriceResponse[] = await priceClient.getPrices();
+
                 const priceMap: Record<number, number> = {};
-                
-                data.forEach((item: any) => {
-                    priceMap[item.amount] = item.price;
+
+                data.forEach(item => {
+                    priceMap[item.amount!] = item.price!;
                 });
                 
                 console.log("Prices loaded from DB: ", priceMap);
@@ -37,7 +38,7 @@ export function useTogglePigeon() {
         };
         fetchPrices();
         
-    }, []);
+    }, [priceClient]);
 
 
 

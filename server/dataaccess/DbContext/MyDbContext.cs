@@ -16,7 +16,7 @@ public partial class MyDbContext : DbContext
 
     public virtual DbSet<Plade> Plades { get; set; }
 
-    public virtual DbSet<Pricing> Prices { get; set; }
+    public virtual DbSet<Pricing> Pricings { get; set; }
 
     public virtual DbSet<Profil> Profils { get; set; }
 
@@ -38,9 +38,7 @@ public partial class MyDbContext : DbContext
             entity.Property(e => e.Brugernavn)
                 .HasMaxLength(100)
                 .HasColumnName("brugernavn");
-            entity.Property(e => e.Password)
-                .HasMaxLength(200)
-                .HasColumnName("password");
+            entity.Property(e => e.Password).HasColumnName("password");
             entity.Property(e => e.Rolleid).HasColumnName("rolleid");
 
             entity.HasOne(d => d.Rolle).WithMany(p => p.Logins)
@@ -77,7 +75,7 @@ public partial class MyDbContext : DbContext
 
         modelBuilder.Entity<Pricing>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("price_pkey");
+            entity.HasKey(e => e.Id).HasName("pricing_pkey");
 
             entity.ToTable("pricing", "jerneif");
 
@@ -110,10 +108,15 @@ public partial class MyDbContext : DbContext
             entity.Property(e => e.Mobil)
                 .HasMaxLength(20)
                 .HasColumnName("mobil");
+            entity.Property(e => e.Rolleid).HasColumnName("rolleid");
 
             entity.HasOne(d => d.Bruger).WithMany(p => p.Profils)
                 .HasForeignKey(d => d.Brugerid)
                 .HasConstraintName("fk_profil_login");
+
+            entity.HasOne(d => d.Rolle).WithMany(p => p.Profils)
+                .HasForeignKey(d => d.Rolleid)
+                .HasConstraintName("fk_profil_rolle");
         });
 
         modelBuilder.Entity<Rolle>(entity =>
