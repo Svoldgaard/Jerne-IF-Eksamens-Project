@@ -1,4 +1,4 @@
-﻿using NJsonSchema.CodeGeneration.TypeScript;
+﻿﻿using NJsonSchema.CodeGeneration.TypeScript;
 using NSwag;
 using NSwag.CodeGeneration.TypeScript;
 using NSwag.Generation;
