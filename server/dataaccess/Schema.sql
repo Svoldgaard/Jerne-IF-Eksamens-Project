@@ -48,7 +48,7 @@ CREATE TABLE jerneif.Profil (
 -- ===========================
 -- Table: price
 -- ===========================
-CREATE TABLE jerneif.Price (
+CREATE TABLE jerneif.Pricing (
       ID SERIAL PRIMARY KEY,
       price INT NOT NULL
 );
