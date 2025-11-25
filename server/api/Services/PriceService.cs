@@ -15,7 +15,7 @@ public class PriceService : IPriceService
 
     public async Task<List<PriceResponse>> GetAllPricesAsync()
     {
-        var prices = await _context.Prices.ToListAsync();
+        var prices = await _context.Pricings.ToListAsync();
 
         return prices.Select(p => new PriceResponse
         {
