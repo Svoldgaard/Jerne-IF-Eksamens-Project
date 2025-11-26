@@ -32,7 +32,7 @@ export const useAuth = () => {
     const logout = () => {
         setJwt(null);
         setUser(null);
-        navigate("/login");
+        navigate("/");
     };
 
     return { login, logout };
