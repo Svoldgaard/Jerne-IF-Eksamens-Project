@@ -3,6 +3,7 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    "../generated-ts-client.ts",
     "../Component/**/*.ts",
     "../Component/**/*.tsx",
     "../Pages/**/*.ts",

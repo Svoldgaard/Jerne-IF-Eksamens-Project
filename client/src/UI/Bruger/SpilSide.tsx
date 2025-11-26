@@ -1,4 +1,5 @@
 import '../CSS/SpilSide.css'
+import {useState} from "react";
 import Logo from "../../../public/Logo.png";
 //import Baggrund from "../../Component/Baggrund.tsx";
 import Header from "../../Component/Header.tsx";
@@ -18,9 +19,26 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
     const cols = 4;
     const total = rows * cols;
 
+    const [isRepeatCheked, setIsRepeat] = useState(false);
+
     //const activeSet = new Set(activeIndices);
 
-    const {selectedPigeons, togglePigeon, currentPrice, handleAlertMin, showAlertMin, showAlertMax} = useTogglePigeon();
+    const {selectedPigeons, togglePigeon, currentPrice, handleAlertMin, showAlertMin, showAlertMax, buyPlade} = useTogglePigeon();
+
+    const handlePayment = async () => {
+         const isValid = handleAlertMin();
+         if (!isValid) return;
+
+         const fakeUserId = 2;
+
+         const success = await buyPlade(fakeUserId, isRepeatCheked);
+
+         if(success){
+             alert("Tak for dit køb! Din plade er nu aktiv.");
+         } else{
+                alert("Der opstod en fejl under købet. Prøv venligst igen.");
+         }
+    }
 
     return (
         <div className="page-plade">
@@ -81,7 +99,7 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
                             </div>
                         )}
 
-                        <button className="button-gem" onClick={handleAlertMin}>
+                        <button className="button-gem" onClick={handlePayment}>
                             Betal
                         </button>
 
@@ -89,7 +107,10 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
 
                     <div className="repeat-row">
                         <p>Gentag hver uge</p>
-                            <input type="checkbox" className="checkbox-plade"/>
+                            <input type="checkbox"
+                                   className="checkbox-plade"
+                                    checked={isRepeatCheked}
+                                    onChange={(e) => setIsRepeat(e.target.checked)}/>
                     </div>
                 </div>
             </div>

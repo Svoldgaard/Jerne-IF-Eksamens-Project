@@ -12,6 +12,38 @@ export function useTogglePigeon() {
 
     const [priceList, setPriceList] = useState<Record<number, number>>({});
 
+    const buyPlade = async (userId: number, isRepeat: boolean) => {
+
+        const requestBody = {
+            selectedNumbers: selectedPigeons,
+            priceId: selectedPigeons.length,
+            userId: userId,
+            repeat: isRepeat
+        };
+
+        try {
+            const response = await fetch (`${baseUrl}/api/plade`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText);
+            }
+            return true;
+        } catch (error){
+            console.error('Error buying plade:', error);
+            return false;
+        }
+
+    }
+
+
+
     const priceClient = useMemo(() => {
         return new PriceClient(baseUrl);
     }, []);
@@ -107,5 +139,6 @@ export function useTogglePigeon() {
         currentPrice
     ,handleAlertMin,
     showAlertMin,
-    showAlertMax,};
+    showAlertMax,
+    buyPlade};
 }
