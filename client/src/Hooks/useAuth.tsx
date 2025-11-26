@@ -18,8 +18,11 @@ export const useAuth = () => {
 
             // Assume `response.user` contains the user info
             //setUser(response.user);
-
-            navigate("/forside");
+            if (response.user?.roleId === 2) {
+                navigate("/forside-admin");
+            } else {
+                navigate("/forside");
+            }
         } catch (err) {
             console.error("Login error:", err);
             throw err;
