@@ -84,9 +84,13 @@
     margin-left: 50px;
 }
 
+.password-wrapper .input-login {
+    width: 300px; /* same as your input */
+}
+
 .show-password-btn {
     position: absolute;
-    right: 10px;
+    right: -100px;
     top: 50%;
     transform: translateY(-50%);
     background: transparent;
