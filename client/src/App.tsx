@@ -18,17 +18,24 @@ import VundetPlader from "./UI/Admin/VundetPlader.tsx";
 function App() {
 
     const router = createBrowserRouter([
+        // Login
         {
             path: "/",
             element: <Login/>
         },
         {
-          path: "/forside",
-          element: <ForsideBruger/>
+            path: "/opret-bruger",
+            element: <OpretBruger/>
         },
         {
-            path: "/forside-admin",
-            element: <ForsideAdmin/>
+            path: "/glemt-password",
+            element: <GlemtPassword/>
+        },
+
+        // Bruger
+        {
+          path: "/forside",
+          element: <ForsideBruger/>
         },
         {
             path: "/køb-plade",
@@ -53,23 +60,21 @@ function App() {
             element: <ProfilBruger/>
         },
         {
+            path: "/regler",
+            element: <Regler/>
+        },
+
+        // Admin
+        {
+            path: "/forside-admin",
+            element: <ForsideAdmin/>
+        },
+        {
             path: "/profil-admin",
             element: <ProfilBruger/>
         },
         {
-            path: "/regler",
-            element: <Regler/>
-        },
-        {
-            path: "/opret-bruger",
-            element: <OpretBruger/>
-        },
-        {
-            path: "/glemt-password",
-            element: <GlemtPassword/>
-        },
-        {
-            path: "/aktive-plader",
+            path: "/aktive-plader-admin",
             element: <AktivePlader/>
         },
         {
@@ -77,16 +82,21 @@ function App() {
             element: <SpilhistorikAdmin/>
         },
         {
-            path: "/vindertal",
+            path: "/vindertal-admin",
             element: <Vindertal/>
         },
         {
-            path: "/vundet-plader",
+            path: "/vundet-plader-admin",
             element: <VundetPlader/>
-        }
+        },
+        {
+            path: "/regler-admin",
+            element: <Regler/>
+        },
+
     ])
 
   return <RouterProvider router={router}/>
 }
 
-export default App
+export default App;

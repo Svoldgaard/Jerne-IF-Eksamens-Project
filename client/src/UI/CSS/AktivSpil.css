@@ -93,7 +93,7 @@
 .text-aktivspil{
     color: #000000;
     margin-bottom: 20px;
-
+    margin-left: 100px;
 }
 
 .checkbox-aktivspil{
@@ -123,6 +123,7 @@
 
 .board-header{
     color: #000000;
+    margin-bottom: 10px;
 }
 
 .board-info{

@@ -4,6 +4,7 @@ import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 import {Accordion, AccordionDetails, AccordionSummary, Typography} from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {useNavigate} from "react-router";
 
 export type Board = {
     id: string;
@@ -41,10 +42,12 @@ function SpilhistorikBruger() {
     const cols = 4;
     const total = rows * cols;
 
+    const navigate = useNavigate();
+
     return (
         <div className="page-spilhistorik-bruger">
             <span className="logo-plade">
-                <img src={Logo} alt="Logo"/>
+                <img src={Logo} alt="Logo" onClick={() => navigate("/forside")}/>
             </span>
             <div className="main-container">
             <Header/>
@@ -55,7 +58,7 @@ function SpilhistorikBruger() {
                             className="accordion-tabt"
                             aria-controls="panel1-content"
                             id="panel1-header">
-                        <Typography component="span"> Uge 48 2025 </Typography>
+                        <Typography component="span"> Uge 47 2025 </Typography>
                             <Typography component="span">15, 5, 8</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -90,7 +93,7 @@ function SpilhistorikBruger() {
                         <AccordionSummary expandIcon={<ExpandMoreIcon/>}
                               aria-controls="panel2-content"
                               id="panel2-header">
-                            <Typography component="span"> Uge 47 2025 </Typography>
+                            <Typography component="span"> Uge 46 2025 </Typography>
                             <Typography component="span">11, 9, 1</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -105,7 +108,7 @@ function SpilhistorikBruger() {
                               className="accordion-vundet"
                               aria-controls="panel3-content"
                               id="panel3-header">
-                            <Typography component="span"> Uge 46 2025 </Typography>
+                            <Typography component="span"> Uge 45 2025 </Typography>
                             <Typography component="span">10, 6, 9</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -141,7 +144,7 @@ function SpilhistorikBruger() {
                               className="accordion-vundet"
                               aria-controls="panel4-content"
                               id="panel4-header">
-                            <Typography component="span"> Uge 45 2025 </Typography>
+                            <Typography component="span"> Uge 44 2025 </Typography>
                             <Typography component="span">7, 12, 15</Typography>
                         </AccordionSummary>
                         <AccordionDetails>

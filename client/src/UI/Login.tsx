@@ -71,7 +71,7 @@ const Login: React.FC = () => {
 
                     <div className="button-wrapper">
                         <button type="button" className="button" onClick={() => navigate("/opret-bruger")}>Opret Login</button>
-                        <button type="submit" className="button">LOG IND</button>
+                        <button type="submit" className="button">Log Ind</button>
                     </div>
                 </form>
             </div>

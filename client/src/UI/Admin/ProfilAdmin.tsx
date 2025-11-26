@@ -2,12 +2,15 @@ import '../CSS/Profil.css'
 import Logo from "../../../public/Logo.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
+import {useNavigate} from "react-router-dom";
 
 function ProfilAdmin() {
+    const navigate = useNavigate();
+
     return (
         <div className="page-profil">
             <span className="logo-plade">
-                <img src={Logo} alt="Logo"/>
+                <img src={Logo} alt="Logo" onClick={() => navigate("/forside-admin")}/>
             </span>
             <div className="main-container">
                 <Header/>
@@ -27,14 +30,6 @@ function ProfilAdmin() {
                         <input
                             type="text"
                             placeholder="Efternavn"
-                            className="input-profil"
-                        />
-                    </div>
-                    <div className="profil-row">
-                        <label>Brugernavn:</label>
-                        <input
-                            type="text"
-                            placeholder="Brugernavn"
                             className="input-profil"
                         />
                     </div>

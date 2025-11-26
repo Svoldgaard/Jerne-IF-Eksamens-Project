@@ -2,6 +2,7 @@ import '../CSS/AktivSpil.css'
 import Logo from "../../../public/Logo.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
+import {useNavigate} from "react-router-dom";
 
 export type Board = {
     id: string;
@@ -26,6 +27,8 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
         { id: "TX-1005", activeIndices: [5, 6, 9, 14, 8, 10, 7] }
     ];
 
+    const navigate = useNavigate();
+
     // const getRandomInt = (min: number, max: number) =>
     //     Math.floor(Math.random() * (max -min + 1)) + min;
     //
@@ -45,13 +48,13 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
     return (
         <div className="page-aktivspil">
             <span className="logo-aktivspil">
-                <img src={Logo} alt="Logo"/>
+                <img src={Logo} alt="Logo" onClick={() => navigate("/forside")}/>
             </span>
             <div className="main-container">
                 <Header/>
                 <div className="background-aktivspil">
                     <div className="uge-aktivspil">
-                        <a className="text-aktivspil"> Uge: </a>
+                        <a className="text-aktivspil"> Uge: 48 2025</a>
                     </div>
 
                     <div className={`boards-list-container ${className}`}>
@@ -80,10 +83,13 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
                                         <div className="board-info">
                                             <div className="repeat-row">
                                                 <p>Gentag hver uge</p>
-                                                <input type="checkbox" className="checkbox-aktivspil"/>
+                                                <input type="checkbox" className="checkbox-aktivspil" defaultChecked={index < 2}/>
                                             </div>
                                             <div className="board-header">
                                                 Transaktionsnr: {board.id}
+                                            </div>
+                                            <div className="board-header">
+                                                Status: Ikke aktiv
                                             </div>
                                         </div>
                                     </div>

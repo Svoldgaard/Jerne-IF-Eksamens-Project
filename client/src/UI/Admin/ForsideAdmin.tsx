@@ -5,6 +5,8 @@ import Footer from "../../Component/Footer.tsx";
 import BoardImage from "../../../public/BoardImage.png";
 import Board from "../../../public/Board.png";
 import Person from "../../../public/Person.png";
+import Regler from "../../../Public/Regler.png"
+
 
 function ForsideAdmin() {
     const navigate = useNavigate();
@@ -12,12 +14,12 @@ function ForsideAdmin() {
     return (
         <div className="page-forside">
             <span className="logo-plade">
-                <img src={Logo} alt="Logo"/>
+                <img src={Logo} alt="Logo" onClick={() => navigate("/forside-admin")}/>
             </span>
             <div className="main-container">
                 <Header/>
                 <div className="background-forside">
-                    <button className="button-forside" onClick={() => navigate("/aktiv-plader")}>
+                    <button className="button-forside" onClick={() => navigate("/aktive-plader-admin")}>
                         <img src={BoardImage} alt="BoardImage" className="image-forside"/>
                         <div className="button-label-forside">
                             <span>Aktive Plader</span>
@@ -32,8 +34,8 @@ function ForsideAdmin() {
                             <span className="arrow-icon">▶</span>
                         </div>
                     </button>
-                    <button className="button-forside" onClick={() => navigate("/regler")}>
-                        <img src={Board} alt="Board" className="image-forside"/>
+                    <button className="button-forside" onClick={() => navigate("/regler-admin")}>
+                        <img src={Regler} alt="Regler" className="image-forside"/>
                         <div className="button-label-forside">
                             <span>Regler</span>
                             <span className="arrow-icon">▶</span>

@@ -2,12 +2,15 @@ import '../CSS/Vindertal.css'
 import Logo from "../../../public/Logo.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
+import {useNavigate} from "react-router-dom";
 
 function Vindertal() {
+    const navigate = useNavigate();
+
     return (
         <div className="page-vindertal">
             <span className="logo-plade">
-                <img src={Logo} alt="Logo"/>
+                <img src={Logo} alt="Logo" onClick={() => navigate("/forside-admin")}/>
             </span>
             <div className="main-container">
                 <Header/>
@@ -21,20 +24,20 @@ function Vindertal() {
                             placeholder=""
                             className="input-vindertal"
                         />
-                        <span className="separator"></span>
+                        <span className="separator-vindertal"></span>
                         <input
                             type="text"
                             placeholder=""
                             className="input-vindertal"
                         />
-                        <span className="separator"></span>
+                        <span className="separator-vindertal"></span>
                         <input
                             type="text"
                             placeholder=""
                             className="input-vindertal"
                         />
                     </div>
-                    <button className="button-gem-vindertal">
+                    <button className="button-gem-vindertal" onClick={() => navigate("/vundet-plader-admin")}>
                         Gem
                     </button>
                 </div>

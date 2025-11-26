@@ -3,26 +3,20 @@ import Logo from "../../../public/Logo.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 import {Accordion, AccordionSummary, Typography} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 
 function SpilhistorikAdmin() {
+    const navigate = useNavigate();
 
     return (
         <div className="page-spilhistorik-admin">
             <span className="logo-plade">
-                <img src={Logo} alt="Logo"/>
+                <img src={Logo} alt="Logo" onClick={() => navigate("/forside-admin")}/>
             </span>
             <div className="main-container">
                 <Header/>
                 <div className="background-spilhistorik-admin">
-
-                    <Accordion disabled>
-                        <AccordionSummary aria-controls="panel2-content"
-                                          id="panel2-header">
-                            <Typography component="span"> Uge 48 2025 </Typography>
-                            <Typography component="span">15, 5, 8</Typography>
-                        </AccordionSummary>
-                    </Accordion>
 
                     <Accordion disabled>
                         <AccordionSummary aria-controls="panel2-content"
@@ -77,6 +71,14 @@ function SpilhistorikAdmin() {
                                           id="panel2-header">
                             <Typography component="span"> Uge 41 2025 </Typography>
                             <Typography component="span">11, 1, 9</Typography>
+                        </AccordionSummary>
+                    </Accordion>
+
+                    <Accordion disabled>
+                        <AccordionSummary aria-controls="panel2-content"
+                                          id="panel2-header">
+                            <Typography component="span"> Uge 40 2025 </Typography>
+                            <Typography component="span">15, 5, 8</Typography>
                         </AccordionSummary>
                     </Accordion>
 

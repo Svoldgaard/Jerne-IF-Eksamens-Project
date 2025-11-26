@@ -3,11 +3,21 @@ import {useEffect, useState} from "react";
 import Logo from "../../public/Logo.png";
 import Header from "../Component/Header.tsx";
 import Footer from "../Component/Footer.tsx";
-
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Regler() {
     const [rules, setRules] = useState("");
     const parts = rules.split("=== PRICE_TABLE ===");
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const goToForside = () => {
+        if (location.pathname.includes("admin")) {
+            navigate("/forside-admin");
+        } else {
+            navigate("/forside");
+        }
+    };
 
     useEffect(() => {
         fetch("/Regler.txt")
@@ -22,7 +32,7 @@ function Regler() {
     return (
         <div className="page-regler">
             <span className="logo-plade">
-                <img src={Logo} alt="Logo"/>
+                <img src={Logo} alt="Logo" onClick={goToForside}/>
             </span>
             <div className="main-container">
                 <Header/>

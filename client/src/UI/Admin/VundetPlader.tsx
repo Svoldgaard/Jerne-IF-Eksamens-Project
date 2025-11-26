@@ -2,6 +2,7 @@ import '../CSS/VundetPlader.css'
 import Logo from "../../../public/Logo.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
+import {useNavigate} from "react-router-dom";
 
 function VundetPlader() {
     const data = [
@@ -11,11 +12,12 @@ function VundetPlader() {
         {brugernavn: "Babara-Schneider", transaktionsNr: "TX-1006", pris: 20, udbetalt: true},
         {brugernavn: "Franziska_Schulz", transaktionsNr: "TX-1009", pris: 40, udbetalt: true},
     ]
+    const navigate = useNavigate();
 
     return (
         <div className="page-vundet-plader">
             <span className="logo-plade">
-                <img src={Logo} alt="Logo"/>
+                <img src={Logo} alt="Logo" onClick={() => navigate("/forside-admin")}/>
             </span>
             <div className="main-container">
                 <Header/>
@@ -44,7 +46,7 @@ function VundetPlader() {
                         </tbody>
                     </table>
 
-                    <button className="button-luk-uge">
+                    <button className="button-luk-uge" onClick={() => navigate("/forside-admin")}>
                         Luk Uge
                     </button>
 

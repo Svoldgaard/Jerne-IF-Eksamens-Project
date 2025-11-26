@@ -7,18 +7,19 @@ import Person from "../../../public/Person.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 
+
 function ForsideBruger() {
     const navigate = useNavigate();
 
     return (
         <div className="page-forside">
             <span className="logo-plade">
-                <img src={Logo} alt="Logo"/>
+                <img src={Logo} alt="Logo" onClick={() => navigate("/forside")}/>
             </span>
             <div className="main-container">
                 <Header/>
                 <div className="background-forside">
-                    <button className="button-forside" onClick={() => navigate("/købplade")}>
+                    <button className="button-forside" onClick={() => navigate("/køb-plade")}>
                         <img src={BoardImage} alt="BoardImage" className="image-forside"/>
                         <div className="button-label-forside">
                             <span>Køb Plade</span>
@@ -33,6 +34,7 @@ function ForsideBruger() {
                             <span className="arrow-icon">▶</span>
                         </div>
                     </button>
+
                     <button className="button-forside" onClick={() => navigate("/spilhistorik")}>
                         <img src={Board} alt="Board" className="image-forside"/>
                         <div className="button-label-forside">
@@ -40,6 +42,7 @@ function ForsideBruger() {
                             <span className="arrow-icon">▶</span>
                         </div>
                     </button>
+
                     <button className="button-forside" onClick={() => navigate("/profil-bruger")}>
                         <img src={Person} alt="Person" className="image-forside"/>
                         <div className="button-label-forside">

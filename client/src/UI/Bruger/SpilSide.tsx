@@ -6,6 +6,7 @@ import Header from "../../Component/Header.tsx";
 import {useTogglePigeon} from "../../Hooks/PigeonGameBoard.ts";
 import Footer from "../../Component/Footer.tsx";
 import Alert from '@mui/material/Alert';
+import { useNavigate } from "react-router-dom";
 
 
 export type ClickableGridUIProps ={
@@ -24,6 +25,8 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
     //const activeSet = new Set(activeIndices);
 
     const {selectedPigeons, togglePigeon, currentPrice, handleAlertMin, showAlertMin, showAlertMax, buyPlade} = useTogglePigeon();
+    const navigate = useNavigate();
+
 
     const handlePayment = async () => {
          const isValid = handleAlertMin();
@@ -43,16 +46,18 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
     return (
         <div className="page-plade">
             <span className="logo-plade">
-                <img src={Logo} alt="Logo"/>
+                <img src={Logo} alt="Logo" onClick={() => navigate("/forside")}/>
             </span>
+
 
             <div className="main-container">
                 <Header/>
                 <div className="background-spilside">
 
                     <div>
-                        <a className="text"> Nuværende spil: </a>
+                        <a className="text-uge"> Nuværende spil: Uge 48 2025</a>
                     </div>
+
 
                     <div className={`cg-container ${className}`}>
                         <div
@@ -99,9 +104,18 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
                             </div>
                         )}
 
-                        <button className="button-gem" onClick={handlePayment}>
+                        <button
+                            className="button-gem"
+                            onClick={() => {
+                                const isValid = handleAlertMin();
+                                if (isValid) {
+                                    navigate("/aktiv-spil");
+                                }
+                            }}
+                        >
                             Betal
                         </button>
+
 
                     </div>
 

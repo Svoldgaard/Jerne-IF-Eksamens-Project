@@ -21,13 +21,13 @@
 .button-wrapper {
     display: flex;
     align-items: center;
-    margin-top: 10px;
-    margin-left: 125px;
+    margin-top: 20px;
+    margin-left: 38px;
     justify-content: center;
     background: none;
-    width: 100px;
+    width: 500px;
     height: 30px;
-    gap: 8px;
+    gap: 20px;
 }
 
 .button .icon {
@@ -48,6 +48,8 @@
     width: 300px;
     font-size: 16px;
     padding-left: 50px;
+    margin-bottom: 15px;
+    margin-left: 60px;
 
     background-repeat: no-repeat;
     background-position: 10px center;
@@ -55,6 +57,12 @@
 
     display: flex;
     align-items: center;
+}
+
+.input-wrapper{
+    margin-left: 50px;
+    width: 200px;
+
 }
 
 .input-login:focus{
@@ -72,6 +80,8 @@
 
 .password-wrapper {
     position: relative;
+    width: 300px;
+    margin-left: 50px;
 }
 
 .show-password-btn {
@@ -84,7 +94,6 @@
     color: white;
     font-size: 12px;
     cursor: pointer;
-    padding: 0;
 }
 
 .eye-icon {
