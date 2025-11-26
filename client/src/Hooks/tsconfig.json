@@ -3,6 +3,8 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    "../api-clients.ts",
+    "../Atoms/**/*.ts",
     "../vite-env.d.ts"],
   "references": []
 }
