@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using api;
 using Api.Security;
 using Api.Services;
@@ -69,7 +70,10 @@ public class Program
         builder.Services.AddAuthorization();
 
         // Controllers & OpenAPI / Swagger
-        services.AddControllers();
+        services.AddControllers().AddJsonOptions(x =>
+        {
+            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        });
         services.AddOpenApiDocument();
         services.AddProblemDetails();
 

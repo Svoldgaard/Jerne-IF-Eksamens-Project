@@ -19,5 +19,7 @@ public partial class Plade
 
     public virtual Login Bruger { get; set; } = null!;
 
+    public virtual ICollection<Pladetal> Pladetals { get; set; } = new List<Pladetal>();
+
     public virtual Pricing? Price { get; set; }
 }
