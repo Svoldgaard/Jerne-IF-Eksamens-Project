@@ -9,6 +9,8 @@ public class PladeService(MyDbContext context) : IPladeService
 {
     public async Task<Plade> CreatePladeAsync(PladeRequest request)
     {
+
+        var newPladeId = Guid.NewGuid().ToString();
         var currentCulture = CultureInfo.CurrentCulture;
         var weekNo = currentCulture.Calendar.GetWeekOfYear(
             DateTime.Now,
@@ -24,10 +26,23 @@ public class PladeService(MyDbContext context) : IPladeService
             Ugetal = weekNo,
             Gentag = request.Repeat,
 
-            Valgtetal = request.SelectedNumbers.FirstOrDefault()
+            Valgtetal = 0
         };
 
         context.Plades.Add(newPlade);
+        foreach (var number in request.SelectedNumbers )
+        {
+            var talRow = new Pladetal
+            {
+                //Pladeid = newPladeId,
+                Tal = number
+            };
+            
+            newPlade.Pladetals.Add(talRow);
+
+        }
+        context.Plades.Add(newPlade);
+        
         await context.SaveChangesAsync();
 
         return newPlade;
