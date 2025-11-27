@@ -58,7 +58,6 @@ CREATE TABLE jerneif.Pricing (
 -- ===========================
 CREATE TABLE jerneif.Plade (
        ID VARCHAR(50) PRIMARY KEY,
-       ValgteTal INT NOT NULL,
        Ugetal INT NOT NULL,
        Gentag BOOLEAN NOT NULL DEFAULT FALSE,
        BrugerID INT NOT NULL,
@@ -71,6 +70,17 @@ CREATE TABLE jerneif.Plade (
            FOREIGN KEY (priceID)
                REFERENCES jerneif.pricing (ID)
                ON DELETE CASCADE
+);
+
+CREATE TABLE jerneif.PladeTal (
+    ID SERIAL PRIMARY KEY,
+    PladeID VARCHAR(50) NOT NULL,
+    Tal INT NOT NULL,
+    
+    CONSTRAINT fk_pladetal_plade
+                              FOREIGN KEY (PladeID)
+                              REFERENCES jerneif.Plade (ID)
+                              ON DELETE CASCADE 
 );
 
 -- ===========================
