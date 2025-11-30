@@ -15,7 +15,7 @@ export function useTogglePigeon() {
     const buyPlade = async (userId: number, isRepeat: boolean) => {
 
         const requestBody = {
-            selectedNumbers: selectedPigeons,
+            selectedNumbers: selectedPigeons.map(num => num + 1), // So it can save as 1-16 instead of 0-15
             priceId: selectedPigeons.length,
             userId: userId,
             repeat: isRepeat

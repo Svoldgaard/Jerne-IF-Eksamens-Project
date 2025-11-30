@@ -16,6 +16,8 @@ public partial class MyDbContext : DbContext
 
     public virtual DbSet<Plade> Plades { get; set; }
 
+    public virtual DbSet<Pladetal> Pladetals { get; set; }
+
     public virtual DbSet<Pricing> Pricings { get; set; }
 
     public virtual DbSet<Profil> Profils { get; set; }
@@ -71,6 +73,23 @@ public partial class MyDbContext : DbContext
                 .HasForeignKey(d => d.Priceid)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("fk_plade_price");
+        });
+
+        modelBuilder.Entity<Pladetal>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("pladetal_pkey");
+
+            entity.ToTable("pladetal", "jerneif");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Pladeid)
+                .HasMaxLength(50)
+                .HasColumnName("pladeid");
+            entity.Property(e => e.Tal).HasColumnName("tal");
+
+            entity.HasOne(d => d.Plade).WithMany(p => p.Pladetals)
+                .HasForeignKey(d => d.Pladeid)
+                .HasConstraintName("fk_pladetal_plade");
         });
 
         modelBuilder.Entity<Pricing>(entity =>
