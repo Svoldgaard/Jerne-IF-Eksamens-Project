@@ -32,7 +32,7 @@ function ProfilBruger() {
 
             await authClient.register(request);
 
-            await login({ email, password });
+            await login({ username: email, password });
 
         } catch (err) {
             console.error("Registration error:", err);

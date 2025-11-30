@@ -5,7 +5,7 @@ import Footer from "../../Component/Footer.tsx";
 import BoardImage from "../../../public/BoardImage.png";
 import Board from "../../../public/Board.png";
 import Person from "../../../public/Person.png";
-import Regler from "../../../Public/Regler.png"
+import Regler from "../../../public/Regler.png"
 
 
 function ForsideAdmin() {

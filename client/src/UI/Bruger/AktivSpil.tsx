@@ -29,22 +29,6 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
 
     const navigate = useNavigate();
 
-    // const getRandomInt = (min: number, max: number) =>
-    //     Math.floor(Math.random() * (max -min + 1)) + min;
-    //
-    // const mockBoards: Board[] = Array.from({length: 10}, (_, i) => {
-    //     const count = getRandomInt (5, 8);
-    //
-    //     const activeIndices = Array.from({length: 16}, (_, i) => i)
-    //         .sort(() => Math.random() - 0.5)
-    //         .slice(0, count);
-    //
-    //     return {
-    //         id: `TX-${1000 + i}`,
-    //         activeIndices,
-    //     };
-    // })
-
     return (
         <div className="page-aktivspil">
             <span className="logo-aktivspil">
