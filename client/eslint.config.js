@@ -1,23 +1,30 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
-import { globalIgnores } from 'eslint/config'
+import js from '@eslint/js';
+import globals from 'globals';
+import react from 'eslint-plugin-react';
+import tseslint from 'typescript-eslint';
+import { globalIgnores, defineConfig } from 'eslint/config';
+import { plugin as noStateInView } from './eslint-rules/no-state-in-view.js';
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-    ],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+
+export default defineConfig([
+    globalIgnores(['dist']),
+    {
+        plugins: {
+            react,
+            'no-state-in-view': noStateInView,
+        },
+        rules: {
+            'no-unused-vars': 'warn',
+            'react/function-component-definition': ['warn', { namedComponents: 'arrow-function' }],
+            'react/destructuring-assignment' : 'warn',
+            'react/hook-use-state': 'warn',
+            'no-state-in-view/no-hooks-in-ui': 'error',
+        },
+        files: ['**/*.{ts,tsx}'],
+        extends: [js.configs.recommended, tseslint.configs.recommended],
+        languageOptions: {
+            ecmaVersion: 2020,
+            globals: globals.browser,
+        },
     },
-  },
-])
+]);
