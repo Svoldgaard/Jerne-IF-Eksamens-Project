@@ -73,3 +73,57 @@
     white-space: pre-wrap;
     line-height: 1.6;
 }
+
+/*=== Mobile styles ===*/
+
+@media (max-width: 768px) {
+
+    .background-profil {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 15px;
+    }
+
+    .header-regler {
+        text-align: center;
+        font-size: 20px;
+        margin-left: 0;
+        margin-bottom: 15px;
+    }
+
+    .text-regler {
+        text-align: left;
+        font-size: 14px;
+        margin-left: 0;
+        margin-right: 0;
+        line-height: 1.4;
+    }
+
+    .price-table {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+
+    .price-table th, .price-table td {
+        padding: 8px 10px;
+    }
+
+    .regler {
+        margin-left: 0;
+        font-size: 14px;
+    }
+
+    .logo-plade {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .logo-plade img {
+        width: 100px;
+        height: auto;
+    }
+}

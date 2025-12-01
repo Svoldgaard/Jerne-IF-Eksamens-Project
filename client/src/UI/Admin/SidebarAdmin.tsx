@@ -1,24 +1,14 @@
 import {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router";
 import '../../UI/CSS/Sidebar.css';
+import {useClickOutside} from "../../Hooks/useClickOutside.ts";
 
 function SidebarAdmin(){
     const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
     const menuRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (menuOpen && menuRef.current && !menuRef.current.contains(event.target as Node)) {
-                setMenuOpen(false);
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [menuOpen]);
+    useClickOutside(menuRef, menuOpen, () => setMenuOpen(false));
 
     return (
         <div className="sidebar-wrapper" ref={menuRef}>

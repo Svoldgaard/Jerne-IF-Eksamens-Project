@@ -1,38 +1,31 @@
-
-import {useNavigate} from "react-router";
-import React, { useState } from "react";
-import { useAuth } from "../Hooks/useAuth";
+import { useNavigate } from "react-router";
 import '../UI/CSS/Login.css';
 import Logo from '../../public/Logo.png';
 import OpenEye from '../../public/OpenEye.png';
 import ClosedEye from '../../public/ClosedEye.png';
 import Footer from "../Component/Footer";
+import { useLogin } from "../Hooks/useLogin";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
-    const { login } = useAuth();
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError(null);
-
-        try {
-            await login({ username, password });
-        } catch (err) {
-            console.error("Login failed:", err);
-            setError("Login failed. Check credentials.");
-        }
-    };
+    const {
+        username,
+        setUsername,
+        password,
+        setPassword,
+        showPassword,
+        setShowPassword,
+        error,
+        handleSubmit,
+    } = useLogin();
 
     return (
         <div className="page-login">
-            <span className="logo-login">
-                <img src={Logo} alt="Logo"/>
-            </span>
+      <span className="logo-login">
+        <img src={Logo} alt="Logo" />
+      </span>
+
             <div className="background-login">
                 <form className="content-login" onSubmit={handleSubmit}>
                     <div className="input-wrapper">
@@ -45,6 +38,7 @@ const Login: React.FC = () => {
                             className="input user-input input-login"
                         />
                     </div>
+
                     <div className="input-wrapper password-wrapper">
                         <input
                             type={showPassword ? "text" : "password"}
@@ -54,6 +48,7 @@ const Login: React.FC = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             className="input lock-input input-login"
                         />
+
                         <button
                             type="button"
                             className="show-password-btn"
@@ -70,12 +65,17 @@ const Login: React.FC = () => {
                     {error && <p className="error">{error}</p>}
 
                     <div className="button-wrapper">
-                        <button type="button" className="button" onClick={() => navigate("/opret-bruger")}>Opret Login</button>
-                        <button type="submit" className="button">Log Ind</button>
+                        <button type="button" className="button" onClick={() => navigate("/opret-bruger")}>
+                            Opret Login
+                        </button>
+                        <button type="submit" className="button">
+                            Log Ind
+                        </button>
                     </div>
                 </form>
             </div>
-            <Footer/>
+
+            <Footer />
         </div>
     );
 };

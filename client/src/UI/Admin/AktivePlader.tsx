@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 
 function AktivePlader() {
     const data = [
-        {brugernavn: "GertrudHansen", transaktionsNr: "TX-1001", pris: 20},
+        {brugernavn: "GertrudHansen", transaktionsNr: "TX-1001", pris: 20, betalt: true},
         {brugernavn: "Karl-Heinz-Schmidt", transaktionsNr: "TX-1002", pris: 40},
         {brugernavn: "LeopoldHoffmann", transaktionsNr: "TX-1003", pris: 160},
         {brugernavn: "Maximiliam_Wagner", transaktionsNr: "TX-1004", pris: 20},

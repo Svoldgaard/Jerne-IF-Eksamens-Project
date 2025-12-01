@@ -62,3 +62,49 @@
 .arrow-icon{
     font-size: 10px;
 }
+
+/*=== Mobile styles ===*/
+
+@media (max-width: 768px) {
+
+    .background-forside {
+        width: 100%;
+        max-width: 100%;
+        padding: 10px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        justify-items: center;
+    }
+
+    .logo-plade {
+        position: static;
+        display: flex;
+        justify-content: center;
+        margin: 15px 0;
+    }
+
+    .logo-plade img {
+        width: 70px;
+        height: auto;
+    }
+
+    .button-forside {
+        width: 90%;
+        max-width: 280px;
+    }
+
+    .image-forside {
+        width: 100%;
+        height: auto;
+    }
+
+    .button-label-forside {
+        padding: 12px;
+        font-size: 15px;
+    }
+
+    .arrow-icon {
+        font-size: 12px;
+    }
+}
