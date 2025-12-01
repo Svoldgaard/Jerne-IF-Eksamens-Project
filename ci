@@ -1,0 +1,69 @@
+name: Frontend + Backend CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+
+  # -------------------------
+  # FRONTEND (React + TS)
+  # -------------------------
+  frontend:
+    name: Frontend (React + TypeScript)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Run frontend tests
+        run: |
+          cd frontend
+          npm test -- --watchAll=false
+
+      - name: Build React app
+        run: |
+          cd frontend
+          npm run build
+
+  # -------------------------
+  # BACKEND (.NET)
+  # -------------------------
+  backend:
+    name: Backend (.NET)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 9.0
+
+      - name: Restore dependencies
+        run: |
+          cd server
+          dotnet restore Server.sln
+
+      - name: Build backend solution
+        run: |
+          cd server
+          dotnet build Server.sln --configuration Release
+
+      - name: Run backend tests
+        run: |
+          cd server
+          dotnet test Server.sln --no-build --configuration Release
