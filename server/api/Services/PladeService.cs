@@ -1,7 +1,9 @@
 using System.Globalization;
 using api.Models.Dtos.Request;
+using Api.Models.Dtos.Responses;
 using dataaccess.Entity;
 using dataaccess.MyDbContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services;
 
@@ -33,7 +35,7 @@ public class PladeService(MyDbContext context) : IPladeService
         {
             var talRow = new Pladetal
             {
-                //Pladeid = newPladeId,
+                
                 Tal = number
             };
             
@@ -47,5 +49,24 @@ public class PladeService(MyDbContext context) : IPladeService
         return newPlade;
 
 
+    }
+
+    public async Task<List<PladeResponse>> GetPladesByUserIdAsync(int userId)
+    {
+        var plades = await context.Plades
+            .Where(p => p.Brugerid == userId)
+            .Include(p => p.Pladetals)
+            .Include(p => p.Price)
+            .OrderByDescending(p => p.Ugetal)
+            .ToListAsync();
+        
+        return plades.Select(p => new PladeResponse
+        {
+            Id = p.Id,
+            Uge = p.Ugetal,
+            Gentag = p.Gentag,
+            Pris = p.Price?.Price ?? 0,
+            Tal = p.Pladetals.Select(t => t.Tal).OrderBy(t => t).ToList()
+        }).ToList();
     }
 }
