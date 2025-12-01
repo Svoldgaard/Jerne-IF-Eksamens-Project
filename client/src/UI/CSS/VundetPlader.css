@@ -110,3 +110,55 @@
     background: #c3c3c3;
 }
 
+/*=== Mobile styles ===*/
+
+@media (max-width: 768px) {
+
+    .background-vundet-plader {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 15px;
+    }
+
+    .header-vundet-plader {
+        text-align: center;
+        font-size: 18px;
+    }
+
+    .price-table-vundet-plader {
+        width: 100%;
+        margin-left: 0;
+        font-size: 14px;
+    }
+
+    .price-table-vundet-plader th,
+    .price-table-vundet-plader td {
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+
+    .price-table-vundet-plader td:nth-child(3),
+    .price-table-vundet-plader th:nth-child(3),
+    .price-table-vundet-plader td:last-child {
+        width: auto;
+    }
+
+    .button-luk-uge {
+        width: 100%;
+        max-width: 250px;
+        margin: 20px auto 0 auto;
+        display: block;
+    }
+
+    .logo-plade {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .logo-plade img {
+        width: 100px;
+        height: auto;
+    }
+}

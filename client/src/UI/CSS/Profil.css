@@ -78,3 +78,66 @@
     text-align: left;
     margin-left: 40px;
 }
+
+/*=== Mobile styles ===*/
+
+@media (max-width: 768px) {
+
+    .background-profil {
+        width: 100%;
+        max-width: 100%;
+        padding: 15px;
+        margin: 0 auto;
+    }
+
+    .logo-plade {
+        position: static;
+        display: flex;
+        justify-content: center;
+        margin: 15px 0;
+    }
+
+    .logo-plade img {
+        width: 70px;
+        height: auto;
+    }
+
+    .profil-row {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .profil-row label {
+        font-size: 14px;
+    }
+
+    .input-profil {
+        width: 85%;
+        max-width: 260px;
+        margin-left: 0;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .header-profil {
+        text-align: center;
+        margin: 0 auto 20px auto;
+        font-size: 24px;
+    }
+
+    .button-gem-profil {
+        width: 100%;
+        max-width: 260px;
+        padding: 12px;
+        font-size: 16px;
+        margin: 25px auto 0 auto;
+        display: block;
+    }
+
+    .page-profil {
+        overflow-x: hidden;
+    }
+}
