@@ -109,3 +109,58 @@
     text-align: center;
     width: 50px;
 }
+
+/*=== Mobile styles ===*/
+
+@media (max-width: 768px) {
+
+    .background-aktive-plader {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 15px;
+    }
+
+    .header-aktive-plader {
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .price-table-aktive-plader {
+        width: 100%;
+        margin-left: 0;
+        font-size: 14px;
+        overflow-x: auto;
+        display: block;
+    }
+
+    .price-table-aktive-plader th,
+    .price-table-aktive-plader td {
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+
+    .button-luk-uge {
+        width: 100%;
+        max-width: 300px;
+        margin: 20px auto 0 auto;
+        display: block;
+    }
+
+    .checkbox-aktive-plader {
+        height: 20px;
+        width: 20px;
+    }
+
+    .logo-plade {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .logo-plade img {
+        width: 100px;
+        height: auto;
+    }
+}

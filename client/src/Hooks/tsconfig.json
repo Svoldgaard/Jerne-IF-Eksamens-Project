@@ -3,8 +3,19 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "../api-clients.ts",
+    "../generated-ts-client.ts",
+    "../Component/**/*.ts",
+    "../Component/**/*.tsx",
+    "../Pages/**/*.ts",
+    "../models/**/*.ts",
     "../Atoms/**/*.ts",
+    "../Hooks/**/*.ts",
+    "../Hooks/**/*.tsx",
+    "../api-clients.ts",
     "../vite-env.d.ts"],
-  "references": []
+  "references": [{
+    "path": "../Core"
+  }, {
+    "path": "../Utils"
+  }]
 }

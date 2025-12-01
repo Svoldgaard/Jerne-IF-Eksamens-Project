@@ -62,7 +62,6 @@ p{
     min-height: 100vh;
     overflow: hidden; /* prevents unnecessary scroll */
     margin: 0;
-
 }
 
 .content-plade{
@@ -157,4 +156,60 @@ p{
 
 .repeat-row p {
     margin: 0;
+}
+
+/*=== Mobile styles ===*/
+
+@media (max-width: 768px){
+    .background-spilside{
+        width: 100%;
+        padding: 10px;
+        align-items: center;
+    }
+
+    .logo-plade{
+        position: static;
+        display: flex;
+        justify-content: center;
+        margin: 10px 0;
+    }
+
+    .logo-plade img{
+        width: 60px;
+    }
+
+    .cg-cell{
+        aspect-ratio: 1/1;
+        width: 100%;
+        font-size: 0.75rem;
+    }
+
+    .cg-grid {
+        width: 100%;
+        max-width: 220px;
+        margin: 0 auto;
+        transform: translateX(-10px);
+    }
+
+    .cg-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .button-gem{
+        width: 100%;
+        max-width: 280px;
+        margin: 20px auto;
+    }
+
+    .text,
+    .text-uge {
+        text-align: center;
+    }
+
+    .repeat-row {
+        justify-content: center;
+    }
+
 }

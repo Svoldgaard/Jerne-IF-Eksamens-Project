@@ -63,7 +63,6 @@ public partial class MyDbContext : DbContext
                 .HasColumnName("gentag");
             entity.Property(e => e.Priceid).HasColumnName("priceid");
             entity.Property(e => e.Ugetal).HasColumnName("ugetal");
-            entity.Property(e => e.Valgtetal).HasColumnName("valgtetal");
 
             entity.HasOne(d => d.Bruger).WithMany(p => p.Plades)
                 .HasForeignKey(d => d.Brugerid)

@@ -31,3 +31,44 @@
 .accordion-text-admin{
     color: black;
 }
+
+/*=== Mobile styles ===*/
+
+@media (max-width: 768px) {
+
+    .background-spilhistorik-admin {
+        width: 100%;
+        max-width: 100%;
+        padding: 10px;
+        margin: 0 auto;
+        align-items: center;
+    }
+
+    .MuiAccordion-root {
+        width: 100%;
+        max-width: 350px;
+        margin: 8px 0;
+    }
+
+    .MuiAccordionSummary-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .MuiAccordionSummary-root {
+        font-size: 14px;
+    }
+
+    .logo-plade {
+        position: static;
+        display: flex;
+        justify-content: center;
+        margin: 15px 0;
+    }
+
+    .logo-plade img {
+        width: 60px;
+        height: auto;
+    }
+}

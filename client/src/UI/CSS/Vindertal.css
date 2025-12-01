@@ -74,3 +74,65 @@
 .button-gem-vindertal:hover{
     background: #c3c3c3;
 }
+
+/*=== Mobile styles ===*/
+
+@media (max-width: 768px) {
+
+    .background-vindertal {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 15px;
+    }
+
+    .header-vindertal {
+        text-align: center;
+        font-size: 18px;
+    }
+
+    .text-vindertal {
+        text-align: center;
+        font-size: 18px;
+        margin-top: 30px;
+    }
+
+    .vindertal {
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 15px;
+    }
+
+    .input-vindertal {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .separator-vindertal {
+        width: 1px;
+        height: 40px;
+        margin: 0 5px;
+    }
+
+    .button-gem-vindertal {
+        width: 100%;
+        max-width: 250px;
+        margin: 20px auto 0 auto;
+        display: block;
+    }
+
+    .logo-plade {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .logo-plade img {
+        width: 100px;
+        height: auto;
+    }
+}
