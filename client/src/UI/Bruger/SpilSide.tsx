@@ -8,8 +8,9 @@ import Alert from '@mui/material/Alert';
 
 import { useNavigate } from "react-router-dom";
 import {useEffect, useState} from "react";
-import {useAtom} from "jotai";
-import {myUserAtom} from "../../Atoms/MyUserAtom.ts";
+
+import {authClient} from "../../api-clients.ts";
+import {type AuthUserInfoDto} from "../../generated-ts-client.ts";
 
 
 export type ClickableGridUIProps ={
@@ -23,9 +24,10 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
     const cols = 4;
     const total = rows * cols;
 
+    const navigate = useNavigate();
+
     const [isRepeatCheked, setIsRepeat] = useState(false);
-
-
+    const [currentUser, setCurrentUser] = useState<AuthUserInfoDto | null>(null);
 
     //const activeSet = new Set(activeIndices);
 
@@ -37,44 +39,27 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
         showAlertMax,
         buyPlade} = useTogglePigeon();
 
-    const navigate = useNavigate();
 
-    const [user] = useAtom(myUserAtom);
-    // const [token] = useAtom(tokenAtom);
-    //
-    // useEffect(() => {
-    //     const restoreUser = async () => {
-    //         if (token && !user) {
-    //             try {
-    //                 const userInfo = await authClient.userInfo();
-    //
-    //
-    //                 setUser(userInfo as any);
-    //                 console.log("User info restored from token.", userInfo);
-    //             } catch (error) {
-    //                 console.error("Failed to restore user info:", error);
-    //             }
-    //         }
-    //     }
-    //     restoreUser();
-    // }, [token, user, setUser]);
+useEffect(() => {
+    const fetchUser = async () => {
+        try{
+            const userData = await authClient.userInfo();
 
-
+            console.log("User loaded: ", userData)
+            setCurrentUser(userData);
+        }catch(error){
+            console.warn("Error fetching user info: ", error);
+            setCurrentUser(null);
+        }
+    }
+    fetchUser();
+}, []);
 
     const handlePayment = async () => {
          const isValid = handleAlertMin();
          if (!isValid) return;
 
-
-        const realUser = user as any;
-        const userIdToUse = realUser?.userId || realUser?.brugerid;
-         //const fakeUserId = 2;
-
-        // Debug log to see what we actually have
-        console.log("Current User Object:", realUser);
-        console.log("ID to use:", userIdToUse);
-
-        if(!user || !userIdToUse){
+        if(!currentUser || !currentUser.userId){
             alert("Du skal være logget ind for at købe en plade.");
 
             return;
@@ -82,7 +67,7 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
 
 
 
-        const success = await buyPlade(userIdToUse, isRepeatCheked);
+        const success = await buyPlade(currentUser.userId, isRepeatCheked);
 
          if(success){
              alert("Tak for dit køb! ");

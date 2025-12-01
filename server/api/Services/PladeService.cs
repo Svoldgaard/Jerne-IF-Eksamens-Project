@@ -25,8 +25,7 @@ public class PladeService(MyDbContext context) : IPladeService
             Priceid = request.PriceId,
             Ugetal = weekNo,
             Gentag = request.Repeat,
-
-            Valgtetal = 0
+            
         };
 
         context.Plades.Add(newPlade);
