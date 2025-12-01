@@ -1,1 +1,3 @@
-npm test
+echo 'Husky pre-commit running'
+npx lint-staged
+npx secretlint --maskSecrets
