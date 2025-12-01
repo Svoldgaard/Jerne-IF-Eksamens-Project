@@ -1,5 +1,5 @@
 import { TOKEN_KEY, tokenStorage } from "./Atoms/Token.ts";
-import { AuthClient } from "./generated-ts-client.ts";
+import {AuthClient, PladeClient} from "./generated-ts-client.ts";
 
 const customFetch = async (url: RequestInfo, init?: RequestInit) => {
     const token = tokenStorage.getItem(TOKEN_KEY, null);
@@ -18,4 +18,6 @@ const customFetch = async (url: RequestInfo, init?: RequestInit) => {
 
 const baseUrl = "http://localhost:5233";
 
+
 export const authClient = new AuthClient(baseUrl, { fetch: customFetch });
+export const pladeClient = new PladeClient(baseUrl, { fetch: customFetch });
