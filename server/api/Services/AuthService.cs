@@ -89,11 +89,30 @@ public class AuthService : IAuthService
 
     public async Task<AuthUserInfoDto?> GetUserInfoAsync(ClaimsPrincipal principal)
     {
-        var idClaim = principal.Claims.FirstOrDefault(c => c.Type == "sub");
-        if (idClaim == null || !int.TryParse(idClaim.Value, out int userId)) return null;
+        var idClaim = principal.Claims.FirstOrDefault(c => 
+            c.Type == "sub" ||
+            c.Type == "id" ||
+            c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier" ||
+            c.Type == System.Security.Claims.ClaimTypes.NameIdentifier);
+        
+        if (idClaim == null) 
+        {
+            _logger.LogError("User ID not found in token claims!");
+            return null;
+        }
+        
+        if (!int.TryParse(idClaim.Value, out int userId)) 
+        {
+            _logger.LogError($"Token ID is not a number: {idClaim.Value}");
+            return null;
+        }
 
         var login = _loginRepository.Query().SingleOrDefault(l => l.Brugerid == userId);
-        if (login == null) return null;
+        if (login == null)
+        {
+            _logger.LogError($"User with ID {userId} not found in DB!");
+            return null;
+        }
 
         var profile = _profileRepository.Query().SingleOrDefault(p => p.Brugerid == userId);
         return login.ToDto(profile);
