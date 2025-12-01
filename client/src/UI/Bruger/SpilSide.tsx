@@ -29,6 +29,8 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
     const [isRepeatCheked, setIsRepeat] = useState(false);
     const [currentUser, setCurrentUser] = useState<AuthUserInfoDto | null>(null);
 
+
+
     //const activeSet = new Set(activeIndices);
 
     const {selectedPigeons,
