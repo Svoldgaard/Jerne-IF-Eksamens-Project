@@ -56,14 +56,14 @@ jobs:
       - name: Restore dependencies
         run: |
           cd server
-          dotnet restore Server.sln
+          dotnet restore server.sln
 
       - name: Build backend solution
         run: |
           cd server
-          dotnet build Server.sln --configuration Release
+          dotnet build server.sln --configuration Release
 
       - name: Run backend tests
         run: |
           cd server
-          dotnet test Server.sln --no-build --configuration Release
+          dotnet test server.sln --no-build --configuration Release
