@@ -485,3 +485,5 @@ appsettings.json
 
 .git/
 .obj/
+
+*.sh
