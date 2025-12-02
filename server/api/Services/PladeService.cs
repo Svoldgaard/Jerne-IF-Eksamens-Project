@@ -2,6 +2,7 @@ using System.Globalization;
 using api.Models.Dtos.Request;
 using dataaccess.Entity;
 using dataaccess.MyDbContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services;
 
@@ -9,7 +10,6 @@ public class PladeService(MyDbContext context) : IPladeService
 {
     public async Task<Plade> CreatePladeAsync(PladeRequest request)
     {
-
         var newPladeId = Guid.NewGuid().ToString();
         var currentCulture = CultureInfo.CurrentCulture;
         var weekNo = currentCulture.Calendar.GetWeekOfYear(
@@ -45,7 +45,21 @@ public class PladeService(MyDbContext context) : IPladeService
         await context.SaveChangesAsync();
 
         return newPlade;
+    }
 
-
+    public async Task<List<Plade>> GetPladeAsync(int brugerId)
+    {
+        return await context.Plades
+            .Where(p => p.Brugerid == brugerId)
+            .Select(p => new Plade
+            {
+                Id = p.Id,
+                Ugetal = p.Ugetal,
+                Priceid = p.Priceid,
+                Gentag = p.Gentag,
+                Brugerid = p.Brugerid,
+                Pladetals = p.Pladetals
+            })
+            .ToListAsync();
     }
 }
