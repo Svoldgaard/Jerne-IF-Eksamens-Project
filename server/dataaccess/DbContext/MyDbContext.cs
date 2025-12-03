@@ -16,15 +16,15 @@ public partial class MyDbContext : DbContext
 
     public virtual DbSet<Plade> Plades { get; set; }
 
-    public virtual DbSet<Pladetal> Pladetals { get; set; }
-
     public virtual DbSet<Pricing> Pricings { get; set; }
 
     public virtual DbSet<Profil> Profils { get; set; }
 
     public virtual DbSet<Rolle> Rolles { get; set; }
 
-    public virtual DbSet<Vindertal> Vindertals { get; set; }
+    public virtual DbSet<Spiluge> Spiluges { get; set; }
+
+    public virtual DbSet<Vindersekven> Vindersekvens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -61,11 +61,15 @@ public partial class MyDbContext : DbContext
             entity.Property(e => e.Gentag)
                 .HasDefaultValue(false)
                 .HasColumnName("gentag");
-            entity.Property(e => e.IsWinner)
+            entity.Property(e => e.Iswinner)
                 .HasDefaultValue(false)
                 .HasColumnName("iswinner");
             entity.Property(e => e.Priceid).HasColumnName("priceid");
-            entity.Property(e => e.Ugetal).HasColumnName("ugetal");
+            entity.Property(e => e.Status)
+                .HasDefaultValue(false)
+                .HasColumnName("status");
+            entity.Property(e => e.Ugetalid).HasColumnName("ugetalid");
+            entity.Property(e => e.Valgtetal).HasColumnName("valgtetal");
 
             entity.HasOne(d => d.Bruger).WithMany(p => p.Plades)
                 .HasForeignKey(d => d.Brugerid)
@@ -75,23 +79,10 @@ public partial class MyDbContext : DbContext
                 .HasForeignKey(d => d.Priceid)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("fk_plade_price");
-        });
 
-        modelBuilder.Entity<Pladetal>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("pladetal_pkey");
-
-            entity.ToTable("pladetal", "jerneif");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Pladeid)
-                .HasMaxLength(50)
-                .HasColumnName("pladeid");
-            entity.Property(e => e.Tal).HasColumnName("tal");
-
-            entity.HasOne(d => d.Plade).WithMany(p => p.Pladetals)
-                .HasForeignKey(d => d.Pladeid)
-                .HasConstraintName("fk_pladetal_plade");
+            entity.HasOne(d => d.Ugetal).WithMany(p => p.Plades)
+                .HasForeignKey(d => d.Ugetalid)
+                .HasConstraintName("fk_plade_spiluge");
         });
 
         modelBuilder.Entity<Pricing>(entity =>
@@ -152,15 +143,30 @@ public partial class MyDbContext : DbContext
                 .HasColumnName("rollenavn");
         });
 
-        modelBuilder.Entity<Vindertal>(entity =>
+        modelBuilder.Entity<Spiluge>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("vindertal_pkey");
+            entity.HasKey(e => e.Id).HasName("spiluge_pkey");
 
-            entity.ToTable("vindertal", "jerneif");
+            entity.ToTable("spiluge", "jerneif");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.Ugetal).HasColumnName("ugetal");
-            entity.Property(e => e.Vindertal1).HasColumnName("vindertal");
+        });
+
+        modelBuilder.Entity<Vindersekven>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("vindersekvens_pkey");
+
+            entity.ToTable("vindersekvens", "jerneif");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Spilugeid).HasColumnName("spilugeid");
+            entity.Property(e => e.Vindertal).HasColumnName("vindertal");
+
+            entity.HasOne(d => d.Spiluge).WithMany(p => p.Vindersekvens)
+                .HasForeignKey(d => d.Spilugeid)
+                .HasConstraintName("fk_vindersekvens_spiluge");
         });
 
         OnModelCreatingPartial(modelBuilder);
