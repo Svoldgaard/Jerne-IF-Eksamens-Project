@@ -61,6 +61,9 @@ public partial class MyDbContext : DbContext
             entity.Property(e => e.Gentag)
                 .HasDefaultValue(false)
                 .HasColumnName("gentag");
+            entity.Property(e => e.IsWinner)
+                .HasDefaultValue(false)
+                .HasColumnName("iswinner");
             entity.Property(e => e.Priceid).HasColumnName("priceid");
             entity.Property(e => e.Ugetal).HasColumnName("ugetal");
 

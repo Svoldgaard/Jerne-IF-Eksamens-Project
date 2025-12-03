@@ -10,4 +10,5 @@ public interface IPladeService
 
     Task<List<PladeResponse>> GetPladesByUserIdAsync(int userId);
 
+    Task<List<PladeResponse>> GetSpilhistorikByUserIdAsync(int userId);
 }

@@ -6,7 +6,6 @@ namespace dataaccess.Entity;
 public partial class Plade
 {
     public string Id { get; set; } = null!;
-    
 
     public int Ugetal { get; set; }
 
@@ -15,6 +14,8 @@ public partial class Plade
     public int Brugerid { get; set; }
 
     public int? Priceid { get; set; }
+
+    public bool IsWinner { get; set; } = false;
 
     public virtual Login Bruger { get; set; } = null!;
 
