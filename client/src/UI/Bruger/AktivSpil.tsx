@@ -67,7 +67,7 @@ export default function AktivSpil() {
                             color: '#ff6b6b'}}>Fejl: {error}</p>}
 
                         {!isLoading && !error && boardsToDisplay.length === 0 && (
-                            <p style={{textAlign: 'center', marginTop: '20px', color: 'white'}}>
+                            <p style={{textAlign: 'center', marginTop: '20px', color: '#ff6b6b'}}>
                                 Ingen aktive spil fundet. :(
                             </p>
                         )}

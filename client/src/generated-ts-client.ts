@@ -586,27 +586,38 @@ export interface Login {
 
 export interface Plade {
     id?: string;
-    ugetal?: number;
+    ugetalid?: number;
+    valgtetal?: number[] | undefined;
     gentag?: boolean;
     brugerid?: number;
     priceid?: number | undefined;
-    isWinner?: boolean;
+    iswinner?: boolean;
+    status?: boolean;
     bruger?: Login;
-    pladetals?: Pladetal[];
     price?: Pricing | undefined;
-}
-
-export interface Pladetal {
-    id?: number;
-    pladeid?: string;
-    tal?: number;
-    plade?: Plade;
+    ugetal?: Spiluge;
 }
 
 export interface Pricing {
     id?: number;
     price?: number;
     plades?: Plade[];
+}
+
+export interface Spiluge {
+    id?: number;
+    ugetal?: number | undefined;
+    "årstal"?: number | undefined;
+    status?: boolean | undefined;
+    plades?: Plade[];
+    vindersekvens?: Vindersekven[];
+}
+
+export interface Vindersekven {
+    id?: number;
+    vindertal?: number[] | undefined;
+    spilugeid?: number;
+    spiluge?: Spiluge;
 }
 
 export interface Rolle {
