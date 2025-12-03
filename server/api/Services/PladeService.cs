@@ -13,37 +13,43 @@ public class PladeService(MyDbContext context) : IPladeService
     {
 
         var newPladeId = Guid.NewGuid().ToString();
+        
         var currentCulture = CultureInfo.CurrentCulture;
         var weekNo = currentCulture.Calendar.GetWeekOfYear(
             DateTime.Now,
             currentCulture.DateTimeFormat.CalendarWeekRule,
             currentCulture.DateTimeFormat.FirstDayOfWeek);
+        var year = DateTime.Now.Year;
+        
+        var spiluge = await context.Spiluges
+            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
+
+        if (spiluge == null)
+        {
+            spiluge = new Spiluge
+            {
+                Ugetal = weekNo,
+                Årstal = year,
+                Status = true
+            };
+            context.Spiluges.Add(spiluge);
+            await context.SaveChangesAsync();
+        }
 
         var newPlade = new Plade
         {
-            Id = Guid.NewGuid().ToString(),
-
+            Id = newPladeId,
             Brugerid = request.UserId,
             Priceid = request.PriceId,
-            Ugetal = weekNo,
+            Ugetalid = spiluge.Id,
             Gentag = request.Repeat,
+            Valgtetal = request.SelectedNumbers,
+            Iswinner = false,
+            Status = true
             
         };
 
         context.Plades.Add(newPlade);
-        foreach (var number in request.SelectedNumbers )
-        {
-            var talRow = new Pladetal
-            {
-                
-                Tal = number
-            };
-            
-            newPlade.Pladetals.Add(talRow);
-
-        }
-        context.Plades.Add(newPlade);
-        
         await context.SaveChangesAsync();
 
         return newPlade;
@@ -55,18 +61,19 @@ public class PladeService(MyDbContext context) : IPladeService
     {
         var plades = await context.Plades
             .Where(p => p.Brugerid == userId)
-            .Include(p => p.Pladetals)
+            
             .Include(p => p.Price)
-            .OrderByDescending(p => p.Ugetal)
+            .Include(p => p.Ugetal)
+            .OrderByDescending(p => p.Ugetal.Ugetal)
             .ToListAsync();
         
         return plades.Select(p => new PladeResponse
         {
             Id = p.Id,
-            Uge = p.Ugetal,
+            Uge = p.Ugetal.Ugetal ?? 0,
             Gentag = p.Gentag,
             Pris = p.Price?.Price ?? 0,
-            Tal = p.Pladetals.Select(t => t.Tal).OrderBy(t => t).ToList()
+            Tal = p.Valgtetal ?? new List<int>()
         }).ToList();
     }
 
@@ -74,19 +81,19 @@ public class PladeService(MyDbContext context) : IPladeService
     {
         var plades = await context.Plades
             .Where(p => p.Brugerid == brugerId)
-            .Include(p => p.Pladetals)
+            
             .Include(p => p.Price)
-            .OrderByDescending(p => p.Ugetal)
+            .OrderByDescending(p => p.Ugetal.Ugetal)
             .ToListAsync();
 
         return plades.Select(p => new PladeResponse
         {
             Id = p.Id,
-            Uge = p.Ugetal,
+            Uge = p.Ugetalid,
             Gentag = p.Gentag,
             Pris = p.Price?.Price ?? 0,
-            IsWinner = p.IsWinner,
-            Tal = p.Pladetals.Select(t => t.Tal).OrderBy(t => t).ToList()
+            IsWinner = p.Iswinner,
+            Tal = p.Valgtetal ?? new List<int>()
         }).ToList();
     }
     
