@@ -69,4 +69,25 @@ public class PladeService(MyDbContext context) : IPladeService
             Tal = p.Pladetals.Select(t => t.Tal).OrderBy(t => t).ToList()
         }).ToList();
     }
+
+    public async Task<List<PladeResponse>> GetSpilhistorikByUserIdAsync(int brugerId)
+    {
+        var plades = await context.Plades
+            .Where(p => p.Brugerid == brugerId)
+            .Include(p => p.Pladetals)
+            .Include(p => p.Price)
+            .OrderByDescending(p => p.Ugetal)
+            .ToListAsync();
+
+        return plades.Select(p => new PladeResponse
+        {
+            Id = p.Id,
+            Uge = p.Ugetal,
+            Gentag = p.Gentag,
+            Pris = p.Price?.Price ?? 0,
+            IsWinner = p.IsWinner,
+            Tal = p.Pladetals.Select(t => t.Tal).OrderBy(t => t).ToList()
+        }).ToList();
+    }
+    
 }

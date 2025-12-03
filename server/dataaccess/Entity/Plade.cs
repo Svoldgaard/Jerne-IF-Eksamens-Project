@@ -6,9 +6,10 @@ namespace dataaccess.Entity;
 public partial class Plade
 {
     public string Id { get; set; } = null!;
-    
 
-    public int Ugetal { get; set; }
+    public int Ugetalid { get; set; }
+
+    public List<int>? Valgtetal { get; set; }
 
     public bool Gentag { get; set; }
 
@@ -16,9 +17,13 @@ public partial class Plade
 
     public int? Priceid { get; set; }
 
+    public bool Iswinner { get; set; }
+
+    public bool Status { get; set; }
+
     public virtual Login Bruger { get; set; } = null!;
 
-    public virtual ICollection<Pladetal> Pladetals { get; set; } = new List<Pladetal>();
-
     public virtual Pricing? Price { get; set; }
+
+    public virtual Spiluge Ugetal { get; set; } = null!;
 }

@@ -247,6 +247,39 @@ export class PladeClient {
         }
         return Promise.resolve<PladeResponse[]>(null as any);
     }
+
+    getSpilhistorik(): Promise<PladeResponse[]> {
+        let url_ = this.baseUrl + "/api/Plade/spilhistorik";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetSpilhistorik(_response);
+        });
+    }
+
+    protected processGetSpilhistorik(response: Response): Promise<PladeResponse[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PladeResponse[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<PladeResponse[]>(null as any);
+    }
 }
 
 export class PriceClient {
@@ -517,9 +550,10 @@ export interface PladeRequest {
 export interface PladeResponse {
     id?: string;
     uge?: number;
-    tal?: number[];
-    pris?: number;
     gentag?: boolean;
+    pris?: number;
+    isWinner?: boolean;
+    tal?: number[];
 }
 
 export interface PriceResponse {
@@ -533,9 +567,9 @@ export interface Profil {
     lnavn?: string;
     email?: string;
     mobil?: string | undefined;
-    rolleid?: number;
     brugerid?: number;
     aktiv?: boolean;
+    rolleid?: number;
     bruger?: Login;
     rolle?: Rolle;
 }
@@ -556,6 +590,7 @@ export interface Plade {
     gentag?: boolean;
     brugerid?: number;
     priceid?: number | undefined;
+    isWinner?: boolean;
     bruger?: Login;
     pladetals?: Pladetal[];
     price?: Pricing | undefined;
