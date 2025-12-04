@@ -5,6 +5,7 @@ import Footer from "../../Component/Footer.tsx";
 import {useNavigate} from "react-router-dom";
 
 import {useActivePladesClient} from "../../Hooks/useActivePlades.ts";
+import {getCurrentWeekNumber, getCurrentYear} from "../../Utils/dateUtils.ts";
 
 
 export type Board = {
@@ -14,27 +15,19 @@ export type Board = {
     pris: number;
 }
 
-// export type BoardListProps = {
-//     boards?: Board[];
-//     className?: string;
-// }
 
 export default function AktivSpil() {
     const rows = 4;
     const cols = 4;
     const total = rows * cols;
 
-    // const mockBoards: Board[] = [
-    //     { id: "TX-1001", activeIndices: [3, 5, 10, 8, 15] },
-    //     { id: "TX-1002", activeIndices: [1, 6, 7, 12, 14,5] },
-    //     { id: "TX-1003", activeIndices: [2, 4, 8, 15, 3, 5] },
-    //     { id: "TX-1004", activeIndices: [0, 2, 3, 16, 4, 15] },
-    //     { id: "TX-1005", activeIndices: [5, 6, 9, 14, 8, 10, 7] }
-    // ];
 
     const navigate = useNavigate();
 
     const {activePlades, isLoading, error} = useActivePladesClient();
+
+    const currentWeek = getCurrentWeekNumber();
+    const currentYear = getCurrentYear();
 
     const boardsToDisplay = activePlades.map(plade => ({
         id: plade.id || "N/A",
@@ -52,7 +45,7 @@ export default function AktivSpil() {
                 <Header/>
                 <div className="background-aktivspil">
                     <div className="uge-aktivspil">
-                        <a className="text-aktivspil"> Uge: 48 2025</a>
+                        <a className="text-aktivspil"> Uge: {currentWeek} {currentYear}</a>
                     </div>
 
                     <div className={`boards-list-container`}>
