@@ -44,19 +44,20 @@ All money spent on boards for that week goes into a prize pool.
 We were tasked with creating a fully functional web application that Jerne IF can use immediately after delivery.
 
 🧑‍💻 Technologies Used
-Backend
+
+Backend:
 
 C#
 
 .NET API
 
-Frontend
+Frontend:
 
 React
 
 TypeScript
 
-📦 Mandatory Features
+📌 Mandatory Features
 
 The program must include:
 
@@ -191,7 +192,8 @@ Token expiration
 Role- and claim-based authorization
 
 🧹 Formatting and Linting
-Formatting
+
+Formatting:
 
 We use:
 
@@ -207,10 +209,8 @@ Husky (commit-msg, pre-commit, pre-push)
 
 Ensures consistent Git workflows
 
-Linting
+Linting:
 
 ESLint (default for React)
 
-Custom rule: No-State-in-View
-
-Ensures we use hooks properly instead of placing state directly in the view
+Custom rule: No-State-in-View - Ensures we use hooks properly instead of placing state directly in the view
