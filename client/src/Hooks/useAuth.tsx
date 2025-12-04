@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { authClient } from "../api-clients";
-//import type { Login } from "../generated-ts-client";
 import { useAtom } from "jotai";
 import { tokenAtom, userAtom } from "../Atoms/Auth";
 
