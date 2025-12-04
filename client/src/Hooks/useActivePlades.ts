@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 
 
-import {pladeClient} from "../api-clients.ts";
+import {customFetch, pladeClient} from "../api-clients.ts";
 import type {PladeResponse} from "../generated-ts-client.ts";
 
 const baseUrl = "http://localhost:5233";
@@ -11,9 +11,7 @@ export const useActivePladesClient = () => {
 
 
     const [activePlades, setActivePlades] = useState<PladeResponse[]>([]);
-
     const [isLoading, setLoading] = useState(true);
-
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -36,5 +34,33 @@ export const useActivePladesClient = () => {
         fetchPlades()
     }, []);
 
-    return {activePlades, isLoading, error};
+    const updateGentag = async (pladeId: string, newStatus: boolean)=>{
+        try {
+            const response = await customFetch(`${baseUrl}/api/plade/update-gentag`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    pladeId: pladeId,
+                    gentag: newStatus
+                })
+            });
+
+            if(!response.ok){
+                throw new Error("Failed to update status");
+            }
+            setActivePlades(prevPlades =>
+                prevPlades.map(plade =>
+                    plade.id === pladeId ? {...plade, gentag: newStatus } : plade
+                )
+            );
+            return true;
+        }catch (error){
+            console.error("Update failed:", error);
+            return false;
+        }
+    };
+
+    return {activePlades, isLoading, error, updateGentag};
 }
