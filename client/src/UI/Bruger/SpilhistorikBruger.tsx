@@ -47,7 +47,7 @@ export default function SpilhistorikBruger({brugerId}:Props) {
                                 className={boards.some(b => b.isWinner) ? "accordion-vundet" : "accordion-tabt" }>
                                 <Typography component="span"> Uge {uge} 2025 </Typography>
                                 <Typography component="span">
-                                    {boards[0].tal.join(", ")}
+                                    {boards[0].vindertal.join(", ")}
                                 </Typography>
                             </AccordionSummary>
                             <AccordionDetails>

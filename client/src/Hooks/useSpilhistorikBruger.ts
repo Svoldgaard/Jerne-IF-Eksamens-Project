@@ -16,6 +16,7 @@ export interface PladeResponse {
     pris: number;
     isWinner: boolean;
     tal: number[];
+    vindertal: number[];
 }
 
 export function useSpilhistorikBruger(brugerId: number) {
@@ -31,7 +32,7 @@ export function useSpilhistorikBruger(brugerId: number) {
                 setLoading(true);
 
                 console.log("token", token);
-                if(!token) throw new Error("Brugeren er ikke godkendt")
+                if(!token) return;
 
                 const response = await fetch(`${baseUrl}/api/plade/spilhistorik`, {
                     headers: {
@@ -44,8 +45,19 @@ export function useSpilhistorikBruger(brugerId: number) {
                     throw new Error(msg ||"Kunne ikke finde historikken");
                 }
 
-                const data: PladeResponse[] = await response.json();
-                setPlader(data);
+                const data = await response.json();
+
+                const mapped: PladeResponse[] = data.map((p: any) => ({
+                    id: p.id,
+                    uge: p.uge,
+                    gentag: p.gentag,
+                    pris: p.pris,
+                    isWinner: p.isWinner,
+                    tal: p.tal ?? [],
+                    vindertal: p.vindertal ?? [],
+                }))
+
+                setPlader(mapped);
             }
             catch(err: any) {
                 console.error("Fejl ved hentning af plader:", err);
@@ -56,6 +68,6 @@ export function useSpilhistorikBruger(brugerId: number) {
             }
         };
         fetchHistorik();
-    }, []);
+    }, [token]);
     return {plader, loading, error};
 }

@@ -53,6 +53,9 @@ CREATE TABLE jerneif.Pricing (
                                  price INT NOT NULL
 );
 
+-- ===========================
+-- Table: Spiluge
+-- ===========================
 CREATE TABLE jerneif.Spiluge (
                                  ID SERIAL PRIMARY KEY,
                                  Ugetal INT,
@@ -100,7 +103,7 @@ CREATE TABLE jerneif.Plade (
 -- );    
 
 -- ===========================
--- Table: Vindertal
+-- Table: VinderSekvens
 -- ===========================
 CREATE TABLE jerneif.VinderSekvens (
                                        ID SERIAL PRIMARY KEY,

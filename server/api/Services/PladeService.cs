@@ -22,14 +22,14 @@ public class PladeService(MyDbContext context) : IPladeService
         var year = DateTime.Now.Year;
         
         var spiluge = await context.Spiluges
-            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
+            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Ã…rstal == year);
 
         if (spiluge == null)
         {
             spiluge = new Spiluge
             {
                 Ugetal = weekNo,
-                Årstal = year,
+                Ã…rstal = year,
                 Status = true
             };
             context.Spiluges.Add(spiluge);
@@ -81,19 +81,24 @@ public class PladeService(MyDbContext context) : IPladeService
     {
         var plades = await context.Plades
             .Where(p => p.Brugerid == brugerId)
-            
             .Include(p => p.Price)
+            .Include(p => p.Ugetal)
+            .ThenInclude(s => s.Vindersekvens)
             .OrderByDescending(p => p.Ugetal.Ugetal)
             .ToListAsync();
 
         return plades.Select(p => new PladeResponse
         {
             Id = p.Id,
-            Uge = p.Ugetalid,
+            // Uge = p.Ugetalid,
+            Uge = p.Ugetal.Ugetal ?? 0,
             Gentag = p.Gentag,
             Pris = p.Price?.Price ?? 0,
             IsWinner = p.Iswinner,
-            Tal = p.Valgtetal ?? new List<int>()
+            Tal = p.Valgtetal ?? new List<int>(),
+            Vindertal = p.Ugetal!.Vindersekvens
+                .FirstOrDefault()?.Vindertal
+                ?? new List<int>()
         }).ToList();
     }
     

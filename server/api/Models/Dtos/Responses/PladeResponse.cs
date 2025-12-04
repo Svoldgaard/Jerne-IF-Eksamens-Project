@@ -8,4 +8,5 @@ public class PladeResponse
     public int Pris {get; set;}
     public bool IsWinner {get; set;}
     public List<int> Tal {get; set;}
+    public List<int> Vindertal {get; set;}
 }

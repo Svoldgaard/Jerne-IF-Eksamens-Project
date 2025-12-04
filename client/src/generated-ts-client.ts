@@ -554,6 +554,7 @@ export interface PladeResponse {
     pris?: number;
     isWinner?: boolean;
     tal?: number[];
+    vindertal?: number[];
 }
 
 export interface PriceResponse {
