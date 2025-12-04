@@ -59,9 +59,25 @@ public class PladeService(MyDbContext context) : IPladeService
 
     public async Task<List<PladeResponse>> GetPladesByUserIdAsync(int userId)
     {
+        var currentCulture = CultureInfo.CurrentCulture;
+        var weekNo = currentCulture.Calendar.GetWeekOfYear(
+            DateTime.Now,
+            currentCulture.DateTimeFormat.CalendarWeekRule,
+            currentCulture.DateTimeFormat.FirstDayOfWeek);
+        var year = DateTime.Now.Year;
+        
+        var activeSpiluge = await context.Spiluges
+            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
+
+        if (activeSpiluge == null)
+        {
+            return new List<PladeResponse>();
+        }
+        
+        
         var plades = await context.Plades
             .Where(p => p.Brugerid == userId)
-            
+            .Where(p => p.Ugetalid == activeSpiluge.Id)
             .Include(p => p.Price)
             .Include(p => p.Ugetal)
             .OrderByDescending(p => p.Ugetal.Ugetal)
