@@ -3,6 +3,7 @@ using api.Models.Dtos.Request;
 using Api.Models.Dtos.Responses;
 using Api.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers;
@@ -78,4 +79,29 @@ public class PladeController : ControllerBase
         var result = await _pladeService.GetSpilhistorikByUserIdAsync(userId);
         return Ok(result);
     }
+
+    [HttpPatch("update-gentag")]
+    [Authorize]
+    public async Task<IActionResult> UpdateGentagStatus([FromBody] UpdatePladeRequest request)
+    {
+        try
+        {
+            var idClaim = User.Claims.FirstOrDefault(c =>
+                c.Type == "sub" ||
+                c.Type == ClaimTypes.NameIdentifier);
+
+            if (idClaim == null || !int.TryParse(idClaim.Value, out int userId))
+            {
+                return Unauthorized($"Bruger ID er ikke fundet");
+            }
+
+            await _pladeService.UpdateGentagStatusAsync(request.PladeId, request.Gentag);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Database Error: " + ex.Message);
+        }
+    }
+    
 }

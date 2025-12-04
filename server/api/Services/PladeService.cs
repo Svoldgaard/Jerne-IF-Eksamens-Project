@@ -112,5 +112,18 @@ public class PladeService(MyDbContext context) : IPladeService
             Tal = p.Valgtetal ?? new List<int>()
         }).ToList();
     }
+
+    public async Task UpdateGentagStatusAsync(string pladeId, bool newStatus)
+    {
+        var plade = await context.Plades.FindAsync(pladeId);
+
+        if (plade == null)
+        {
+            throw new Exception($"Plade with ID {pladeId} not found");
+        }
+        plade.Gentag = newStatus;
+        await context.SaveChangesAsync();
+    }
+    
     
 }
