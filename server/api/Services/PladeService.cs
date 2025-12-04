@@ -22,14 +22,14 @@ public class PladeService(MyDbContext context) : IPladeService
         var year = DateTime.Now.Year;
         
         var spiluge = await context.Spiluges
-            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
+            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Ã…rstal == year);
 
         if (spiluge == null)
         {
             spiluge = new Spiluge
             {
                 Ugetal = weekNo,
-                Årstal = year,
+                Ã…rstal = year,
                 Status = true
             };
             context.Spiluges.Add(spiluge);
