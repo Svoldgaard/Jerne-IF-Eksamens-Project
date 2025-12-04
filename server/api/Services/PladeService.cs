@@ -126,6 +126,7 @@ public class PladeService(MyDbContext context) : IPladeService
          await context.SaveChangesAsync();
 
          context.Entry(updatePlade).State = EntityState.Detached;
+         
     }
     
     
