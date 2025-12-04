@@ -1,7 +1,7 @@
-import { TOKEN_KEY, tokenStorage } from "./Atoms/Token.ts";
+import { TOKEN_KEY, tokenStorage } from "./Atoms/Auth.ts";
 import {AuthClient, PladeClient} from "./generated-ts-client.ts";
 
-const customFetch = async (url: RequestInfo, init?: RequestInit) => {
+export const customFetch = async (url: RequestInfo, init?: RequestInit) => {
     const token = tokenStorage.getItem(TOKEN_KEY, null);
 
     if(token){
