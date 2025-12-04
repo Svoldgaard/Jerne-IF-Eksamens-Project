@@ -115,15 +115,19 @@ public class PladeService(MyDbContext context) : IPladeService
 
     public async Task UpdateGentagStatusAsync(string pladeId, bool newStatus)
     {
-        var plade = await context.Plades.FindAsync(pladeId);
-
-        if (plade == null)
+        var updatePlade = new Plade
         {
-            throw new Exception($"Plade with ID {pladeId} not found");
-        }
-        plade.Gentag = newStatus;
-        await context.SaveChangesAsync();
+            Id = pladeId,
+            Gentag = newStatus
+        };
+         context.Plades.Attach(updatePlade);
+         context.Entry(updatePlade).Property(p => p.Gentag).IsModified = true;
+         
+         await context.SaveChangesAsync();
+
+         context.Entry(updatePlade).State = EntityState.Detached;
     }
+    
     
     
 }
