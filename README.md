@@ -1,216 +1,125 @@
-🐦 Dead Pigeons – Jerne IF Web Game
+# Team presentation 
 
-A school exam project by Team Early Birds
+**Team name:** Early Birds  
 
-👥 Team Presentation
+**Team members:**  
+- Kim Phung Nguyen Hoang  
+- Vladyslav Zavdskyi  
+- Nadja Brandenstein  
+- Jesper Svoldgaard  
 
-Team Name: Early Birds
+---
 
-Team Members:
+# About this project 
 
-Kim Phung Nguyen Hoang
+## Dead Pigeons 🐦
+The game we are creating for Jerne-IF is called Dead Pigeons 🐦.  
+It is a game they play physically at the moment but want in a web application for the younger people in their organization so they also can play but don't have to show up each weekend physically to play. 
 
-Vladyslav Zavdskyi
+The game is played with a board with **16 fields**, and you have to choose between **5–8 fields** on your given board.  
+At the end of the week on game day, **3 winning numbers** are drawn and if you have these numbers among your chosen fields, you are one of the winners.
 
-Nadja Brandenstein
+For all boards played this week, the money is put in a **prize-pool** where **70%** is for the winners to split and **30%** goes to the organization.
 
-Jesper Svoldgaard
+We are tasked with creating the web application for Jerne-IF and make it work and function so they can put it in use from the get-go after we have handed it in. 
 
-📌 About the Project
+---
 
-Dead Pigeons 🐦 is a digital version of a physical game currently played in Jerne IF.
-The goal of the project is to create a web application so younger members of the organization can participate without having to show up physically every weekend.
+# Program must be written in 
+- C# for backend and API  
+- React + TypeScript for frontend  
 
-🎮 How the Game Works
+---
 
-The game board contains 16 fields.
+# Program must contain 
+- Login with security  
+- Game board  
+- Profile Settings user  
+- Profile Settings Admin – admin can make a user active or inactive because only active players can buy boards  
 
-Each player selects 5–8 fields on their board.
+---
 
-At the end of the week, 3 winning numbers are drawn.
+# We have made so it contains 
+- Login with security  
+- Frontpage for both player and admin  
+- Playing board for player  
+- Active board for player – must be activated by the admin before it is valid  
+- History of played games – old games you haven't played or have played and if you have won or lost  
+- Active board for admin – check if user has paid for the board and activate it so user can see they have an active board  
+- Profile Settings user  
+- Profile Settings Admin – admin can make a user active or inactive because only active players can buy boards  
+- Winner numbers – admin can put in the 3 numbers drawn  
+- Winning boards – admin can see who has won and pay them their share of the prize-pool  
 
-If the player has these numbers among their selected fields, they are considered winners.
+---
 
-💰 Prize Pool
+# Current state of the project 
 
-All money spent on boards for that week goes into a prize pool.
+The current state of the project is that we have a **100% functional product**, and it all works with no errors present.  
+We have tested it through unit tests at the backend and normal use to see if something breaks when using the product.
 
-70% is shared among the winners.
+---
 
-30% goes to Jerne IF.
+# Security Policies
 
-🎯 Project Goal
+This project implements multiple security mechanisms to protect user data and ensure secure authentication and authorization.
 
-We were tasked with creating a fully functional web application that Jerne IF can use immediately after delivery.
+## 1. JWT (JSON Web Token) Authentication
+- The application uses JWT for stateless authentication.  
+- After logging in, the user receives a signed token that must be included with each request.  
+- Tokens are signed using **HMAC-SHA512**.  
+- The signing secret is stored as **JwtKey** (should be stored securely in production).  
+- The token includes an expiration time and is validated on every request.  
+- Validation checks the token’s issuer, audience, expiration, and signature.
 
-🧑‍💻 Technologies Used
+## 2. Password Hashing (Argon2id + Salt)
+- Passwords are never stored in plain text.  
+- We use **NSecArgon2IdPasswordHasher**, which applies the Argon2id algorithm—one of the strongest password hashing algorithms.  
 
-Backend:
+How passwords are handled:
+- A unique cryptographic salt is generated for each password.  
+- Passwords are hashed using Argon2id, which is memory-hard and resistant to brute-force and GPU attacks.  
+- Only the final hash (not the password or salt) is stored in the database.
 
-C#
-
-.NET API
-
-Frontend:
-
-React
-
-TypeScript
-
-📌 Mandatory Features
-
-The program must include:
-
-Login with security
-
-Game board
-
-Profile settings (user)
-
-Profile settings (admin)
-
-Admin can activate/deactivate users
-
-Only active users can buy boards
-
-✅ Features Implemented
-
-Player
-
-Secure login
-
-Player dashboard / front page
-
-Game board
-
-Active board (must be activated by admin)
-
-History of played games
-
-Shows wins/losses
-
-Profile settings
-
-Admin
-
-Admin dashboard / front page
-
-Activate/deactivate players
-
-Activate purchased boards
-
-Enter weekly winning numbers
-
-View winning boards + payout overview
-
-📊 Current State of the Project
-
-The project is 100% functional.
-
-No known errors.
-
-Thoroughly tested using:
-
-Backend unit tests
-
-Manual functional testing
-
-🔒 Security Policies
-
-This project implements several security mechanisms to ensure protection of user data.
-
-1. JWT (JSON Web Token) Authentication
-
-Stateless authentication
-
-Token issued upon login
-
-Signed using HMAC-SHA512
-
-Signing key stored securely as JwtKey
-
-Token includes:
-
-Expiration time
-
-Issuer + audience checks
-
-Signature validation
-
-2. Password Hashing (Argon2id + Salt)
-
-Passwords never stored in plain text
-
-Using NSecArgon2IdPasswordHasher
-
-Each password is hashed with:
-
-A unique cryptographic salt
-
-The Argon2id algorithm (memory-hard, GPU-resistant)
-
-Only the final hash is stored in the database
-
-3. Token Signing with HMAC-SHA512
-
-Configuration:
+## 3. Token Signing with HMAC-SHA512
+JWT tokens are signed using the following configuration:
 
 public const string SignatureAlgorithm = SecurityAlgorithms.HmacSha512;
 
-
 This ensures:
+- Strong token integrity  
+- Protection against tampering  
+- Prevention of token forgery  
 
-Strong token integrity
-
-Protection against tampering
-
-Prevention of token forgery
-
-4. Secure Configuration Storage
-
-Sensitive values like:
+## 4. Secure Configuration Storage
+Sensitive values such as:
 
 public const string JwtKey = "JwtKey";
 
+Are not hard-coded in production.  
+They must be stored in secure locations such as:
+- Environment variables  
+- User secrets  
+- Secret managers or vaults  
 
-must not be hard-coded in production.
+## 5. Additional Security Measures
+- HTTPS is required to encrypt network traffic  
+- Token expiration is enforced to limit the lifetime of compromised tokens  
+- Role/claim-based authorization ensures users can only access permitted resources  
 
-They should be stored in:
+---
 
-Environment variables
+# Formating and linting 
 
-User secrets
+## Formatting we have used:
+- `.prettierrc` – make sure we all do the same with small formatting things like using quotes and semicolons  
+- `.secretlintrc.json` – ensures we don't commit secrets  
+- Husky with (commit-msg, pre-commit & pre-push) – ensures we all use Git the same way when pushing to GitHub  
 
-Secret managers or vaults
+## Linting:
+- ESLint (included with React)  
+- Custom rules for ESLint (**No-State-in-View**) to ensure we remember to use hooks and don't use states directly in our page views  
 
-5. Additional Security Measures
 
-HTTPS enforcement
 
-Token expiration
 
-Role- and claim-based authorization
-
-🧹 Formatting and Linting
-
-Formatting:
-
-We use:
-
-.prettierrc
-
-Ensures consistent formatting (quotes, semicolons, etc.)
-
-.secretlintrc.json
-
-Prevents committing secrets
-
-Husky (commit-msg, pre-commit, pre-push)
-
-Ensures consistent Git workflows
-
-Linting:
-
-ESLint (default for React)
-
-Custom rule: No-State-in-View - Ensures we use hooks properly instead of placing state directly in the view
