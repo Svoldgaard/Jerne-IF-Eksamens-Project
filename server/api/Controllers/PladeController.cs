@@ -80,6 +80,39 @@ public class PladeController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPatch("update-winner/{pladeId}")]
+    [Authorize]
+    public async Task<IActionResult> UpdateWinnerStatus(string pladeId)
+    {
+        try
+        {
+            // Ensure the user owns the board (optional, for security)
+            var idClaim = User.Claims.FirstOrDefault(c =>
+                c.Type == "sub" ||
+                c.Type == ClaimTypes.NameIdentifier);
+
+            if (idClaim == null || !int.TryParse(idClaim.Value, out int userId))
+            {
+                return Unauthorized("User not authenticated");
+            }
+
+            // Optional: verify ownership
+            var boards = await _pladeService.GetPladesByUserIdAsync(userId);
+            if (!boards.Any(b => b.Id == pladeId))
+                return Forbid("You don't have permission to update this board");
+
+            // Update winner status in database
+            await _pladeService.UpdateBoardWinnerStatusAsync(pladeId);
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Database Error: " + ex.Message);
+        }
+    }
+
+
     [HttpPatch("update-gentag")]
     [Authorize]
     public async Task<IActionResult> UpdateGentagStatus([FromBody] UpdatePladeRequest request)

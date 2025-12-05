@@ -12,6 +12,7 @@ export interface PladeTal {
 export interface PladeResponse {
     id: string;
     uge: number;
+    year: number;
     gentag: boolean;
     pris: number;
     isWinner: boolean;
@@ -50,6 +51,7 @@ export function useSpilhistorikBruger(brugerId: number) {
                 const mapped: PladeResponse[] = data.map((p: any) => ({
                     id: p.id,
                     uge: p.uge,
+                    year: p.year ?? p.Year ?? new Date().getFullYear(),
                     gentag: p.gentag,
                     pris: p.pris,
                     isWinner: p.isWinner,

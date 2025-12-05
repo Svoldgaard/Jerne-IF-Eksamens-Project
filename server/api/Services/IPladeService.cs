@@ -12,5 +12,7 @@ public interface IPladeService
 
     Task<List<PladeResponse>> GetSpilhistorikByUserIdAsync(int userId);
     
+    Task UpdateBoardWinnerStatusAsync(string pladeId);
+    
     Task UpdateGentagStatusAsync(string pladeId, bool newStatus);
 }

@@ -25,69 +25,89 @@ export default function SpilhistorikBruger({brugerId}:Props) {
     if (plader.length === 0)
         return <p>Ingen plader fundet.</p>;
 
-    const pladerByWeek = plader.reduce((acc: Record<number, PladeResponse[]>, p) => {
-        if (!acc[p.uge]) acc[p.uge] = [];
-        acc[p.uge].push(p);
+    const pladerByWeek = plader.reduce((acc: Record<string, PladeResponse[]>, p) => {
+        const key = `${p.year}-${p.uge}`;
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(p);
         return acc;
     }, {});
-    
+
+    // const pladerByWeek = plader.reduce((acc: Record<number, PladeResponse[]>, p) => {
+    //     if (!acc[p.uge]) acc[p.uge] = [];
+    //     acc[p.uge].push(p);
+    //     return acc;
+    // }, {});
+
+    const sortedEntries = Object.entries(pladerByWeek).sort(([keyA], [keyB]) => {
+        const [årA, ugeA] = keyA.split("-").map(Number);
+        const [årB, ugeB] = keyB.split("-").map(Number);
+
+        if(årB !== årA) return årB - årA;
+        return ugeB - ugeA;
+    })
+
     return (
         <div className="page-spilhistorik-bruger">
             <span className="logo-plade">
-                <img src={Logo} alt="Logo" onClick={() => navigate("/forside")}/>
+                <img src={Logo} alt="Logo" onClick={() => navigate("/forside")} />
             </span>
 
             <div className="main-container">
-            <Header/>
+                <Header />
 
                 <div className="background-spilhistorik-bruger">
-                    {Object.entries(pladerByWeek).map(([uge, boards]) => (
-                        <Accordion key={uge}>
-                            <AccordionSummary  expandIcon={<ExpandMoreIcon/>}
-                                className={boards.some(b => b.isWinner) ? "accordion-vundet" : "accordion-tabt" }>
-                                <Typography component="span"> Uge {uge} 2025 </Typography>
-                                <Typography component="span">
-                                    {boards[0].vindertal.join(", ")}
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <div className="boards-container">
-                                    {boards.map(plade => {
-                                        const activeSet = new Set(plade.tal.map(t => t -1));
-                                        return (
-                                            <div
-                                                key={plade.id}
-                                                className={`board-history ${plade.isWinner ? "winner-board" : ""}`}
-                                            >
+                    {sortedEntries.map(([key, boards]) => {
+                        const [årstal, uge] = key.split("-");
+
+                        return (
+                            <Accordion key={key}>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    className={boards.some(b => b.isWinner) ? "accordion-vundet" : "accordion-tabt"}
+                                >
+                                    <Typography component="span">Uge {uge} {årstal}</Typography>
+                                    <Typography component="span">{boards[0].vindertal.join(", ")}</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <div className="boards-container">
+                                        {boards.map(plade => {
+                                            const activeSet = new Set(plade.tal.map(t => t - 1));
+                                            return (
                                                 <div
-                                                className="cg-grid"
-                                                style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}
+                                                    key={plade.id}
+                                                    className={`board-history ${plade.isWinner ? "winner-board" : ""}`}
                                                 >
-                                                    {Array.from({length: total}).map((_, idx) => (
-                                                        <div
-                                                            key={idx}
-                                                            className={
-                                                                activeSet.has(idx)
-                                                                    ? "cg-cell cg-cell--active"
-                                                                    : "cg-cell"
-                                                            }
-                                                        >
-                                                            {idx +1}
-                                                        </div>
-                                                    ))}
+                                                    <div
+                                                        className="cg-grid"
+                                                        style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}
+                                                    >
+                                                        {Array.from({length: total}).map((_, idx) => (
+                                                            <div
+                                                                key={idx}
+                                                                className={
+                                                                    activeSet.has(idx)
+                                                                        ? "cg-cell cg-cell-active"
+                                                                        : "cg-cell"
+                                                                }
+                                                            >
+                                                                {idx + 1}
+                                                            </div>
+                                                        ))}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </AccordionDetails>
-                        </Accordion>
-                    ))}
+                                            );
+                                        })}
+                                    </div>
+                                </AccordionDetails>
+                            </Accordion>
+                        );
+                    })}
                 </div>
             </div>
-            <Footer/>
+
+            <Footer />
         </div>
-    )
+    );
 }
 
 // export default SpilhistorikBruger;

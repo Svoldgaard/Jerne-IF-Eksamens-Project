@@ -51,7 +51,7 @@ public class PladeService(MyDbContext context) : IPladeService
 
         context.Plades.Add(newPlade);
         await context.SaveChangesAsync();
-
+        await UpdateBoardWinnerStatusAsync(newPladeId);
         return newPlade;
 
 
@@ -100,23 +100,50 @@ public class PladeService(MyDbContext context) : IPladeService
             .Include(p => p.Price)
             .Include(p => p.Ugetal)
             .ThenInclude(s => s.Vindersekvens)
-            .OrderByDescending(p => p.Ugetal.Ugetal)
+            .OrderByDescending(p => p.Ugetal.Årstal)
+            .ThenByDescending(p => p.Ugetal.Ugetal)
             .ToListAsync();
 
-        return plades.Select(p => new PladeResponse
+        return plades.Select(p =>
         {
-            Id = p.Id,
-            // Uge = p.Ugetalid,
-            Uge = p.Ugetal.Ugetal ?? 0,
-            Gentag = p.Gentag,
-            Pris = p.Price?.Price ?? 0,
-            IsWinner = p.Iswinner,
-            Tal = p.Valgtetal ?? new List<int>(),
-            Vindertal = p.Ugetal!.Vindersekvens
-                .FirstOrDefault()?.Vindertal
-                ?? new List<int>()
+            // Console.WriteLine($"Plade {p.Id} tal: {string.Join(",", p.Valgtetal ?? [])}");
+
+            return new PladeResponse
+            {
+                Id = p.Id,
+                Uge = p.Ugetal.Ugetal ?? 0,
+                Year = p.Ugetal.Årstal ?? DateTime.Now.Year,
+                Gentag = p.Gentag,
+                Pris = p.Price?.Price ?? 0,
+                IsWinner = p.Iswinner,
+                Tal = p.Valgtetal ?? new List<int>(),
+                Vindertal = p.Ugetal!.Vindersekvens.FirstOrDefault()?.Vindertal ?? new List<int>()
+            };
         }).ToList();
     }
+    
+    public async Task UpdateBoardWinnerStatusAsync(string pladeId)
+    {
+        var plade = await context.Plades
+            .Include(p => p.Ugetal)
+            .ThenInclude(u => u.Vindersekvens)
+            .FirstOrDefaultAsync(p => p.Id == pladeId);
+
+        if (plade == null || plade.Ugetal == null) return;
+
+        var winningNumbers = plade.Ugetal.Vindersekvens.FirstOrDefault()?.Vindertal ?? new List<int>();
+        if (winningNumbers.Count == 0) return;
+        
+        bool isWinner = plade.Valgtetal.Intersect(winningNumbers).Any();
+
+        if (isWinner != plade.Iswinner)
+        {
+            plade.Iswinner = isWinner;
+            context.Plades.Update(plade);
+            await context.SaveChangesAsync();
+        }
+    }
+
 
     public async Task UpdateGentagStatusAsync(string pladeId, bool newStatus)
     {
