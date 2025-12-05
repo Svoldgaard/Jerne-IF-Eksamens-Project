@@ -31,6 +31,8 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
 
 
 
+
+
     //const activeSet = new Set(activeIndices);
 
     const {selectedPigeons,
@@ -78,6 +80,8 @@ useEffect(() => {
                 alert("Der opstod en fejl under købet. Prøv venligst igen.");
          }
     }
+
+    const isBetaleButtonActive = selectedPigeons.length > 4;
 
     return (
         <div className="page-plade">
@@ -141,7 +145,7 @@ useEffect(() => {
                         )}
 
                         <button
-                            className="button-gem"
+                            className={`button-gem ${isBetaleButtonActive ? 'button-pay-active' : ''}`}
                             onClick={handlePayment}
                         >
                             Betal

@@ -24,7 +24,7 @@ export default function AktivSpil() {
 
     const navigate = useNavigate();
 
-    const {activePlades, isLoading, error} = useActivePladesClient();
+    const {activePlades, isLoading, error, updateGentag} = useActivePladesClient();
 
     const currentWeek = getCurrentWeekNumber();
     const currentYear = getCurrentYear();
@@ -35,6 +35,7 @@ export default function AktivSpil() {
         gentage: plade.gentag || false,
         pris: plade.pris || 0
     }));
+
 
     return (
         <div className="page-aktivspil">
@@ -67,6 +68,15 @@ export default function AktivSpil() {
                         {boardsToDisplay.map((board, index) => {
                             const activeSet = new Set(board.activeIndices);
 
+                            const handleGentagChange = async (e: React.ChangeEvent<HTMLInputElement>)  => {
+                                const success = await updateGentag(board.id, e.target.checked)
+                                if (success) {
+                                    console.log(`Gentag status for ${board.id} is up to date`)
+                                } else{
+                                    alert("Kunne ikke opdatere gentag status ")
+                                }
+                            }
+
                             return(
                                 <div key={board.id} className="board-wrapper">
                                     <div className="board-row">
@@ -90,7 +100,9 @@ export default function AktivSpil() {
                                         <div className="board-info">
                                             <div className="repeat-row">
                                                 <p>Gentag hver uge</p>
-                                                <input type="checkbox" className="checkbox-aktivspil" defaultChecked={index < 2}/>
+                                                <input type="checkbox" className="checkbox-aktivspil"
+                                                       checked={board.gentage}
+                                                       onChange={handleGentagChange}/>
                                             </div>
                                             <div className="board-header">
                                                 Transaktionsnr: {board.id}

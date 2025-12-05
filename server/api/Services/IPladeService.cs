@@ -11,4 +11,6 @@ public interface IPladeService
     Task<List<PladeResponse>> GetPladesByUserIdAsync(int userId);
 
     Task<List<PladeResponse>> GetSpilhistorikByUserIdAsync(int userId);
+    
+    Task UpdateGentagStatusAsync(string pladeId, bool newStatus);
 }
