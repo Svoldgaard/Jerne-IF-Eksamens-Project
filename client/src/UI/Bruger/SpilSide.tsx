@@ -1,5 +1,5 @@
 import '../CSS/SpilSide.css'
-import Logo from "../../../public/Logo.png";
+import Logo from "../../Assets/Logo.png";
 //import Baggrund from "../../Component/Baggrund.tsx";
 import Header from "../../Component/Header.tsx";
 import {useTogglePigeon} from "../../Hooks/PigeonGameBoard.ts";

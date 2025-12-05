@@ -1,5 +1,6 @@
 // Api/Controllers/AuthController.cs
 
+using System.Text.Json;
 using Api.Etc;
 using Api.Models.Dtos.Requests;
 using Api.Models.Dtos.Responses;
@@ -31,6 +32,13 @@ public class AuthController : ControllerBase
         {
             var userInfo = await _authService.AuthenticateAsync(request);
             var token = _tokenService.CreateToken(userInfo);
+            var response = new LoginResponse(token, userInfo);
+
+            Console.WriteLine("=== LOGIN RESPONSE SENT TO FRONTEND ===");
+            Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(
+                response,
+                new JsonSerializerOptions { WriteIndented = true }
+            ));
             return Ok(new LoginResponse(token, userInfo));
         }
         catch (Exception ex)

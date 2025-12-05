@@ -507,6 +507,9 @@ export class ProfilClient {
 }
 
 export interface LoginResponse {
+    Jwt?: string;
+    User?: AuthUserInfoDto;
+
     jwt?: string;
     user?: AuthUserInfoDto;
 }

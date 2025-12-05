@@ -1,10 +1,22 @@
-namespace Api.Models.Dtos.Responses;
+using System.Text.Json.Serialization;
 
-public record AuthUserInfoDto(
-    int UserId,
-    string UserName,
-    string Email,
-    string FirstName,
-    string LastName,
-    int RoleId
-);
+public class AuthUserInfoDto
+{
+    [JsonPropertyName("userId")]
+    public int UserId { get; set; }
+
+    [JsonPropertyName("userName")]
+    public string UserName { get; set; }
+
+    [JsonPropertyName("email")]
+    public string Email { get; set; }
+
+    [JsonPropertyName("firstName")]
+    public string FirstName { get; set; }
+
+    [JsonPropertyName("lastName")]
+    public string LastName { get; set; }
+
+    [JsonPropertyName("roleId")]
+    public int RoleId { get; set; }
+}

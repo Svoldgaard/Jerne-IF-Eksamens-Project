@@ -11,7 +11,7 @@
     align-items: center;
     gap: 8px;
 
-    background-image: url('../../../public/ArrowRight.png');
+    background-image: url('../../Assets/ArrowRight.png');
     background-repeat: no-repeat;
     background-position: right 10px center;
     background-size: 16px 16px;
@@ -71,11 +71,11 @@
 }
 
 .user-input {
-    background-image: url('../../../public/User.png');
+    background-image: url('../../Assets/User.png');
 }
 
 .lock-input {
-    background-image: url('../../../public/Lock.png');
+    background-image: url('../../Assets/Lock.png');
 }
 
 .password-wrapper {

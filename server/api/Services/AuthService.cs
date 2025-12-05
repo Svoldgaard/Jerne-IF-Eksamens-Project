@@ -34,6 +34,7 @@ public class AuthService : IAuthService
         try
         {
             var profile = _profileRepository.Query().SingleOrDefault(p => p.Email == request.Username);
+            _logger.LogInformation("Login request: {Username}", request.Username);
             if (profile == null) throw new AuthenticationError();
 
             var login = _loginRepository.Query().SingleOrDefault(l => l.Brugerid == profile.Brugerid);
@@ -89,32 +90,29 @@ public class AuthService : IAuthService
 
     public async Task<AuthUserInfoDto?> GetUserInfoAsync(ClaimsPrincipal principal)
     {
-        var idClaim = principal.Claims.FirstOrDefault(c => 
-            c.Type == "sub" ||
-            c.Type == "id" ||
-            c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier" ||
-            c.Type == System.Security.Claims.ClaimTypes.NameIdentifier);
-        
-        if (idClaim == null) 
+        // NameIdentifier will now correctly map to 'sub'
+        var idClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
+        if (idClaim == null)
         {
             _logger.LogError("User ID not found in token claims!");
             return null;
         }
-        
-        if (!int.TryParse(idClaim.Value, out int userId)) 
+
+        if (!int.TryParse(idClaim.Value, out int userId))
         {
             _logger.LogError($"Token ID is not a number: {idClaim.Value}");
             return null;
         }
 
-        var login = _loginRepository.Query().SingleOrDefault(l => l.Brugerid == userId);
-        if (login == null)
+        var login = _loginRepository.Query().FirstOrDefault(l => l.Brugerid == userId);
+        var profile = _profileRepository.Query().FirstOrDefault(p => p.Brugerid == userId);
+
+        if (login == null || profile == null)
         {
-            _logger.LogError($"User with ID {userId} not found in DB!");
+            _logger.LogError($"User or profile not found for ID {userId}");
             return null;
         }
 
-        var profile = _profileRepository.Query().SingleOrDefault(p => p.Brugerid == userId);
         return login.ToDto(profile);
     }
 }
