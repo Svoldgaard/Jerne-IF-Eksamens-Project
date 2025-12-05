@@ -47,7 +47,7 @@ function VundetPlader() {
                     </table>
 
                     <button className="button-luk-uge" onClick={() => navigate("/forside-admin")}>
-                        Luk Uge
+                        Start ny uge
                     </button>
 
                 </div>

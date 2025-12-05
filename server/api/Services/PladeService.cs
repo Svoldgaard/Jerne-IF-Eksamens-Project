@@ -103,11 +103,17 @@ public class PladeService(MyDbContext context) : IPladeService
             .OrderByDescending(p => p.Ugetal.Årstal)
             .ThenByDescending(p => p.Ugetal.Ugetal)
             .ToListAsync();
-
+        
         return plades.Select(p =>
         {
             // Console.WriteLine($"Plade {p.Id} tal: {string.Join(",", p.Valgtetal ?? [])}");
 
+            var winning = p.Ugetal!.Vindersekvens.FirstOrDefault()?.Vindertal ?? new List<int>();
+            
+            var isWinner = winning.Count > 0 && winning.All(n => p.Valgtetal.Contains(n));
+            
+            Console.WriteLine($"WIN CHECK BACKEND: {p.Id}  chosen=[{string.Join(",", p.Valgtetal)}]  winning=[{string.Join(",", winning)}]  -> {isWinner}");
+            
             return new PladeResponse
             {
                 Id = p.Id,
@@ -115,9 +121,10 @@ public class PladeService(MyDbContext context) : IPladeService
                 Year = p.Ugetal.Årstal ?? DateTime.Now.Year,
                 Gentag = p.Gentag,
                 Pris = p.Price?.Price ?? 0,
-                IsWinner = p.Iswinner,
+                IsWinner = isWinner,
                 Tal = p.Valgtetal ?? new List<int>(),
-                Vindertal = p.Ugetal!.Vindersekvens.FirstOrDefault()?.Vindertal ?? new List<int>()
+                Vindertal = winning
+                // Vindertal = p.Ugetal!.Vindersekvens.FirstOrDefault()?.Vindertal ?? new List<int>()
             };
         }).ToList();
     }
@@ -134,8 +141,9 @@ public class PladeService(MyDbContext context) : IPladeService
         var winningNumbers = plade.Ugetal.Vindersekvens.FirstOrDefault()?.Vindertal ?? new List<int>();
         if (winningNumbers.Count == 0) return;
         
-        bool isWinner = plade.Valgtetal.Intersect(winningNumbers).Any();
-
+        bool isWinner = winningNumbers.Count > 0 && winningNumbers.All(n => plade.Valgtetal.Contains(n));
+        
+        
         if (isWinner != plade.Iswinner)
         {
             plade.Iswinner = isWinner;

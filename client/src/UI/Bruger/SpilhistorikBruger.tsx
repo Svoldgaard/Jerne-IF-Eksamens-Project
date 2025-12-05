@@ -22,6 +22,9 @@ export default function SpilhistorikBruger({brugerId}:Props) {
 
     if (loading) return <p>Loading…</p>;
     if (error) return <p>Error: {error}</p>;
+
+    console.log("Boards:", plader);
+
     if (plader.length === 0)
         return <p>Ingen plader fundet.</p>;
 
@@ -71,7 +74,8 @@ export default function SpilhistorikBruger({brugerId}:Props) {
                                 <AccordionDetails>
                                     <div className="boards-container">
                                         {boards.map(plade => {
-                                            const activeSet = new Set(plade.tal.map(t => t - 1));
+                                            console.log("winner check:", plade.id, plade.tal, plade.vindertal, plade.isWinner);
+                                            const activeSet = new Set(plade.tal);
                                             return (
                                                 <div
                                                     key={plade.id}
@@ -81,18 +85,21 @@ export default function SpilhistorikBruger({brugerId}:Props) {
                                                         className="cg-grid"
                                                         style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}
                                                     >
-                                                        {Array.from({length: total}).map((_, idx) => (
+                                                        {Array.from({length: total}).map((_, idx) => {
+                                                            const number = idx +1;
+                                                            return(
                                                             <div
                                                                 key={idx}
                                                                 className={
-                                                                    activeSet.has(idx)
+                                                                    activeSet.has(number)
                                                                         ? "cg-cell cg-cell-active"
                                                                         : "cg-cell"
                                                                 }
                                                             >
-                                                                {idx + 1}
+                                                                {number}
                                                             </div>
-                                                        ))}
+                                                            );
+                                                        })}
                                                     </div>
                                                 </div>
                                             );
