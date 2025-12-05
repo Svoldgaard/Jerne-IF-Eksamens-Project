@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router";
 import '../UI/CSS/Login.css';
-import Logo from '../../public/Logo.png';
-import OpenEye from '../../public/OpenEye.png';
-import ClosedEye from '../../public/ClosedEye.png';
+import Logo from '../Assets/Logo.png';
+import OpenEye from '../Assets/OpenEye.png';
+import ClosedEye from '../Assets/ClosedEye.png';
 import Footer from "../Component/Footer";
 import { useLogin } from "../Hooks/useLogin";
 

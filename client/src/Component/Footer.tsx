@@ -1,6 +1,6 @@
 import '../UI/CSS/Footer.css';
 import * as React from "react";
-import EarlyBird from '../../public/EarlyBird.png';
+import EarlyBird from '../Assets/EarlyBird.png';
 
 const Footer: React.FC = () => {
     return (

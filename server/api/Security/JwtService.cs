@@ -1,15 +1,10 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using api.Models.Dtos;
+using System.Text;
 using Api.Models.Dtos.Responses;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Api.Security;
-
-public interface ITokenService
-{
-    string CreateToken(AuthUserInfoDto user);
-}
 
 public class JwtService : ITokenService
 {
@@ -19,25 +14,25 @@ public class JwtService : ITokenService
     {
         _config = config;
     }
-    
-    public const string SignatureAlgorithm = SecurityAlgorithms.HmacSha512;
-    public const string JwtKey = "JwtKey";
+
+    private const string JwtKey = "JwtKey";
+    private const string SignatureAlgorithm = SecurityAlgorithms.HmacSha512;
 
     public string CreateToken(AuthUserInfoDto user)
     {
-        var key = Convert.FromBase64String(_config.GetValue<string>(JwtKey)!);
+        var keyBytes = Convert.FromBase64String(_config.GetValue<string>(JwtKey)!);
+        var securityKey = new SymmetricSecurityKey(keyBytes);
+
+        var tokenHandler = new JwtSecurityTokenHandler();
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            SigningCredentials = new SigningCredentials(
-                new SymmetricSecurityKey(key),
-                SignatureAlgorithm
-            ),
-            Subject = new ClaimsIdentity(user.ToClaims()),
+            Subject = new ClaimsIdentity(user.ToClaims()), // claims from ClaimsExtension
             Expires = DateTime.UtcNow.AddDays(7),
+            SigningCredentials = new SigningCredentials(securityKey, SignatureAlgorithm)
         };
-        var tokenHandler = new JsonWebTokenHandler();
+
         var token = tokenHandler.CreateToken(tokenDescriptor);
-        return token;
+        return tokenHandler.WriteToken(token);
     }
 
     public static TokenValidationParameters ValidationParameters(IConfiguration config)
@@ -46,16 +41,11 @@ public class JwtService : ITokenService
         return new TokenValidationParameters
         {
             IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidAlgorithms = new[] { SignatureAlgorithm }, 
             ValidateIssuerSigningKey = true,
-            TokenDecryptionKey = null,
-
             ValidateIssuer = false,
             ValidateAudience = false,
             ValidateLifetime = true,
-
-           
-            ClockSkew = TimeSpan.Zero,
+            ClockSkew = TimeSpan.Zero
         };
     }
 }

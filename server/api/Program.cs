@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using api;
 using Api.Security;
@@ -72,15 +73,19 @@ public class Program
         
 
         // Controllers & OpenAPI / Swagger
-        services.AddControllers().AddJsonOptions(x =>
+        builder.Services.AddControllers().AddJsonOptions(options =>
         {
-            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         });
-        services.AddOpenApiDocument();
-        services.AddProblemDetails();
+        // OpenAPI / Swagger
+        builder.Services.AddOpenApiDocument(); // no DefaultPropertyNameHandling needed
+
+        builder.Services.AddProblemDetails();
 
         // CORS
-        services.AddCors();
+        builder.Services.AddCors();
     }
 
     public static async Task Main(string[] args)

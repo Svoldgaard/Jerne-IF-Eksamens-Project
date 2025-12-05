@@ -1,7 +1,7 @@
 import * as React from "react";
 import SidebarBruger from "../UI/Bruger/SidebarBruger.tsx";
 import '../UI/CSS/Header.css';
-import Logout from "../../public/Logout.png";
+import Logout from "../Assets/Logout.png";
 import {useLocation} from "react-router";
 import SidebarAdmin from "../UI/Admin/SidebarAdmin.tsx";
 import { useAuth } from "../Hooks/useAuth";

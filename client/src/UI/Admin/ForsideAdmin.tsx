@@ -1,11 +1,11 @@
 import {useNavigate} from "react-router";import '../CSS/Forside.css'
-import Logo from "../../../public/Logo.png";
+import Logo from "../../Assets/Logo.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
-import BoardImage from "../../../public/BoardImage.png";
-import Board from "../../../public/Board.png";
-import Person from "../../../public/Person.png";
-import Regler from "../../../public/Regler.png"
+import BoardImage from "../../Assets/BoardImage.png";
+import Board from "../../Assets/Board.png";
+import Person from "../../Assets/Person.png";
+import Regler from "../../Assets/Regler.png"
 
 
 function ForsideAdmin() {
