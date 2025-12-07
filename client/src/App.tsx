@@ -46,9 +46,9 @@ const App = () => {
             path: "/aktiv-spil",
             element: (
                 <AktivSpil
-                    boards={[
-                        { id: "Loading...", activeIndices: [] }
-                    ]}
+                    // boards={[
+                    //     { id: "Loading...", activeIndices: [] }
+                    // ]}
                 />
             )
         },

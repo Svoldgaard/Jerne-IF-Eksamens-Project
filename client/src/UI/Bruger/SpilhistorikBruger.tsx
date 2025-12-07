@@ -7,28 +7,37 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useNavigate} from "react-router";
 import { useSpilhistorikBruger} from "../../Hooks/useSpilhistorikBruger.ts";
 import type { PladeResponse } from "../../Hooks/useSpilhistorikBruger.ts";
+import {jwtDecode} from "jwt-decode";
+import {useAtomValue} from "jotai";
+import {tokenAtom, userAtom} from "../../Atoms/Auth.ts";
 
-interface Props{
-    brugerId: number;
-}
 
-export default function SpilhistorikBruger({brugerId}:Props) {
+
+export default function SpilhistorikBruger() {
     const rows = 4;
     const cols = 4;
     const total = rows * cols;
 
     const navigate = useNavigate();
-    const { plader, loading, error } = useSpilhistorikBruger(brugerId);
+    const user = useAtomValue(userAtom);
+
+    if (!user?.userId) return <p>Loading…</p>;
+
+    const brugerId = user.userId;
+
+    console.log("BRUGER ID:", brugerId);
+
+    const { plader, spiluger, loading, error } = useSpilhistorikBruger(brugerId);
 
     if (loading) return <p>Loading…</p>;
     if (error) return <p>Error: {error}</p>;
 
-    console.log("Boards:", plader);
+    // console.log("Boards:", plader);
 
-    if (plader.length === 0)
-        return <p>Ingen plader fundet.</p>;
+    // if (plader.length === 0)
+    //     return <p>Ingen plader fundet.</p>;
 
-    const pladerByWeek = plader.reduce((acc: Record<string, PladeResponse[]>, p) => {
+    const pladerByWeek = plader.reduce((acc: Record<string, any[]>, p) => {
         const key = `${p.year}-${p.uge}`;
         if (!acc[key]) acc[key] = [];
         acc[key].push(p);
@@ -41,13 +50,30 @@ export default function SpilhistorikBruger({brugerId}:Props) {
     //     return acc;
     // }, {});
 
-    const sortedEntries = Object.entries(pladerByWeek).sort(([keyA], [keyB]) => {
-        const [årA, ugeA] = keyA.split("-").map(Number);
-        const [årB, ugeB] = keyB.split("-").map(Number);
-
-        if(årB !== årA) return årB - årA;
-        return ugeB - ugeA;
+    const allWeeks = spiluger.map(w => {
+        const key = `${w.year}-${w.uge}`;
+        return{
+            key,
+            year: w.year,
+            uge: w.uge,
+            vindertal: w.vindertal,
+            boards: pladerByWeek[key] ?? [],
+            hasBoards: (pladerByWeek[key] ?? []).length > 0
+        }
     })
+
+    allWeeks.sort((a, b) => {
+        if (a.year !== b.year) return b.year - a.year;
+        return b.uge - a.uge;
+    })
+
+    // const sortedEntries = Object.entries(pladerByWeek).sort(([keyA], [keyB]) => {
+    //     const [årA, ugeA] = keyA.split("-").map(Number);
+    //     const [årB, ugeB] = keyB.split("-").map(Number);
+    //
+    //     if(årB !== årA) return årB - årA;
+    //     return ugeB - ugeA;
+    // })
 
     return (
         <div className="page-spilhistorik-bruger">
@@ -59,22 +85,26 @@ export default function SpilhistorikBruger({brugerId}:Props) {
                 <Header />
 
                 <div className="background-spilhistorik-bruger">
-                    {sortedEntries.map(([key, boards]) => {
-                        const [årstal, uge] = key.split("-");
+                    {allWeeks.map(week => (
+                        // const [årstal, uge] = key.split("-");
 
-                        return (
-                            <Accordion key={key}>
+                            <Accordion
+                                key={week.key}
+                                disabled={!week.hasBoards}
+                                className={!week.hasBoards ? "accordion-disabled" :""}>
                                 <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    className={boards.some(b => b.isWinner) ? "accordion-vundet" : "accordion-tabt"}
+                                    expandIcon={week.hasBoards ? <ExpandMoreIcon /> : null}
+                                    className={!week.hasBoards ? "accordion-disabled" : week.boards.some(b => b.isWinner) ? "accordion-vundet" : "accordion-tabt"}
                                 >
-                                    <Typography component="span">Uge {uge} {årstal}</Typography>
-                                    <Typography component="span">{boards[0].vindertal.join(", ")}</Typography>
+                                    <Typography component="span">Uge {week.uge} {week.year}</Typography>
+                                    <Typography component="span">{week.vindertal.join(", ")}</Typography>
                                 </AccordionSummary>
+
+                                {week.hasBoards && (
                                 <AccordionDetails>
                                     <div className="boards-container">
-                                        {boards.map(plade => {
-                                            console.log("winner check:", plade.id, plade.tal, plade.vindertal, plade.isWinner);
+                                        {week.boards.map(plade => {
+                                            // console.log("winner check:", plade.id, plade.tal, plade.vindertal, plade.isWinner);
                                             const activeSet = new Set(plade.tal);
                                             return (
                                                 <div
@@ -106,9 +136,10 @@ export default function SpilhistorikBruger({brugerId}:Props) {
                                         })}
                                     </div>
                                 </AccordionDetails>
+                                )}
                             </Accordion>
-                        );
-                    })}
+
+                    ))}
                 </div>
             </div>
 

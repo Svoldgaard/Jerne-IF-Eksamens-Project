@@ -112,6 +112,13 @@ public class PladeController : ControllerBase
         }
     }
 
+    [HttpGet("spiluger")]
+    public async Task<IActionResult> GetAllSpiluger()
+    {
+        var result = await _pladeService.GetAllSpilugeAsync();
+        return Ok(result);
+    }
+
 
     [HttpPatch("update-gentag")]
     [Authorize]

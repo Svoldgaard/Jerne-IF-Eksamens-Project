@@ -112,7 +112,7 @@ public class PladeService(MyDbContext context) : IPladeService
             
             var isWinner = winning.Count > 0 && winning.All(n => p.Valgtetal.Contains(n));
             
-            Console.WriteLine($"WIN CHECK BACKEND: {p.Id}  chosen=[{string.Join(",", p.Valgtetal)}]  winning=[{string.Join(",", winning)}]  -> {isWinner}");
+            // Console.WriteLine($"WIN CHECK BACKEND: {p.Id}  chosen=[{string.Join(",", p.Valgtetal)}]  winning=[{string.Join(",", winning)}]  -> {isWinner}");
             
             return new PladeResponse
             {
@@ -150,6 +150,22 @@ public class PladeService(MyDbContext context) : IPladeService
             context.Plades.Update(plade);
             await context.SaveChangesAsync();
         }
+    }
+
+    public async Task<List<SpilugeResponse>> GetAllSpilugeAsync()
+    {
+        var spiluger = await  context.Spiluges
+            .Include(s => s.Vindersekvens)
+            .OrderByDescending(s => s.Årstal)
+            .ThenByDescending(s => s.Ugetal)
+            .ToListAsync();
+        
+        return spiluger.Select(s => new SpilugeResponse
+        {
+            Uge = s.Ugetal ?? 0,
+            Year = s.Årstal ?? 0,
+            Vindertal = s.Vindersekvens.FirstOrDefault()?.Vindertal ?? new List<int>()
+        }).ToList();
     }
 
 
