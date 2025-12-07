@@ -100,10 +100,10 @@ export default function SpilhistorikBruger() {
                                     <Typography component="span">{week.vindertal.join(", ")}</Typography>
                                 </AccordionSummary>
 
-                                {week.hasBoards && (
                                 <AccordionDetails>
                                     <div className="boards-container">
-                                        {week.boards.map(plade => {
+                                        {week.hasBoards ? (
+                                            week.boards.map(plade => {
                                             // console.log("winner check:", plade.id, plade.tal, plade.vindertal, plade.isWinner);
                                             const activeSet = new Set(plade.tal);
                                             return (
@@ -133,10 +133,13 @@ export default function SpilhistorikBruger() {
                                                     </div>
                                                 </div>
                                             );
-                                        })}
+                                         })
+                                        ) : (
+                                            <p>Ingen plader denne uge. Vindertal: {week.vindertal.join(", ")}</p>
+                                        )}
                                     </div>
                                 </AccordionDetails>
-                                )}
+
                             </Accordion>
 
                     ))}
