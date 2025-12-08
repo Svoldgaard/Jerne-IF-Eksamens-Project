@@ -17,4 +17,6 @@ public interface IPladeService
     Task UpdateBoardWinnerStatusAsync(string pladeId);
     
     Task UpdateGentagStatusAsync(string pladeId, bool newStatus);
+
+    Task<List<AdminPladeResponse>> GetAllActivePladesAsync();
 }

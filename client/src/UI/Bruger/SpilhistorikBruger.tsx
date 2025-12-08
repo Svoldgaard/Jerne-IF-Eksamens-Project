@@ -6,8 +6,7 @@ import {Accordion, AccordionDetails, AccordionSummary, Typography} from "@mui/ma
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useNavigate} from "react-router";
 import { useSpilhistorikBruger} from "../../Hooks/useSpilhistorikBruger.ts";
-import type { PladeResponse } from "../../Hooks/useSpilhistorikBruger.ts";
-import {jwtDecode} from "jwt-decode";
+
 import {useAtomValue} from "jotai";
 import {tokenAtom, userAtom} from "../../Atoms/Auth.ts";
 
