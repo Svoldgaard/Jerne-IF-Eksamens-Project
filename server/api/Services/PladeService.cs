@@ -184,6 +184,36 @@ public class PladeService(MyDbContext context) : IPladeService
          context.Entry(updatePlade).State = EntityState.Detached;
          
     }
+
+    public async Task<List<AdminPladeResponse>> GetAllActivePladesAsync()
+    {
+        var currentCulture = CultureInfo.CurrentCulture;
+        var weekNo = currentCulture.Calendar.GetWeekOfYear(
+            DateTime.Now,
+            currentCulture.DateTimeFormat.CalendarWeekRule,
+            currentCulture.DateTimeFormat.FirstDayOfWeek);
+        var year =  DateTime.Now.Year;
+
+        var activeSpiluge = await context.Spiluges
+            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
+
+        if (activeSpiluge == null) return new List<AdminPladeResponse>();
+        
+        var plades = await context.Plades
+            .Where(p => p.Ugetalid == activeSpiluge.Id)
+            .Include(p => p.Bruger)
+            .Include(p => p.Price)
+            .ToListAsync();
+        
+        return plades.Select(p => new AdminPladeResponse
+        {
+            PladeId = p.Id,
+            Brugernavn = p.Bruger.Brugernavn,
+            TransaktionsNr = p.Id,
+            Pris = p.Price?.Price ?? 0,
+            Active = p.Status
+        }).ToList();
+    }
     
     
     
