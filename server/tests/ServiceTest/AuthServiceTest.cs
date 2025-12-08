@@ -17,7 +17,7 @@ public class AuthServiceTest
     private readonly Mock<IRepository<Login>> _loginRepo = new();
     private readonly Mock<IRepository<Profil>> _profileRepo = new();
 
-    private AuthService CreateService() =>
+    private AuthService CreateService() => 
         new AuthService(_logger.Object, _passwordHasher.Object, _loginRepo.Object, _profileRepo.Object);
     
     

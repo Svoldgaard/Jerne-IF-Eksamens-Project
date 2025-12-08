@@ -549,9 +549,6 @@ export class ProfilClient {
 }
 
 export interface LoginResponse {
-    Jwt?: string;
-    User?: AuthUserInfoDto;
-
     jwt?: string;
     user?: AuthUserInfoDto;
 }
@@ -563,6 +560,7 @@ export interface AuthUserInfoDto {
     firstName?: string;
     lastName?: string;
     roleId?: number;
+    mobilePhone?: number;
 }
 
 export interface LoginRequest {

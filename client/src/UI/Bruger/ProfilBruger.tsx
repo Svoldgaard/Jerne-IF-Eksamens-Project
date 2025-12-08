@@ -3,9 +3,20 @@ import Logo from "../../Assets/Logo.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 import {useNavigate} from "react-router";
+import {useProfile} from "../../Hooks/useProfile.ts";
 
 function ProfilBruger() {
     const navigate = useNavigate();
+    const {
+        firstName, setFirstName,
+        lastName, setLastName,
+        email, setEmail,
+        mobil, setMobil,
+        handleSave,
+        error
+    }=useProfile();
+
+    if (error) return <div>{error}</div>;
 
     return (
         <div className="page-profil">
@@ -23,6 +34,8 @@ function ProfilBruger() {
                         type="text"
                         placeholder="Navn"
                         className="input-profil"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
                     />
                     </div>
                     <div className="profil-row">
@@ -31,6 +44,8 @@ function ProfilBruger() {
                             type="text"
                             placeholder="Efternavn"
                             className="input-profil"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
                         />
                     </div>
                     <div className="profil-row">
@@ -39,6 +54,8 @@ function ProfilBruger() {
                             type="text"
                             placeholder="Mobil nr"
                             className="input-profil"
+                            value={mobil}
+                            onChange={(e) => setMobil(e.target.value)}
                         />
                     </div>
                     <div className="profil-row">
@@ -47,9 +64,11 @@ function ProfilBruger() {
                             type="text"
                             placeholder="Email"
                             className="input-profil"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    <button className="button-gem-profil">
+                    <button className="button-gem-profil" onClick={handleSave}>
                         Gem
                     </button>
 

@@ -19,4 +19,7 @@ public class AuthUserInfoDto
 
     [JsonPropertyName("roleId")]
     public int RoleId { get; set; }
+    
+    [JsonPropertyName("mobilePhone")]
+    public int Mobil {get; set;}
 }
