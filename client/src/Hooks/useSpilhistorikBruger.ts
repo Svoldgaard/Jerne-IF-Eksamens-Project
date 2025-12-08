@@ -21,7 +21,7 @@ export interface PladeResponse {
     vindertal: number[];
 }
 
-export function useSpilhistorikBruger(brugerId: number) {
+export function useSpilhistorikBruger(brugerId?: number) {
     const [loading, setLoading] = useState(true);
     const [spiluger, setSpiluger] = useState<SpilugeResponse[]>([]);
     const [plader, setPlader] = useState<PladeResponse[]>([]);

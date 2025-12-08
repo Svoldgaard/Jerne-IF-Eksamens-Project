@@ -14,7 +14,8 @@ public static class UserMappers
             Email = profile?.Email ?? string.Empty,
             FirstName = profile?.Fnavn ?? string.Empty,
             LastName = profile?.Lnavn ?? string.Empty,
-            RoleId = login.Rolleid
+            RoleId = login.Rolleid,
+            
         };
     }
 

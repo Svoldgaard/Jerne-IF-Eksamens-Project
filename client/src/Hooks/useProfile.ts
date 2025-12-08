@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { profileClient } from "../api-clients";
 import { useAtom } from "jotai";
 import { userAtom } from "../Atoms/Auth";
-import type { AuthUserInfoDto } from "../generated-ts-client";
 
 export const useProfile = () => {
     const [user, setUser] = useAtom(userAtom);
@@ -11,9 +10,9 @@ export const useProfile = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
+    const [mobil, setMobil] = useState("");
 
 
-    // Keep form state in sync if userAtom updates
     useEffect(() => {
         if (!user.userId) return;
 
@@ -21,9 +20,10 @@ export const useProfile = () => {
         setLastName(user.lastName ?? "");
         setEmail(user.email ?? "");
 
+
+
     }, [user]);
 
-    // Save updated profile
     const handleSave = async () => {
         if (!user?.userId) return;
 
@@ -32,16 +32,17 @@ export const useProfile = () => {
                 fnavn: firstName,
                 lnavn: lastName,
                 email,
+                mobil,
             };
 
             await profileClient.updateProfil(user.userId, updated);
 
-            // Update atom
             setUser({
                 ...user,
                 firstName,
                 lastName,
                 email,
+                mobil,
             });
 
             alert("Profil opdateret!");
@@ -55,7 +56,9 @@ export const useProfile = () => {
         firstName, setFirstName,
         lastName, setLastName,
         email, setEmail,
+        mobil, setMobil,
         handleSave,
         error
     };
+
 };

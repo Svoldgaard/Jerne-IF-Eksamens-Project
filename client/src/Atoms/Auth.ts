@@ -9,4 +9,8 @@ export const tokenStorage = createJSONStorage<string | null>(() => sessionStorag
 export const tokenAtom = atomWithStorage<string | null>(TOKEN_KEY, null, tokenStorage);
 
 // --- User info ---
-export const userAtom = atom<AuthUserInfoDto | null>(null);
+export const userAtom = atomWithStorage<AuthUserInfoDto | null>(
+    "user",
+    null,
+    createJSONStorage(() => sessionStorage)
+);
