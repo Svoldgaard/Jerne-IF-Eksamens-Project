@@ -1,12 +1,12 @@
 import '../UI/CSS/Regler.css'
-import {useEffect, useState} from "react";
 import Logo from "../Assets/Logo.png";
 import Header from "../Component/Header.tsx";
 import Footer from "../Component/Footer.tsx";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useRegler } from "../Hooks/useRegler";
 
 function Regler() {
-    const [rules, setRules] = useState("");
+    const rules = useRegler();
     const parts = rules.split("=== PRICE_TABLE ===");
     const navigate = useNavigate();
     const location = useLocation();
@@ -18,16 +18,6 @@ function Regler() {
             navigate("/forside");
         }
     };
-
-    useEffect(() => {
-        fetch("/Regler.txt")
-            .then(res => {
-                if (!res.ok) throw new Error("Network response was not ok");
-                return res.text();
-            })
-            .then(text => setRules(text))
-            .catch(err => console.error("Could not load rules:", err));
-    }, []);
 
     return (
         <div className="page-regler">
