@@ -7,87 +7,148 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useNavigate} from "react-router";
 import { useSpilhistorikBruger} from "../../Hooks/useSpilhistorikBruger.ts";
 import type { PladeResponse } from "../../Hooks/useSpilhistorikBruger.ts";
+import {jwtDecode} from "jwt-decode";
+import {useAtomValue} from "jotai";
+import {tokenAtom, userAtom} from "../../Atoms/Auth.ts";
 
-interface Props{
-    brugerId: number;
-}
 
-export default function SpilhistorikBruger({brugerId}:Props) {
+
+export default function SpilhistorikBruger() {
     const rows = 4;
     const cols = 4;
     const total = rows * cols;
 
     const navigate = useNavigate();
-    const { plader, loading, error } = useSpilhistorikBruger(brugerId);
+    const user = useAtomValue(userAtom);
+
+    if (!user?.userId) return <p>Loading…</p>;
+
+    const brugerId = user.userId;
+
+    console.log("BRUGER ID:", brugerId);
+
+    const { plader, spiluger, loading, error } = useSpilhistorikBruger(brugerId);
 
     if (loading) return <p>Loading…</p>;
     if (error) return <p>Error: {error}</p>;
-    if (plader.length === 0)
-        return <p>Ingen plader fundet.</p>;
 
-    const pladerByWeek = plader.reduce((acc: Record<number, PladeResponse[]>, p) => {
-        if (!acc[p.uge]) acc[p.uge] = [];
-        acc[p.uge].push(p);
+    // console.log("Boards:", plader);
+
+    // if (plader.length === 0)
+    //     return <p>Ingen plader fundet.</p>;
+
+    const pladerByWeek = plader.reduce((acc: Record<string, any[]>, p) => {
+        const key = `${p.year}-${p.uge}`;
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(p);
         return acc;
     }, {});
-    
+
+    // const pladerByWeek = plader.reduce((acc: Record<number, PladeResponse[]>, p) => {
+    //     if (!acc[p.uge]) acc[p.uge] = [];
+    //     acc[p.uge].push(p);
+    //     return acc;
+    // }, {});
+
+    const allWeeks = spiluger.map(w => {
+        const key = `${w.year}-${w.uge}`;
+        return{
+            key,
+            year: w.year,
+            uge: w.uge,
+            vindertal: w.vindertal,
+            boards: pladerByWeek[key] ?? [],
+            hasBoards: (pladerByWeek[key] ?? []).length > 0
+        }
+    })
+
+    allWeeks.sort((a, b) => {
+        if (a.year !== b.year) return b.year - a.year;
+        return b.uge - a.uge;
+    })
+
+    // const sortedEntries = Object.entries(pladerByWeek).sort(([keyA], [keyB]) => {
+    //     const [årA, ugeA] = keyA.split("-").map(Number);
+    //     const [årB, ugeB] = keyB.split("-").map(Number);
+    //
+    //     if(årB !== årA) return årB - årA;
+    //     return ugeB - ugeA;
+    // })
+
     return (
         <div className="page-spilhistorik-bruger">
             <span className="logo-plade">
-                <img src={Logo} alt="Logo" onClick={() => navigate("/forside")}/>
+                <img src={Logo} alt="Logo" onClick={() => navigate("/forside")} />
             </span>
 
             <div className="main-container">
-            <Header/>
+                <Header />
 
                 <div className="background-spilhistorik-bruger">
-                    {Object.entries(pladerByWeek).map(([uge, boards]) => (
-                        <Accordion key={uge}>
-                            <AccordionSummary  expandIcon={<ExpandMoreIcon/>}
-                                className={boards.some(b => b.isWinner) ? "accordion-vundet" : "accordion-tabt" }>
-                                <Typography component="span"> Uge {uge} 2025 </Typography>
-                                <Typography component="span">
-                                    {boards[0].tal.join(", ")}
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <div className="boards-container">
-                                    {boards.map(plade => {
-                                        const activeSet = new Set(plade.tal.map(t => t -1));
-                                        return (
-                                            <div
-                                                key={plade.id}
-                                                className={`board-history ${plade.isWinner ? "winner-board" : ""}`}
-                                            >
+                    {allWeeks.map(week => (
+                        // const [årstal, uge] = key.split("-");
+
+                            <Accordion
+                                key={week.key}
+                                disabled={!week.hasBoards}
+                                className={!week.hasBoards ? "accordion-disabled" :""}>
+                                <AccordionSummary
+                                    expandIcon={week.hasBoards ? <ExpandMoreIcon /> : null}
+                                    className={!week.hasBoards ? "accordion-disabled" : week.boards.some(b => b.isWinner) ? "accordion-vundet" : "accordion-tabt"}
+                                >
+                                    <Typography component="span">Uge {week.uge} {week.year}</Typography>
+                                    <Typography component="span">{week.vindertal.join(", ")}</Typography>
+                                </AccordionSummary>
+
+                                <AccordionDetails>
+                                    <div className="boards-container">
+                                        {week.hasBoards ? (
+                                            week.boards.map(plade => {
+                                            // console.log("winner check:", plade.id, plade.tal, plade.vindertal, plade.isWinner);
+                                            const activeSet = new Set(plade.tal);
+                                            return (
                                                 <div
-                                                className="cg-grid"
-                                                style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}
+                                                    key={plade.id}
+                                                    className={`board-history ${plade.isWinner ? "winner-board" : ""}`}
                                                 >
-                                                    {Array.from({length: total}).map((_, idx) => (
-                                                        <div
-                                                            key={idx}
-                                                            className={
-                                                                activeSet.has(idx)
-                                                                    ? "cg-cell cg-cell--active"
-                                                                    : "cg-cell"
-                                                            }
-                                                        >
-                                                            {idx +1}
-                                                        </div>
-                                                    ))}
+                                                    <div
+                                                        className="cg-grid"
+                                                        style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}
+                                                    >
+                                                        {Array.from({length: total}).map((_, idx) => {
+                                                            const number = idx +1;
+                                                            return(
+                                                            <div
+                                                                key={idx}
+                                                                className={
+                                                                    activeSet.has(number)
+                                                                        ? "cg-cell cg-cell-active"
+                                                                        : "cg-cell"
+                                                                }
+                                                            >
+                                                                {number}
+                                                            </div>
+                                                            );
+                                                        })}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </AccordionDetails>
-                        </Accordion>
+                                            );
+                                         })
+                                        ) : (
+                                            <p>Ingen plader denne uge. Vindertal: {week.vindertal.join(", ")}</p>
+                                        )}
+                                    </div>
+                                </AccordionDetails>
+
+                            </Accordion>
+
                     ))}
                 </div>
             </div>
-            <Footer/>
+
+            <Footer />
         </div>
-    )
+    );
 }
 
 // export default SpilhistorikBruger;

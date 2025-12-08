@@ -100,6 +100,18 @@
     padding-top: 1px;
 }
 
+.winner-board .cg-cell-active {
+    background-color: #F44336 !important; /* green */
+    border-color: #F44336 !important;
+}
+
+.accordion-disabled {
+    background-color: #d3d3d3 !important;
+    color: #666 !important;
+    pointer-events: none !important;
+    opacity: 0.7;
+}
+
 /*=== Mobile styles ===*/
 
 @media (max-width: 768px) {
