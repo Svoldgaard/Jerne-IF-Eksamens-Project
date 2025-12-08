@@ -54,22 +54,6 @@ public class PladeService(MyDbContext context) : IPladeService
         return newPlade;
     }
 
-    public async Task<List<Plade>> GetPladeAsync(int brugerId)
-    {
-        return await context.Plades
-            .Where(p => p.Brugerid == brugerId)
-            .Select(p => new Plade
-            {
-                Id = p.Id,
-                Ugetal = p.Ugetal,
-                Priceid = p.Priceid,
-                Gentag = p.Gentag,
-                Brugerid = p.Brugerid,
-                Pladetals = p.Pladetals
-            })
-            .ToListAsync();
-    }
-
     public async Task<List<PladeResponse>> GetPladesByUserIdAsync(int userId)
     {
         var currentCulture = CultureInfo.CurrentCulture;
