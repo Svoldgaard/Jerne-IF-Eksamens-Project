@@ -7,10 +7,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useNavigate} from "react-router";
 import { useSpilhistorikBruger} from "../../Hooks/useSpilhistorikBruger.ts";
 import type { PladeResponse } from "../../Hooks/useSpilhistorikBruger.ts";
-import {jwtDecode} from "jwt-decode";
 import {useAtomValue} from "jotai";
 import {tokenAtom, userAtom} from "../../Atoms/Auth.ts";
-
 
 
 export default function SpilhistorikBruger() {
@@ -21,21 +19,15 @@ export default function SpilhistorikBruger() {
     const navigate = useNavigate();
     const user = useAtomValue(userAtom);
 
-    if (!user?.userId) return <p>Loading…</p>;
-
-    const brugerId = user.userId;
+    const brugerId = user?.userId;
 
     console.log("BRUGER ID:", brugerId);
 
     const { plader, spiluger, loading, error } = useSpilhistorikBruger(brugerId);
 
+    if (!brugerId) return <p>Loading…</p>;
     if (loading) return <p>Loading…</p>;
     if (error) return <p>Error: {error}</p>;
-
-    // console.log("Boards:", plader);
-
-    // if (plader.length === 0)
-    //     return <p>Ingen plader fundet.</p>;
 
     const pladerByWeek = plader.reduce((acc: Record<string, any[]>, p) => {
         const key = `${p.year}-${p.uge}`;
@@ -43,12 +35,6 @@ export default function SpilhistorikBruger() {
         acc[key].push(p);
         return acc;
     }, {});
-
-    // const pladerByWeek = plader.reduce((acc: Record<number, PladeResponse[]>, p) => {
-    //     if (!acc[p.uge]) acc[p.uge] = [];
-    //     acc[p.uge].push(p);
-    //     return acc;
-    // }, {});
 
     const allWeeks = spiluger.map(w => {
         const key = `${w.year}-${w.uge}`;
@@ -66,14 +52,6 @@ export default function SpilhistorikBruger() {
         if (a.year !== b.year) return b.year - a.year;
         return b.uge - a.uge;
     })
-
-    // const sortedEntries = Object.entries(pladerByWeek).sort(([keyA], [keyB]) => {
-    //     const [årA, ugeA] = keyA.split("-").map(Number);
-    //     const [årB, ugeB] = keyB.split("-").map(Number);
-    //
-    //     if(årB !== årA) return årB - årA;
-    //     return ugeB - ugeA;
-    // })
 
     return (
         <div className="page-spilhistorik-bruger">
@@ -141,7 +119,6 @@ export default function SpilhistorikBruger() {
                                 </AccordionDetails>
 
                             </Accordion>
-
                     ))}
                 </div>
             </div>
