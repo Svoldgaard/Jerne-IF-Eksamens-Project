@@ -1,6 +1,6 @@
 import React from "react";
 import '../UI/CSS/OpretBruger.css';
-import Logo from "../../public/Logo.png";
+import Logo from "../Assets/Logo.png";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import {useOpretbruger} from "../Hooks/useOpretBruger.ts";

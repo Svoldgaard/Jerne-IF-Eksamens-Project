@@ -1,5 +1,5 @@
 import '../CSS/SpilSide.css'
-import Logo from "../../../public/Logo.png";
+import Logo from "../../Assets/Logo.png";
 //import Baggrund from "../../Component/Baggrund.tsx";
 import Header from "../../Component/Header.tsx";
 import {useTogglePigeon} from "../../Hooks/PigeonGameBoard.ts";
@@ -28,6 +28,8 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
 
     const [isRepeatCheked, setIsRepeat] = useState(false);
     const [currentUser, setCurrentUser] = useState<AuthUserInfoDto | null>(null);
+
+
 
 
 
@@ -78,6 +80,8 @@ useEffect(() => {
                 alert("Der opstod en fejl under købet. Prøv venligst igen.");
          }
     }
+
+    const isBetaleButtonActive = selectedPigeons.length > 4;
 
     return (
         <div className="page-plade">
@@ -141,7 +145,7 @@ useEffect(() => {
                         )}
 
                         <button
-                            className="button-gem"
+                            className={`button-gem ${isBetaleButtonActive ? 'button-pay-active' : ''}`}
                             onClick={handlePayment}
                         >
                             Betal

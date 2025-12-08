@@ -1,185 +1,131 @@
 import '../CSS/SpilhistorikBruger.css'
-import Logo from "../../../public/Logo.png";
+import Logo from "../../Assets/Logo.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 import {Accordion, AccordionDetails, AccordionSummary, Typography} from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useNavigate} from "react-router";
+import { useSpilhistorikBruger} from "../../Hooks/useSpilhistorikBruger.ts";
+import type { PladeResponse } from "../../Hooks/useSpilhistorikBruger.ts";
+import {useAtomValue} from "jotai";
+import {tokenAtom, userAtom} from "../../Atoms/Auth.ts";
 
-export type Board = {
-    id: string;
-    activeIndices: number[];
-    isWinner?: boolean;
-}
 
-const mockDataByWeek: Record<string, Board[]> = {
-    week48: [
-        {id: "TX-1001", activeIndices: [3, 5, 10, 8, 15]},
-        {id: "TX-1002", activeIndices: [1, 6, 7, 12, 14, 5]},
-        {id: "TX-1003", activeIndices: [2, 4, 8, 15, 3, 5, 10, 12]},
-        {id: "TX-1004", activeIndices: [0, 2, 3, 16, 4, 15]},
-        {id: "TX-1005", activeIndices: [5, 6, 9, 14, 8, 10, 7]}
-    ],
-    week46: [
-        {id: "TX-1006", activeIndices: [0, 3, 5, 7, 12]},
-        {id: "TX-1007", activeIndices: [1, 4, 6, 9, 12, 14]},
-        {id: "TX-1008", activeIndices: [2, 11, 8, 13, 15]},
-        {id: "TX-1009", activeIndices: [0, 2, 6, 8, 12, 15, 14]},
-        {id: "TX-1010", activeIndices: [5, 6, 9, 14, 8, 10, 7], isWinner: true},
-    ],
-    week45: [
-        {id: "TX-1011", activeIndices: [2, 5, 7, 11, 14]},
-        {id: "TX-1012", activeIndices: [1, 6, 7, 11, 14, 5], isWinner: true},
-        {id: "TX-1013", activeIndices: [0, 3, 6, 9, 12, 15]},
-        {id: "TX-1014", activeIndices: [1, 4, 8, 10, 13]},
-        {id: "TX-1015", activeIndices: [5, 6, 9, 0, 2, 11, 15]}
-    ]
-
-};
-
-function SpilhistorikBruger() {
+export default function SpilhistorikBruger() {
     const rows = 4;
     const cols = 4;
     const total = rows * cols;
 
     const navigate = useNavigate();
+    const user = useAtomValue(userAtom);
+
+    const brugerId = user?.userId;
+
+    console.log("BRUGER ID:", brugerId);
+
+    const { plader, spiluger, loading, error } = useSpilhistorikBruger(brugerId);
+
+    if (!brugerId) return <p>Loading…</p>;
+    if (loading) return <p>Loading…</p>;
+    if (error) return <p>Error: {error}</p>;
+
+    const pladerByWeek = plader.reduce((acc: Record<string, any[]>, p) => {
+        const key = `${p.year}-${p.uge}`;
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(p);
+        return acc;
+    }, {});
+
+    const allWeeks = spiluger.map(w => {
+        const key = `${w.year}-${w.uge}`;
+        return{
+            key,
+            year: w.year,
+            uge: w.uge,
+            vindertal: w.vindertal,
+            boards: pladerByWeek[key] ?? [],
+            hasBoards: (pladerByWeek[key] ?? []).length > 0
+        }
+    })
+
+    allWeeks.sort((a, b) => {
+        if (a.year !== b.year) return b.year - a.year;
+        return b.uge - a.uge;
+    })
 
     return (
         <div className="page-spilhistorik-bruger">
             <span className="logo-plade">
-                <img src={Logo} alt="Logo" onClick={() => navigate("/forside")}/>
+                <img src={Logo} alt="Logo" onClick={() => navigate("/forside")} />
             </span>
+
             <div className="main-container">
-            <Header/>
+                <Header />
+
                 <div className="background-spilhistorik-bruger">
+                    {allWeeks.map(week => (
+                        // const [årstal, uge] = key.split("-");
 
-                    <Accordion>
-                        <AccordionSummary  expandIcon={<ExpandMoreIcon/>}
-                            className="accordion-tabt"
-                            aria-controls="panel1-content"
-                            id="panel1-header">
-                        <Typography component="span"> Uge 47 2025 </Typography>
-                            <Typography component="span">15, 5, 8</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <div className="boards-container">
-                                {mockDataByWeek.week48.map(board => {
-                                    const activeSet = new Set(board.activeIndices);
+                            <Accordion
+                                key={week.key}
+                                disabled={!week.hasBoards}
+                                className={!week.hasBoards ? "accordion-disabled" :""}>
+                                <AccordionSummary
+                                    expandIcon={week.hasBoards ? <ExpandMoreIcon /> : null}
+                                    className={!week.hasBoards ? "accordion-disabled" : week.boards.some(b => b.isWinner) ? "accordion-vundet" : "accordion-tabt"}
+                                >
+                                    <Typography component="span">Uge {week.uge} {week.year}</Typography>
+                                    <Typography component="span">{week.vindertal.join(", ")}</Typography>
+                                </AccordionSummary>
 
-                                    return(
-                                        <div key={board.id} className={`board-history ${board.isWinner ? "winner-board" : ""}`}>
-                                            <div className="cg-grid" style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}>
-                                                {Array.from({length: total}).map((_, idx) => (
+                                <AccordionDetails>
+                                    <div className="boards-container">
+                                        {week.hasBoards ? (
+                                            week.boards.map(plade => {
+                                            // console.log("winner check:", plade.id, plade.tal, plade.vindertal, plade.isWinner);
+                                            const activeSet = new Set(plade.tal);
+                                            return (
+                                                <div
+                                                    key={plade.id}
+                                                    className={`board-history ${plade.isWinner ? "winner-board" : ""}`}
+                                                >
                                                     <div
-                                                        key={idx}
-                                                        className={
-                                                        activeSet.has(idx)
-                                                            ? "cg-cell cg-cell-active"
-                                                            : "cg-cell"
-                                                        }
+                                                        className="cg-grid"
+                                                        style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}
                                                     >
-                                                        {idx + 1}
+                                                        {Array.from({length: total}).map((_, idx) => {
+                                                            const number = idx +1;
+                                                            return(
+                                                            <div
+                                                                key={idx}
+                                                                className={
+                                                                    activeSet.has(number)
+                                                                        ? "cg-cell cg-cell-active"
+                                                                        : "cg-cell"
+                                                                }
+                                                            >
+                                                                {number}
+                                                            </div>
+                                                            );
+                                                        })}
                                                     </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </AccordionDetails>
-                    </Accordion>
+                                                </div>
+                                            );
+                                         })
+                                        ) : (
+                                            <p>Ingen plader denne uge. Vindertal: {week.vindertal.join(", ")}</p>
+                                        )}
+                                    </div>
+                                </AccordionDetails>
 
-                    <Accordion disabled>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon/>}
-                              aria-controls="panel2-content"
-                              id="panel2-header">
-                            <Typography component="span"> Uge 46 2025 </Typography>
-                            <Typography component="span">11, 9, 1</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <Typography>
-                                Ikke deltaget
-                            </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-
-                    <Accordion>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon/>}
-                              className="accordion-vundet"
-                              aria-controls="panel3-content"
-                              id="panel3-header">
-                            <Typography component="span"> Uge 45 2025 </Typography>
-                            <Typography component="span">10, 6, 9</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <div className="boards-container">
-                                {mockDataByWeek.week46.map(board => {
-                                    const activeSet = new Set(board.activeIndices);
-
-                                    return(
-                                        <div key={board.id} className={`board-history ${board.isWinner ? "winner-board" : ""}`}>
-                                            <div className="cg-grid" style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}>
-                                                {Array.from({length: total}).map((_, idx) => (
-                                                    <div
-                                                        key={idx}
-                                                        className={
-                                                            activeSet.has(idx)
-                                                                ? "cg-cell cg-cell-active"
-                                                                : "cg-cell"
-                                                        }
-                                                    >
-                                                        {idx + 1}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </AccordionDetails>
-                    </Accordion>
-
-                    <Accordion>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon/>}
-                              className="accordion-vundet"
-                              aria-controls="panel4-content"
-                              id="panel4-header">
-                            <Typography component="span"> Uge 44 2025 </Typography>
-                            <Typography component="span">7, 12, 15</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <div className="boards-container">
-                                {mockDataByWeek.week45.map(board => {
-                                    const activeSet = new Set(board.activeIndices);
-
-                                    return(
-                                        <div key={board.id} className={`board-history ${board.isWinner ? "winner-board" : ""}`}>
-                                            <div className="cg-grid" style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}>
-                                                {Array.from({length: total}).map((_, idx) => (
-                                                    <div
-                                                        key={idx}
-                                                        className={
-                                                            activeSet.has(idx)
-                                                                ? "cg-cell cg-cell-active"
-                                                                : "cg-cell"
-                                                        }
-                                                    >
-                                                        {idx + 1}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </AccordionDetails>
-                    </Accordion>
-
+                            </Accordion>
+                    ))}
                 </div>
             </div>
-            <Footer/>
+
+            <Footer />
         </div>
-    )
+    );
 }
 
-export default SpilhistorikBruger;
+// export default SpilhistorikBruger;

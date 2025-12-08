@@ -1,36 +1,45 @@
-import { useNavigate } from "react-router-dom";
-import { authClient } from "../api-clients";
-//import type { Login } from "../generated-ts-client";
 import { useAtom } from "jotai";
 import { tokenAtom, userAtom } from "../Atoms/Auth";
+import { useNavigate } from "react-router-dom";
+import { authClient } from "../api-clients";
+import type { AuthUserInfoDto } from "../generated-ts-client";
 
 export const useAuth = () => {
-    const [, setJwt] = useAtom(tokenAtom);
+    const [, setToken] = useAtom(tokenAtom);
     const [, setUser] = useAtom(userAtom);
     const navigate = useNavigate();
 
     const login = async ({ username, password }: { username: string; password: string }) => {
         try {
+
             const response = await authClient.login({ username, password });
 
-            if (!response.jwt) throw new Error("Invalid credentials");
-            setJwt(response.jwt);
+            if (!response.jwt) {
+                throw new Error("Login failed: no token returned");
+            }
 
-            // Assume `response.user` contains the user info
-            //setUser(response.user);
+            setToken(response.jwt);
+
+            if (response.user) {
+                const user: AuthUserInfoDto = response.user;
+                setUser(user);
+            }
+
+            // Navigate based on role
             if (response.user?.roleId === 2) {
                 navigate("/forside-admin");
             } else {
                 navigate("/forside");
             }
+
         } catch (err) {
-            console.error("Login error:", err);
             throw err;
         }
     };
 
+
     const logout = () => {
-        setJwt(null);
+        setToken(null);
         setUser(null);
         navigate("/");
     };

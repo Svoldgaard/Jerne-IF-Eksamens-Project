@@ -1,5 +1,5 @@
 import '../CSS/SpilhistorikAdmin.css'
-import Logo from "../../../public/Logo.png";
+import Logo from "../../Assets/Logo.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 import {Accordion, AccordionSummary, Typography} from "@mui/material";

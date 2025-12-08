@@ -1,11 +1,12 @@
 import './UI/CSS/App.css'
 import Login from './UI/Login.tsx'
 import SpilSide from './UI/Bruger/SpilSide.tsx'
-import {createBrowserRouter, RouterProvider} from "react-router";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import AktivSpil from "./UI/Bruger/AktivSpil.tsx";
 import SpilhistorikBruger from "./UI/Bruger/SpilhistorikBruger.tsx";
 import ProfilBruger from "./UI/Bruger/ProfilBruger.tsx";
 import ForsideBruger from "./UI/Bruger/ForsideBruger.tsx";
+import ProfilAdmin from "./UI/Admin/ProfilAdmin.tsx";
 import Regler from "./UI/Regler.tsx";
 import ForsideAdmin from "./UI/Admin/ForsideAdmin.tsx";
 import OpretBruger from "./UI/OpretBruger.tsx";
@@ -15,7 +16,7 @@ import SpilhistorikAdmin from "./UI/Admin/SpilhistorikAdmin.tsx";
 import Vindertal from "./UI/Admin/Vindertal.tsx";
 import VundetPlader from "./UI/Admin/VundetPlader.tsx";
 
-function App() {
+const App = () => {
 
     const router = createBrowserRouter([
         // Login
@@ -44,11 +45,7 @@ function App() {
         {
             path: "/aktiv-spil",
             element: (
-                <AktivSpil
-                    boards={[
-                        { id: "Loading...", activeIndices: [] }
-                    ]}
-                />
+                <AktivSpil/>
             )
         },
         {
@@ -71,7 +68,7 @@ function App() {
         },
         {
             path: "/profil-admin",
-            element: <ProfilBruger/>
+            element: <ProfilAdmin/>
         },
         {
             path: "/aktive-plader-admin",

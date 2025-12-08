@@ -1,7 +1,7 @@
-import { TOKEN_KEY, tokenStorage } from "./Atoms/Token.ts";
-import { AuthClient } from "./generated-ts-client.ts";
+import { TOKEN_KEY, tokenStorage } from "./Atoms/Auth.ts";
+import {AuthClient, PladeClient, ProfilClient} from "./generated-ts-client.ts";
 
-const customFetch = async (url: RequestInfo, init?: RequestInit) => {
+export const customFetch = async (url: RequestInfo, init?: RequestInit) => {
     const token = tokenStorage.getItem(TOKEN_KEY, null);
 
     if(token){
@@ -16,6 +16,10 @@ const customFetch = async (url: RequestInfo, init?: RequestInit) => {
     return await fetch(url, init);
 };
 
+
 const baseUrl = "http://localhost:5233";
 
+
 export const authClient = new AuthClient(baseUrl, { fetch: customFetch });
+export const pladeClient = new PladeClient(baseUrl, { fetch: customFetch });
+export const profileClient = new ProfilClient(baseUrl, { fetch: customFetch });

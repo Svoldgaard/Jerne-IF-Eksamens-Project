@@ -1,33 +1,41 @@
 import '../CSS/AktivSpil.css'
-import Logo from "../../../public/Logo.png";
+import Logo from "../../Assets/Logo.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 import {useNavigate} from "react-router-dom";
 
+import {useActivePladesClient} from "../../Hooks/useActivePlades.ts";
+import {getCurrentWeekNumber, getCurrentYear} from "../../Utils/dateUtils.ts";
+
+
 export type Board = {
     id: string;
     activeIndices: number[];
+    gentag: boolean;
+    pris: number;
 }
 
-export type BoardListProps = {
-    boards?: Board[];
-    className?: string;
-}
 
-export default function AktivSpil({boards = [], className = ""} : BoardListProps) {
+export default function AktivSpil() {
     const rows = 4;
     const cols = 4;
     const total = rows * cols;
 
-    const mockBoards: Board[] = [
-        { id: "TX-1001", activeIndices: [3, 5, 10, 8, 15] },
-        { id: "TX-1002", activeIndices: [1, 6, 7, 12, 14,5] },
-        { id: "TX-1003", activeIndices: [2, 4, 8, 15, 3, 5] },
-        { id: "TX-1004", activeIndices: [0, 2, 3, 16, 4, 15] },
-        { id: "TX-1005", activeIndices: [5, 6, 9, 14, 8, 10, 7] }
-    ];
 
     const navigate = useNavigate();
+
+    const {activePlades, isLoading, error, updateGentag} = useActivePladesClient();
+
+    const currentWeek = getCurrentWeekNumber();
+    const currentYear = getCurrentYear();
+
+    const boardsToDisplay = activePlades.map(plade => ({
+        id: plade.id || "N/A",
+        activeIndices: plade.tal ? plade.tal.map(num => num - 1) : [],
+        gentage: plade.gentag || false,
+        pris: plade.pris || 0
+    }));
+
 
     return (
         <div className="page-aktivspil">
@@ -38,12 +46,37 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
                 <Header/>
                 <div className="background-aktivspil">
                     <div className="uge-aktivspil">
-                        <a className="text-aktivspil"> Uge: 48 2025</a>
+                        <a className="text-aktivspil"> Uge: {currentWeek} {currentYear}</a>
                     </div>
 
-                    <div className={`boards-list-container ${className}`}>
-                        {mockBoards.map((board, index) => {
+                    <div className={`boards-list-container`}>
+                        {isLoading && <p style={{
+                            textAlign: 'center',
+                            marginTop: '20px',
+                            color: 'white'}}>Henter aktive spil...</p>}
+
+                        {error && <p style={{
+                            textAlign: 'center',
+                            marginTop: '20px',
+                            color: '#ff6b6b'}}>Fejl: {error}</p>}
+
+                        {!isLoading && !error && boardsToDisplay.length === 0 && (
+                            <p style={{textAlign: 'center', marginTop: '20px', color: '#ff6b6b'}}>
+                                Ingen aktive spil fundet. :(
+                            </p>
+                        )}
+                        {boardsToDisplay.map((board, index) => {
                             const activeSet = new Set(board.activeIndices);
+
+                            const handleGentagChange = async (e: React.ChangeEvent<HTMLInputElement>)  => {
+                                const success = await updateGentag(board.id, e.target.checked)
+                                if (success) {
+                                    console.log(`Gentag status for ${board.id} is up to date`)
+                                } else{
+                                    alert("Kunne ikke opdatere gentag status ")
+                                }
+                            }
+
                             return(
                                 <div key={board.id} className="board-wrapper">
                                     <div className="board-row">
@@ -67,7 +100,9 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
                                         <div className="board-info">
                                             <div className="repeat-row">
                                                 <p>Gentag hver uge</p>
-                                                <input type="checkbox" className="checkbox-aktivspil" defaultChecked={index < 2}/>
+                                                <input type="checkbox" className="checkbox-aktivspil"
+                                                       checked={board.gentage}
+                                                       onChange={handleGentagChange}/>
                                             </div>
                                             <div className="board-header">
                                                 Transaktionsnr: {board.id}
@@ -77,7 +112,7 @@ export default function AktivSpil({boards = [], className = ""} : BoardListProps
                                             </div>
                                         </div>
                                     </div>
-                                    {index < mockBoards.length -1 && <hr className="separator" />}
+                                    {index < boardsToDisplay.length -1 && <hr className="separator" />}
                                 </div>
                             );
 

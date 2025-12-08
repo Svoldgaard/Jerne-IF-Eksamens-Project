@@ -1,9 +1,9 @@
 import {useNavigate} from "react-router";
 import '../CSS/Forside.css'
-import Logo from "../../../public/Logo.png";
-import BoardImage from "../../../public/BoardImage.png";
-import Board from "../../../public/Board.png";
-import Person from "../../../public/Person.png";
+import Logo from "../../Assets/Logo.png";
+import BoardImage from "../../Assets/BoardImage.png";
+import Board from "../../Assets/Board.png";
+import Person from "../../Assets/Person.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 

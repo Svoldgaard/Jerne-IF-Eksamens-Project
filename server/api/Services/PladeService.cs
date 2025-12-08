@@ -1,5 +1,6 @@
 using System.Globalization;
 using api.Models.Dtos.Request;
+using Api.Models.Dtos.Responses;
 using dataaccess.Entity;
 using dataaccess.MyDbContext;
 using Microsoft.EntityFrameworkCore;
@@ -11,39 +12,45 @@ public class PladeService(MyDbContext context) : IPladeService
     public async Task<Plade> CreatePladeAsync(PladeRequest request)
     {
         var newPladeId = Guid.NewGuid().ToString();
+        
         var currentCulture = CultureInfo.CurrentCulture;
         var weekNo = currentCulture.Calendar.GetWeekOfYear(
             DateTime.Now,
             currentCulture.DateTimeFormat.CalendarWeekRule,
             currentCulture.DateTimeFormat.FirstDayOfWeek);
+        var year = DateTime.Now.Year;
+        
+        var spiluge = await context.Spiluges
+            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
+
+        if (spiluge == null)
+        {
+            spiluge = new Spiluge
+            {
+                Ugetal = weekNo,
+                Årstal = year,
+                Status = true
+            };
+            context.Spiluges.Add(spiluge);
+            await context.SaveChangesAsync();
+        }
 
         var newPlade = new Plade
         {
-            Id = Guid.NewGuid().ToString(),
-
+            Id = newPladeId,
             Brugerid = request.UserId,
             Priceid = request.PriceId,
-            Ugetal = weekNo,
+            Ugetalid = spiluge.Id,
             Gentag = request.Repeat,
+            Valgtetal = request.SelectedNumbers,
+            Iswinner = false,
+            Status = true
             
         };
 
         context.Plades.Add(newPlade);
-        foreach (var number in request.SelectedNumbers )
-        {
-            var talRow = new Pladetal
-            {
-                //Pladeid = newPladeId,
-                Tal = number
-            };
-            
-            newPlade.Pladetals.Add(talRow);
-
-        }
-        context.Plades.Add(newPlade);
-        
         await context.SaveChangesAsync();
-
+        await UpdateBoardWinnerStatusAsync(newPladeId);
         return newPlade;
     }
 
@@ -62,4 +69,135 @@ public class PladeService(MyDbContext context) : IPladeService
             })
             .ToListAsync();
     }
+
+    public async Task<List<PladeResponse>> GetPladesByUserIdAsync(int userId)
+    {
+        var currentCulture = CultureInfo.CurrentCulture;
+        var weekNo = currentCulture.Calendar.GetWeekOfYear(
+            DateTime.Now,
+            currentCulture.DateTimeFormat.CalendarWeekRule,
+            currentCulture.DateTimeFormat.FirstDayOfWeek);
+        var year = DateTime.Now.Year;
+        
+        var activeSpiluge = await context.Spiluges
+            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
+
+        if (activeSpiluge == null)
+        {
+            return new List<PladeResponse>();
+        }
+        
+        
+        var plades = await context.Plades
+            .Where(p => p.Brugerid == userId)
+            .Where(p => p.Ugetalid == activeSpiluge.Id)
+            .Include(p => p.Price)
+            .Include(p => p.Ugetal)
+            .OrderByDescending(p => p.Ugetal.Ugetal)
+            .ToListAsync();
+        
+        return plades.Select(p => new PladeResponse
+        {
+            Id = p.Id,
+            Uge = p.Ugetal.Ugetal ?? 0,
+            Gentag = p.Gentag,
+            Pris = p.Price?.Price ?? 0,
+            Tal = p.Valgtetal ?? new List<int>()
+        }).ToList();
+    }
+
+    public async Task<List<PladeResponse>> GetSpilhistorikByUserIdAsync(int brugerId)
+    {
+        var plades = await context.Plades
+            .Where(p => p.Brugerid == brugerId)
+            .Include(p => p.Price)
+            .Include(p => p.Ugetal)
+            .ThenInclude(s => s.Vindersekvens)
+            .OrderByDescending(p => p.Ugetal.Årstal)
+            .ThenByDescending(p => p.Ugetal.Ugetal)
+            .ToListAsync();
+        
+        return plades.Select(p =>
+        {
+            // Console.WriteLine($"Plade {p.Id} tal: {string.Join(",", p.Valgtetal ?? [])}");
+
+            var winning = p.Ugetal!.Vindersekvens.FirstOrDefault()?.Vindertal ?? new List<int>();
+            
+            var isWinner = winning.Count > 0 && winning.All(n => p.Valgtetal.Contains(n));
+            
+            // Console.WriteLine($"WIN CHECK BACKEND: {p.Id}  chosen=[{string.Join(",", p.Valgtetal)}]  winning=[{string.Join(",", winning)}]  -> {isWinner}");
+            
+            return new PladeResponse
+            {
+                Id = p.Id,
+                Uge = p.Ugetal.Ugetal ?? 0,
+                Year = p.Ugetal.Årstal ?? DateTime.Now.Year,
+                Gentag = p.Gentag,
+                Pris = p.Price?.Price ?? 0,
+                IsWinner = isWinner,
+                Tal = p.Valgtetal ?? new List<int>(),
+                Vindertal = winning
+                // Vindertal = p.Ugetal!.Vindersekvens.FirstOrDefault()?.Vindertal ?? new List<int>()
+            };
+        }).ToList();
+    }
+    
+    public async Task UpdateBoardWinnerStatusAsync(string pladeId)
+    {
+        var plade = await context.Plades
+            .Include(p => p.Ugetal)
+            .ThenInclude(u => u.Vindersekvens)
+            .FirstOrDefaultAsync(p => p.Id == pladeId);
+
+        if (plade == null || plade.Ugetal == null) return;
+
+        var winningNumbers = plade.Ugetal.Vindersekvens.FirstOrDefault()?.Vindertal ?? new List<int>();
+        if (winningNumbers.Count == 0) return;
+        
+        bool isWinner = winningNumbers.Count > 0 && winningNumbers.All(n => plade.Valgtetal.Contains(n));
+        
+        
+        if (isWinner != plade.Iswinner)
+        {
+            plade.Iswinner = isWinner;
+            context.Plades.Update(plade);
+            await context.SaveChangesAsync();
+        }
+    }
+
+    public async Task<List<SpilugeResponse>> GetAllSpilugeAsync()
+    {
+        var spiluger = await  context.Spiluges
+            .Include(s => s.Vindersekvens)
+            .OrderByDescending(s => s.Årstal)
+            .ThenByDescending(s => s.Ugetal)
+            .ToListAsync();
+        
+        return spiluger.Select(s => new SpilugeResponse
+        {
+            Uge = s.Ugetal ?? 0,
+            Year = s.Årstal ?? 0,
+            Vindertal = s.Vindersekvens.FirstOrDefault()?.Vindertal ?? new List<int>()
+        }).ToList();
+    }
+
+
+    public async Task UpdateGentagStatusAsync(string pladeId, bool newStatus)
+    {
+        var updatePlade = new Plade
+        {
+            Id = pladeId,
+            Gentag = newStatus
+        };
+         context.Plades.Attach(updatePlade);
+         context.Entry(updatePlade).Property(p => p.Gentag).IsModified = true;
+         
+         await context.SaveChangesAsync();
+
+         context.Entry(updatePlade).State = EntityState.Detached;
+         
+    }
+    
+    
+    
 }
