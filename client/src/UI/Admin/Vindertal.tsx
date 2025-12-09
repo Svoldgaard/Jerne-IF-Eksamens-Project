@@ -23,6 +23,12 @@ const Vindertal = () => {
     };
 
     const handleSubmit = async () => {
+        const vindertalString = vindertal.join(" - ");
+
+        const confirmed: boolean = window.confirm("venligst bekræft du har tastet de rigtige vindertal: " + vindertalString);
+
+        if (!confirmed) return;
+
         await submitVindertal(ugetalID);
         navigate("/vundet-plader-admin");
     };
