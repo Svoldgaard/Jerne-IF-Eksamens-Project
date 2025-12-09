@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {customFetch} from "../api-clients.ts";
+import type {PladeResponse} from "../generated-ts-client.ts";
 
 const baseUrl = "http://localhost:5233";
 
@@ -8,13 +9,15 @@ export type AdminPladeResponse = {
     brugernavn: string;
     transaktionsNr: string;
     pris: number;
-    active: boolean;
+    betalt: boolean;
 }
 
 export const useAdminPlades = ()=> {
     const [adminPlades, setAdminPlades] = useState<AdminPladeResponse[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    //const [betaltPlades, setBetaltPlades] = useState<AdminPladeResponse[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,7 +31,7 @@ export const useAdminPlades = ()=> {
                 const data = await response.json();
                 setAdminPlades(data);
 
-            } catch(error: any) {
+            } catch(error) {
 
             console.error(error)
             setError("Failed to fetch to Admin");
@@ -40,5 +43,33 @@ export const useAdminPlades = ()=> {
         fetchData();
     }, []);
 
-    return {adminPlades, isLoading, error};
+    const updateBetalt = async (pladeId: string, newStatus: boolean)=>{
+        try {
+            const response = await customFetch(`${baseUrl}/api/plade/admin/update-betalt`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    pladeId: pladeId,
+                    betalt: newStatus
+                })
+            });
+
+            if(!response.ok){
+                throw new Error("Failed to update status");
+            }
+            setAdminPlades(prevPlades =>
+                prevPlades.map(plade =>
+                    plade.pladeId === pladeId ? {...plade, betalt: newStatus } : plade
+                )
+            );
+            return true;
+        }catch (error){
+            console.error("Update failed:", error);
+            return false;
+        }
+    };
+
+    return {adminPlades, isLoading, error, updateBetalt};
 };

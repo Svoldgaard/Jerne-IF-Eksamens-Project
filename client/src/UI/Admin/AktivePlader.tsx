@@ -19,9 +19,22 @@ function AktivePlader() {
     //     {brugernavn: "Franziska_Schulz", transaktionsNr: "TX-1009", pris: 40},
     // ]
 
-    const { adminPlades, isLoading, error } = useAdminPlades();
+    const { adminPlades, isLoading, error, updateBetalt } = useAdminPlades();
 
     const navigate = useNavigate();
+
+    const handleBetaltStatus = async (pladeId: string, e: React.ChangeEvent<HTMLInputElement>)  => {
+
+        const newStatus = e.target.checked;
+
+        const success = await updateBetalt(pladeId, newStatus);
+
+        if (!success) {
+
+            alert("Kunne ikke opdatere gentag status ")
+
+        }
+    }
 
     return (
         <div className="page-aktive-plader">
@@ -49,10 +62,10 @@ function AktivePlader() {
                                     <td>{row.transaktionsNr}</td>
                                     <td>{row.pris} DKK</td>
                                     <td>
-                                        {row.active}
                                         <input type="checkbox"
                                                className="checkbox-aktive-plader"
-                                               defaultChecked={row.active} />
+                                               checked={row.betalt}
+                                               onChange={(e) => handleBetaltStatus(row.pladeId, e)}/>
                                     </td>
                                 </tr>
                             ))}
