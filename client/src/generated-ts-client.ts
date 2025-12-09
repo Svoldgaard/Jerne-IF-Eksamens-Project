@@ -498,14 +498,14 @@ export class ProfilClient {
         return Promise.resolve<FileResponse>(null as any);
     }
 
-    updateProfil(id: number, updated: Profil): Promise<FileResponse> {
+    updateProfil(id: number, dto: ProfilUpdateDto): Promise<FileResponse> {
         let url_ = this.baseUrl + "/api/Profil/{id}";
         if (id === undefined || id === null)
             throw new globalThis.Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(updated);
+        const content_ = JSON.stringify(dto);
 
         let options_: RequestInit = {
             body: content_,
@@ -754,6 +754,13 @@ export interface Rolle {
     rollenavn?: string;
     logins?: Login[];
     profils?: Profil[];
+}
+
+export interface ProfilUpdateDto {
+    fnavn?: string;
+    lnavn?: string;
+    email?: string;
+    mobil?: string;
 }
 
 export interface FileResponse {

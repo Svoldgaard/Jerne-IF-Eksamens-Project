@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import { profileClient } from "../api-clients";
 import { useAtom } from "jotai";
 import { userAtom } from "../Atoms/Auth";
+import {type ProfilApi, updateProfil} from "../Core/ProfilApi.ts";
+
+
+
 
 export const useProfile = () => {
     const [user, setUser] = useAtom(userAtom);
@@ -28,21 +32,30 @@ export const useProfile = () => {
         if (!user?.userId) return;
 
         try {
-            const updated = {
+            const updatedProfil = {
+                id: user.userId,
                 fnavn: firstName,
                 lnavn: lastName,
                 email,
-                mobil,
+                mobil: mobil.toString(),
+                updated: new Date().toISOString(),
+                rolleId: 1,
+                bruger: email
             };
 
-            await profileClient.updateProfil(user.userId, updated);
+            const savedProfil= await updateProfil(user.userId, updatedProfil);
 
-            setUser({
-                ...user,
-                firstName,
-                lastName,
-                email,
-                mobil,
+            setUser(prev => {
+                if(!prev) return prev;
+                return {
+                    ...prev,
+                    firstName: savedProfil.fnavn,
+                    lastName: savedProfil.lnavn,
+                    email: savedProfil.email,
+                    mobilePhone: savedProfil.mobil,
+                    rolleId: 1,
+                    brugerId: email,
+                };
             });
 
             alert("Profil opdateret!");
@@ -51,6 +64,7 @@ export const useProfile = () => {
             setError("Fejl under opdatering");
         }
     };
+
 
     return {
         firstName, setFirstName,

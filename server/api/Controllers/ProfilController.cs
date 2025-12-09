@@ -34,14 +34,17 @@ public class ProfilController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProfil(int id, [FromBody] Profil updated)
+    public async Task<IActionResult> UpdateProfil(int id, [FromBody] ProfilUpdateDto dto)
     {
-        var profil = await _profilService.UpdateProfilAsync(id, updated);
+        var profil = await _profilService.UpdateProfilAsync(id, dto);
+
         if (profil == null)
             return NotFound();
-        
+
         return Ok(profil);
     }
+
+
     
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteProfil(int id)
