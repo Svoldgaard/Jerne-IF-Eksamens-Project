@@ -1,0 +1,183 @@
+
+.background-profil-admin {
+    /*margin-top: 50px;*/
+
+    width: 1140px;
+    margin: 0 auto;
+
+    flex: 1; /* fills space above footer */
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    background: #FFFFFF;
+    padding: 20px;
+}
+
+.page-profil-admin {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: hidden; /* prevents unnecessary scroll */
+    margin: 0;
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.input-profil-admin{
+    height: 40px;
+    width: 100%;
+    font-size: 16px;
+    /*margin-left: -50px;*/
+}
+
+.input-profil-admin::placeholder{
+    color: #000000;
+    padding-left: 2px;
+
+}
+
+.button-gem-profil-admin{
+    background: #d9d9d9;
+    color: #000000;
+    border: none;
+    height: 40px;
+    width: 150px;
+    font-size: 16px;
+    margin-left: 950px;
+    margin-top: 50px;
+    cursor: pointer;
+}
+
+.button-gem-profil-admin:hover{
+    background: #c3c3c3;
+}
+
+.profil-admin-row{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+
+}
+
+.profil-admin-row label{
+    width: 120px;
+    color: #000000;
+    font-weight: 600;
+    text-align: left;
+    /*margin-left: 40px*/
+}
+
+.header-profil-admin{
+    color: #000000;
+    text-align: left;
+    margin-left: 40px;
+}
+
+.table-brugere{
+    color: #000000;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: -30px;
+    /*margin-left: 40px;*/
+    /*margin-bottom: -20px;*/
+    font-size: 16px;
+    font-family: Source Sans Pro, sans-serif;
+}
+
+.profil-admin-content{
+    display: flex;
+    gap: 50px;
+    padding: 0 40px;   /* equal left/right margin */
+    margin-top: 20px;
+    align-items: flex-start; /* aligns table with top input */
+}
+
+.profil-admin-left{
+    flex: 1;
+    max-width: 350px;
+}
+
+.profil-admin-right{
+    flex: 2;
+}
+
+
+/*=== Mobile styles ===*/
+
+@media (max-width: 768px) {
+
+    .background-profil-admin {
+        width: 100%;
+        max-width: 100%;
+        padding: 15px;
+        margin: 0 auto;
+    }
+
+    .logo-plade {
+        position: static;
+        display: flex;
+        justify-content: center;
+        margin: 15px 0;
+    }
+
+    .logo-plade img {
+        width: 70px;
+        height: auto;
+    }
+
+    .profil-admin-row {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .profil-admin-row label {
+        font-size: 14px;
+    }
+
+    .input-profil-admin {
+        width: 85%;
+        max-width: 260px;
+        margin-left: 0;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .header-profil-admin {
+        text-align: center;
+        margin: 0 auto 20px auto;
+        font-size: 24px;
+    }
+
+    .button-gem-profil-admin {
+        width: 100%;
+        max-width: 260px;
+        padding: 12px;
+        font-size: 16px;
+        margin: 25px auto 0 auto;
+        display: block;
+    }
+
+    .page-profil-admin {
+        overflow-x: hidden;
+    }
+
+    .profil-admin-content {
+        flex-direction: column;
+        margin-left: 0;
+        gap: 20px;
+    }
+
+    .profil-admin-left,
+    .profil-admin-right {
+        max-width: 100%;
+    }
+}

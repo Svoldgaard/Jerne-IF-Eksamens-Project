@@ -89,7 +89,53 @@ public class PladeService(MyDbContext context) : IPladeService
             Tal = p.Valgtetal ?? new List<int>()
         }).ToList();
     }
+    
+    public async Task UpdateGentagStatusAsync(string pladeId, bool newStatus)
+    {
+        var updatePlade = new Plade
+        {
+            Id = pladeId,
+            Gentag = newStatus
+        };
+         context.Plades.Attach(updatePlade);
+         context.Entry(updatePlade).Property(p => p.Gentag).IsModified = true;
+         
+         await context.SaveChangesAsync();
 
+         context.Entry(updatePlade).State = EntityState.Detached;
+         
+    }
+
+    public async Task<List<AdminPladeResponse>> GetAllActivePladesAsync()
+    {
+        var currentCulture = CultureInfo.CurrentCulture;
+        var weekNo = currentCulture.Calendar.GetWeekOfYear(
+            DateTime.Now,
+            currentCulture.DateTimeFormat.CalendarWeekRule,
+            currentCulture.DateTimeFormat.FirstDayOfWeek);
+        var year =  DateTime.Now.Year;
+
+        var activeSpiluge = await context.Spiluges
+            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
+
+        if (activeSpiluge == null) return new List<AdminPladeResponse>();
+        
+        var plades = await context.Plades
+            .Where(p => p.Ugetalid == activeSpiluge.Id)
+            .Include(p => p.Bruger)
+            .Include(p => p.Price)
+            .ToListAsync();
+        
+        return plades.Select(p => new AdminPladeResponse
+        {
+            PladeId = p.Id,
+            Brugernavn = p.Bruger.Brugernavn,
+            TransaktionsNr = p.Id,
+            Pris = p.Price?.Price ?? 0,
+            Active = p.Status
+        }).ToList();
+    }
+    
     public async Task<List<PladeResponse>> GetSpilhistorikByUserIdAsync(int brugerId)
     {
         var plades = await context.Plades
@@ -164,54 +210,5 @@ public class PladeService(MyDbContext context) : IPladeService
             Vindertal = s.Vindersekvens.FirstOrDefault()?.Vindertal ?? new List<int>()
         }).ToList();
     }
-
-
-    public async Task UpdateGentagStatusAsync(string pladeId, bool newStatus)
-    {
-        var updatePlade = new Plade
-        {
-            Id = pladeId,
-            Gentag = newStatus
-        };
-         context.Plades.Attach(updatePlade);
-         context.Entry(updatePlade).Property(p => p.Gentag).IsModified = true;
-         
-         await context.SaveChangesAsync();
-
-         context.Entry(updatePlade).State = EntityState.Detached;
-         
-    }
-
-    public async Task<List<AdminPladeResponse>> GetAllActivePladesAsync()
-    {
-        var currentCulture = CultureInfo.CurrentCulture;
-        var weekNo = currentCulture.Calendar.GetWeekOfYear(
-            DateTime.Now,
-            currentCulture.DateTimeFormat.CalendarWeekRule,
-            currentCulture.DateTimeFormat.FirstDayOfWeek);
-        var year =  DateTime.Now.Year;
-
-        var activeSpiluge = await context.Spiluges
-            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
-
-        if (activeSpiluge == null) return new List<AdminPladeResponse>();
-        
-        var plades = await context.Plades
-            .Where(p => p.Ugetalid == activeSpiluge.Id)
-            .Include(p => p.Bruger)
-            .Include(p => p.Price)
-            .ToListAsync();
-        
-        return plades.Select(p => new AdminPladeResponse
-        {
-            PladeId = p.Id,
-            Brugernavn = p.Bruger.Brugernavn,
-            TransaktionsNr = p.Id,
-            Pris = p.Price?.Price ?? 0,
-            Active = p.Status
-        }).ToList();
-    }
-    
-    
     
 }

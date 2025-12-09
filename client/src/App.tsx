@@ -1,7 +1,7 @@
 import './UI/CSS/App.css'
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Login from './UI/Login.tsx'
 import SpilSide from './UI/Bruger/SpilSide.tsx'
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import AktivSpil from "./UI/Bruger/AktivSpil.tsx";
 import SpilhistorikBruger from "./UI/Bruger/SpilhistorikBruger.tsx";
 import ProfilBruger from "./UI/Bruger/ProfilBruger.tsx";
@@ -40,9 +40,7 @@ const App = () => {
         },
         {
             path: "/aktiv-spil",
-            element: (
-                <AktivSpil/>
-            )
+            element: <AktivSpil/>
         },
         {
             path: "/spilhistorik",
@@ -86,7 +84,6 @@ const App = () => {
             path: "/regler-admin",
             element: <Regler/>
         },
-
     ])
 
   return <RouterProvider router={router}/>
