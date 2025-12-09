@@ -3,48 +3,62 @@ import Logo from "../../Assets/Logo.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 import {useNavigate} from "react-router-dom";
+import {useVindertal} from "../../Hooks/useVindertal.ts";
+import {getCurrentWeekNumber, getCurrentYear} from "../../Utils/dateUtils.ts";
+import React from "react";
 
-function Vindertal() {
+const Vindertal = () => {
     const navigate = useNavigate();
+    const { vindertal, setVindertal, submitVindertal, loading, error } = useVindertal();
+
+    const currentWeek = getCurrentWeekNumber();
+    const currentYear = getCurrentYear();
+
+    const ugetalID = Number(`${currentWeek}${currentYear}`);
+
+    const handleChange = (index: number, value: string) => {
+        const newVals = [...vindertal];
+        newVals[index] = Number(value);
+        setVindertal(newVals);
+    };
+
+    const handleSubmit = async () => {
+        await submitVindertal(ugetalID);
+        navigate("/vundet-plader-admin");
+    };
 
     return (
         <div className="page-vindertal">
             <span className="logo-plade">
-                <img src={Logo} alt="Logo" onClick={() => navigate("/forside-admin")}/>
+                <img src={Logo} alt="Logo" onClick={() => navigate("/forside-admin")} />
             </span>
             <div className="main-container">
-                <Header/>
+                <Header />
                 <div className="background-vindertal">
-
-                    <h2 className="header-vindertal">Nuværende spil: Uge 48 2025</h2>
+                    <h2 className="header-vindertal">Nuværende spil: Uge {currentWeek} {currentYear} </h2>
                     <p className="text-vindertal">Vindertal:</p>
                     <div className="vindertal">
-                        <input
-                            type="text"
-                            placeholder=""
-                            className="input-vindertal"
-                        />
-                        <span className="separator-vindertal"></span>
-                        <input
-                            type="text"
-                            placeholder=""
-                            className="input-vindertal"
-                        />
-                        <span className="separator-vindertal"></span>
-                        <input
-                            type="text"
-                            placeholder=""
-                            className="input-vindertal"
-                        />
+                        {vindertal.map((val, idx) => (
+                            <React.Fragment key={idx}>
+                                <input
+                                    type="text"
+                                    value={val || ""}
+                                    onChange={(e) => handleChange(idx, e.target.value)}
+                                    className="input-vindertal"
+                                />
+                                {idx < vindertal.length - 1 && <span className="separator-vindertal"></span>}
+                            </React.Fragment>
+                        ))}
                     </div>
-                    <button className="button-gem-vindertal" onClick={() => navigate("/vundet-plader-admin")}>
-                        Gem
+                    {error && <p style={{ color: "red" }}>{error}</p>}
+                    <button className="button-gem-vindertal" onClick={handleSubmit} disabled={loading}>
+                        {loading ? "Gemmer..." : "Gem"}
                     </button>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
-    )
+    );
 }
 
 export default Vindertal;

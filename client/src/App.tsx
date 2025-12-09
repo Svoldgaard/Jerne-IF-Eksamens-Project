@@ -10,7 +10,6 @@ import ProfilAdmin from "./UI/Admin/ProfilAdmin.tsx";
 import Regler from "./UI/Regler.tsx";
 import ForsideAdmin from "./UI/Admin/ForsideAdmin.tsx";
 import OpretBruger from "./UI/OpretBruger.tsx";
-import GlemtPassword from "./UI/GlemtPassword.tsx";
 import AktivePlader from "./UI/Admin/AktivePlader.tsx";
 import SpilhistorikAdmin from "./UI/Admin/SpilhistorikAdmin.tsx";
 import Vindertal from "./UI/Admin/Vindertal.tsx";
@@ -28,10 +27,7 @@ const App = () => {
             path: "/opret-bruger",
             element: <OpretBruger/>
         },
-        {
-            path: "/glemt-password",
-            element: <GlemtPassword/>
-        },
+
 
         // Bruger
         {
