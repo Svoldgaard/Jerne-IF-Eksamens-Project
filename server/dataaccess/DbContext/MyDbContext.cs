@@ -25,7 +25,7 @@ public partial class MyDbContext : DbContext
     public virtual DbSet<Spiluge> Spiluges { get; set; }
 
     public virtual DbSet<Vindersekven> Vindersekvens { get; set; }
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Login>(entity =>

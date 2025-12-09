@@ -25,20 +25,24 @@ public class ProfilService : IProfilService
         return profil;
     }
 
-    public async Task<Profil> UpdateProfilAsync(int id, Profil updated)
+    public async Task<Profil> UpdateProfilAsync(int id, ProfilUpdateDto dto)
     {
-        var profil = await _context.Profils.FindAsync(id);
+        var profil = await GetProfilAsync(id);  
+
         if (profil == null)
             return null;
-        
-        profil.Fnavn = updated.Fnavn;
-        profil.Lnavn = updated.Lnavn;
-        profil.Email = updated.Email;
-        profil.Mobil = updated.Mobil;
-        
-        await _context.SaveChangesAsync();
+
+        profil.Fnavn = dto.Fnavn;
+        profil.Lnavn = dto.Lnavn;
+        profil.Email = dto.Email;
+        profil.Mobil = dto.Mobil;
+
+        await _context.SaveChangesAsync();   
         return profil;
     }
+
+
+
 
     public async Task<bool> DeleteProfilAsync(int id)
     {
