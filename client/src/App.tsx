@@ -1,7 +1,7 @@
 import './UI/CSS/App.css'
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Login from './UI/Login.tsx'
 import SpilSide from './UI/Bruger/SpilSide.tsx'
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import AktivSpil from "./UI/Bruger/AktivSpil.tsx";
 import SpilhistorikBruger from "./UI/Bruger/SpilhistorikBruger.tsx";
 import ProfilBruger from "./UI/Bruger/ProfilBruger.tsx";
@@ -10,7 +10,6 @@ import ProfilAdmin from "./UI/Admin/ProfilAdmin.tsx";
 import Regler from "./UI/Regler.tsx";
 import ForsideAdmin from "./UI/Admin/ForsideAdmin.tsx";
 import OpretBruger from "./UI/OpretBruger.tsx";
-import GlemtPassword from "./UI/GlemtPassword.tsx";
 import AktivePlader from "./UI/Admin/AktivePlader.tsx";
 import SpilhistorikAdmin from "./UI/Admin/SpilhistorikAdmin.tsx";
 import Vindertal from "./UI/Admin/Vindertal.tsx";
@@ -28,10 +27,7 @@ const App = () => {
             path: "/opret-bruger",
             element: <OpretBruger/>
         },
-        {
-            path: "/glemt-password",
-            element: <GlemtPassword/>
-        },
+
 
         // Bruger
         {
@@ -44,9 +40,7 @@ const App = () => {
         },
         {
             path: "/aktiv-spil",
-            element: (
-                <AktivSpil/>
-            )
+            element: <AktivSpil/>
         },
         {
             path: "/spilhistorik",
@@ -90,7 +84,6 @@ const App = () => {
             path: "/regler-admin",
             element: <Regler/>
         },
-
     ])
 
   return <RouterProvider router={router}/>

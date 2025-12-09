@@ -7,6 +7,59 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
+export class VinderTalClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl ?? "";
+    }
+
+    createVindertal(dto: CreateVindertalDTO): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/vindertal";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(dto);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processCreateVindertal(_response);
+        });
+    }
+
+    protected processCreateVindertal(response: Response): Promise<FileResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+            if (fileName) {
+                fileName = decodeURIComponent(fileName);
+            } else {
+                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            }
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FileResponse>(null as any);
+    }
+}
+
 export class AuthClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
@@ -401,6 +454,39 @@ export class PladeClient {
         }
         return Promise.resolve<FileResponse>(null as any);
     }
+
+    getAllActivePlades(): Promise<AdminPladeResponse[]> {
+        let url_ = this.baseUrl + "/api/Plade/admin/active-plades";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetAllActivePlades(_response);
+        });
+    }
+
+    protected processGetAllActivePlades(response: Response): Promise<AdminPladeResponse[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as AdminPladeResponse[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AdminPladeResponse[]>(null as any);
+    }
 }
 
 export class PriceClient {
@@ -627,6 +713,11 @@ export class ProfilClient {
     }
 }
 
+export interface CreateVindertalDTO {
+    vindertal?: number[] | undefined;
+    spilugeID?: number;
+}
+
 export interface LoginResponse {
     jwt?: string;
     user?: AuthUserInfoDto;
@@ -683,6 +774,14 @@ export interface PladeResponse {
 export interface UpdatePladeRequest {
     pladeId?: string;
     gentag?: boolean;
+}
+
+export interface AdminPladeResponse {
+    pladeId?: string;
+    brugernavn?: string;
+    transaktionsNr?: string;
+    pris?: number;
+    active?: boolean;
 }
 
 export interface PriceResponse {

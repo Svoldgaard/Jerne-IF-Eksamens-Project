@@ -11,10 +11,12 @@ public interface IPladeService
     Task<List<PladeResponse>> GetPladesByUserIdAsync(int userId);
 
     Task<List<PladeResponse>> GetSpilhistorikByUserIdAsync(int userId);
-    
+
     Task<List<SpilugeResponse>> GetAllSpilugeAsync();
-    
+
     Task UpdateBoardWinnerStatusAsync(string pladeId);
-    
+
     Task UpdateGentagStatusAsync(string pladeId, bool newStatus);
+
+    Task<List<AdminPladeResponse>> GetAllActivePladesAsync();
 }

@@ -160,11 +160,18 @@ public partial class MyDbContext : DbContext
 
             entity.ToTable("vindersekvens", "jerneif");
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Spilugeid).HasColumnName("spilugeid");
-            entity.Property(e => e.Vindertal).HasColumnName("vindertal");
+            entity.Property(e => e.Id)
+                .HasColumnName("id")
+                .ValueGeneratedOnAdd(); // <-- tell EF Core this is auto-increment
 
-            entity.HasOne(d => d.Spiluge).WithMany(p => p.Vindersekvens)
+            entity.Property(e => e.Spilugeid).HasColumnName("spilugeid");
+
+            entity.Property(e => e.Vindertal)
+                .HasColumnName("vindertal")
+                .HasColumnType("integer[]"); // <-- if using PostgreSQL array
+
+            entity.HasOne(d => d.Spiluge)
+                .WithMany(p => p.Vindersekvens)
                 .HasForeignKey(d => d.Spilugeid)
                 .HasConstraintName("fk_vindersekvens_spiluge");
         });

@@ -5,16 +5,17 @@ import Footer from "../../Component/Footer.tsx";
 import {Accordion, AccordionDetails, AccordionSummary, Typography} from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useNavigate} from "react-router";
-import { useSpilhistorikBruger} from "../../Hooks/useSpilhistorikBruger.ts";
-import type { PladeResponse } from "../../Hooks/useSpilhistorikBruger.ts";
+import {useSpilhistorikBruger} from "../../Hooks/useSpilhistorikBruger.ts";
 import {useAtomValue} from "jotai";
-import {tokenAtom, userAtom} from "../../Atoms/Auth.ts";
+import {userAtom} from "../../Atoms/Auth.ts";
 
 
 export default function SpilhistorikBruger() {
     const rows = 4;
     const cols = 4;
     const total = rows * cols;
+
+
 
     const navigate = useNavigate();
     const user = useAtomValue(userAtom);
@@ -36,7 +37,9 @@ export default function SpilhistorikBruger() {
         return acc;
     }, {});
 
-    const allWeeks = spiluger.map(w => {
+    const filteredWeeks = spiluger
+        .filter(w => w.vindertal && w.vindertal.length > 0)
+        .map(w => {
         const key = `${w.year}-${w.uge}`;
         return{
             key,
@@ -48,7 +51,7 @@ export default function SpilhistorikBruger() {
         }
     })
 
-    allWeeks.sort((a, b) => {
+    filteredWeeks.sort((a, b) => {
         if (a.year !== b.year) return b.year - a.year;
         return b.uge - a.uge;
     })
@@ -63,7 +66,7 @@ export default function SpilhistorikBruger() {
                 <Header />
 
                 <div className="background-spilhistorik-bruger">
-                    {allWeeks.map(week => (
+                    {filteredWeeks.map(week => (
                         // const [årstal, uge] = key.split("-");
 
                             <Accordion

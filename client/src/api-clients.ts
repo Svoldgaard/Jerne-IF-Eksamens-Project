@@ -1,5 +1,5 @@
 import { TOKEN_KEY, tokenStorage } from "./Atoms/Auth.ts";
-import {AuthClient, PladeClient, ProfilClient} from "./generated-ts-client.ts";
+import {AuthClient, PladeClient, ProfilClient,VinderTalClient} from "./generated-ts-client.ts";
 
 export const customFetch = async (url: RequestInfo, init?: RequestInit) => {
     const token = tokenStorage.getItem(TOKEN_KEY, null);
@@ -23,3 +23,4 @@ const baseUrl = "http://localhost:5233";
 export const authClient = new AuthClient(baseUrl, { fetch: customFetch });
 export const pladeClient = new PladeClient(baseUrl, { fetch: customFetch });
 export const profileClient = new ProfilClient(baseUrl, { fetch: customFetch });
+export const vinderTalClient = new VinderTalClient(baseUrl, { fetch: customFetch });

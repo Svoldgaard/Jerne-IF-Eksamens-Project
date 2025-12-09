@@ -56,21 +56,6 @@ export function useSpilhistorikBruger(brugerId?: number) {
 
                 const pladeData = await pladeRes.json();
 
-                // if(!response.ok) {
-                //     const msg = await response.text();
-                //     throw new Error(msg ||"Kunne ikke finde historikken");
-                // }
-
-                // const mapped: PladeResponse[] = data.map((p: any) => ({
-                //     id: p.id,
-                //     uge: p.uge,
-                //     year: p.year ?? p.Year ?? new Date().getFullYear(),
-                //     gentag: p.gentag,
-                //     pris: p.pris,
-                //     isWinner: p.isWinner,
-                //     tal: p.tal ?? [],
-                //     vindertal: p.vindertal ?? [],
-                // }))
                 const mappedUger = ugeData.map((u: any) => ({
                     uge: u.uge,
                     year: u.year,

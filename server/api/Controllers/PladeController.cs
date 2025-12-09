@@ -143,5 +143,21 @@ public class PladeController : ControllerBase
             return StatusCode(500, "Database Error: " + ex.Message);
         }
     }
-    
+
+    [HttpGet("admin/active-plades")]
+    [Authorize]
+    public async Task<ActionResult<List<AdminPladeResponse>>> GetAllActivePlades()
+    {
+        try
+        {
+            var result = await _pladeService.GetAllActivePladesAsync();
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+
+        }
+    }
+
 }

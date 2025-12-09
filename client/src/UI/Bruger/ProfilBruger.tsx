@@ -49,16 +49,6 @@ function ProfilBruger() {
                         />
                     </div>
                     <div className="profil-row">
-                        <label>Mobil nr:</label>
-                        <input
-                            type="text"
-                            placeholder="Mobil nr"
-                            className="input-profil"
-                            value={mobil}
-                            onChange={(e) => setMobil(e.target.value)}
-                        />
-                    </div>
-                    <div className="profil-row">
                         <label>Email:</label>
                         <input
                             type="text"
