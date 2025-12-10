@@ -5,7 +5,6 @@ using DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Xunit;
 using dataaccess.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;

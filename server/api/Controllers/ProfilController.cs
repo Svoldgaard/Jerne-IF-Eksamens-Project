@@ -17,21 +17,7 @@ public class ProfilController : ControllerBase
         _profilService = profilService;
     }
     
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetProfil(int id)
-    {
-        var profil = await _profilService.GetProfilAsync(id);
-        if (profil == null)
-            return NotFound();
-        return Ok(profil);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> CreateProfil([FromBody] Profil profil)
-    {
-        var created = await _profilService.CreateProfilAsync(profil);
-        return CreatedAtAction(nameof(GetProfil), new { id = profil.Id }, created);
-    }
+    
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProfil(int id, [FromBody] ProfilUpdateDto dto)
@@ -54,5 +40,13 @@ public class ProfilController : ControllerBase
             return NotFound();
         
         return NoContent();
+    }
+
+    [HttpGet("GetAllProfile")]
+    [Produces("application/json")]
+    public async Task<ActionResult<List<ProfilDto>>> GetAllProfil()
+    {
+        var profils = await _profilService.GetAllProfils();
+        return Ok(profils);
     }
 }

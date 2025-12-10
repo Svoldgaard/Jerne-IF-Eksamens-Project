@@ -6,7 +6,7 @@ import AktivSpil from "./UI/Bruger/AktivSpil.tsx";
 import SpilhistorikBruger from "./UI/Bruger/SpilhistorikBruger.tsx";
 import ProfilBruger from "./UI/Bruger/ProfilBruger.tsx";
 import ForsideBruger from "./UI/Bruger/ForsideBruger.tsx";
-import ProfilAdmin from "./UI/Admin/ProfilAdmin.tsx";
+import OverblikOverBruger from "./UI/Admin/OverblikOverBruger.tsx";
 import Regler from "./UI/Regler.tsx";
 import ForsideAdmin from "./UI/Admin/ForsideAdmin.tsx";
 import OpretBruger from "./UI/OpretBruger.tsx";
@@ -62,7 +62,7 @@ const App = () => {
         },
         {
             path: "/profil-admin",
-            element: <ProfilAdmin/>
+            element: <OverblikOverBruger/>
         },
         {
             path: "/aktive-plader-admin",
