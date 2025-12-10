@@ -49,4 +49,14 @@ public class ProfilController : ControllerBase
         var profils = await _profilService.GetAllProfils();
         return Ok(profils);
     }
+
+    [HttpPost("UpdateStatus")]
+    [Consumes("application/json")]
+    public async Task<ActionResult<bool>> UpdateStatus([FromBody] ProfilDto dto)
+    {
+        var success = await _profilService.UpdateStatus(dto);
+        if (!success) return NotFound("Profile not found");
+
+        return Ok(true);
+    }
 }
