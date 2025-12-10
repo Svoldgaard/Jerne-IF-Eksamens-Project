@@ -22,10 +22,6 @@ function SidebarAdmin(){
                         Forside
                     </div>
 
-                    <div onClick={() => {navigate("/overblik-admin"); setMenuOpen(false);}}>
-                        Profil
-                    </div>
-
                     <div onClick={() => {navigate("/regler-admin"); setMenuOpen(false);}}>
                         Regler
                     </div>
@@ -36,6 +32,10 @@ function SidebarAdmin(){
 
                     <div onClick={() => {navigate("/spilhistorik-admin"); setMenuOpen(false);}}>
                         Spilhistorik
+                    </div>
+
+                    <div onClick={() => {navigate("/overblik-admin"); setMenuOpen(false);}}>
+                        Overblik over Brugere
                     </div>
 
                 </div>

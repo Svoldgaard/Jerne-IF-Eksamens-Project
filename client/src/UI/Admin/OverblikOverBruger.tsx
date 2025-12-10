@@ -29,7 +29,7 @@ const OverblikOverBruger = () => {
             <div className="main-container">
                 <Header />
                 <div className="background-profil-admin">
-                    <h1 className="header-profil-admin">Profil</h1>
+                    <h1 className="header-profil-admin">Overblik over Brugere</h1>
 
                     <div className="profil-admin-content">
                         <div className="profil-admin-right">
@@ -46,6 +46,7 @@ const OverblikOverBruger = () => {
                                 {profiles.map((p) => (
                                     <tr
                                         key={p.email}
+                                        className="tr-admin"
                                         onContextMenu={(e) => onRowRightClick(e, p)}
                                     >
                                         <td>{p.fnavn}</td>

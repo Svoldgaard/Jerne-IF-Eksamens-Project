@@ -70,7 +70,7 @@
     cursor: pointer;
 }
 
-tr:hover{
+.tr-admin:hover{
     background-color: #D9D9D9;
 }
 
