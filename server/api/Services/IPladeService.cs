@@ -19,4 +19,6 @@ public interface IPladeService
     Task UpdateGentagStatusAsync(string pladeId, bool newStatus);
 
     Task<List<AdminPladeResponse>> GetAllActivePladesAsync();
+
+    Task UpdateBetaltStatusAsync(string pladeId, bool newStatus);
 }

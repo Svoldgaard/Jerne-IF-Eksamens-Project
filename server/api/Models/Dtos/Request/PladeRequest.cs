@@ -6,4 +6,5 @@ public class PladeRequest
     public int PriceId { get; set; }
     public int UserId {get; set;}
     public bool Repeat {get; set;}
+    
 }

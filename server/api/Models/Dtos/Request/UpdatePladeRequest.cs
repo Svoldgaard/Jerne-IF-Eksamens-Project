@@ -4,4 +4,5 @@ public class UpdatePladeRequest
 {
     public string PladeId {get; set;}
     public bool Gentag {get; set;}
+    public bool Betalt {get; set;}
 }

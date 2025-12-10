@@ -90,6 +90,12 @@ public class PladeService(MyDbContext context) : IPladeService
         }).ToList();
     }
     
+    /// <summary>
+    /// Two methods below is for checkboxes
+    /// </summary>
+    /// <param name="pladeId"></param>
+    /// <param name="newStatus"></param>
+    
     public async Task UpdateGentagStatusAsync(string pladeId, bool newStatus)
     {
         var updatePlade = new Plade
@@ -106,6 +112,25 @@ public class PladeService(MyDbContext context) : IPladeService
          
     }
 
+    public async Task UpdateBetaltStatusAsync(string pladeId, bool newStatus)
+    {
+        var updateStatusBetalt = new Plade
+        {
+            Id = pladeId,
+            Status = newStatus
+        };
+        context.Plades.Attach(updateStatusBetalt);
+        context.Entry(updateStatusBetalt).Property(p => p.Status).IsModified = true;
+        
+        await context.SaveChangesAsync();
+        
+        context.Entry(updateStatusBetalt).State = EntityState.Detached;
+
+    }
+    /// /// /// /// ///
+       
+    
+    
     public async Task<List<AdminPladeResponse>> GetAllActivePladesAsync()
     {
         var currentCulture = CultureInfo.CurrentCulture;
@@ -132,7 +157,7 @@ public class PladeService(MyDbContext context) : IPladeService
             Brugernavn = p.Bruger.Brugernavn,
             TransaktionsNr = p.Id,
             Pris = p.Price?.Price ?? 0,
-            Active = p.Status
+            Betalt = p.Status
         }).ToList();
     }
     

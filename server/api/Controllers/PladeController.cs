@@ -144,6 +144,21 @@ public class PladeController : ControllerBase
         }
     }
 
+    [HttpPatch("admin/update-betalt")]
+    [Authorize]
+    public async Task<IActionResult> UpdateBetaltStatus([FromBody] UpdatePladeRequest request)
+    {
+        try
+        {
+            await _pladeService.UpdateBetaltStatusAsync(request.PladeId, request.Betalt);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Database Error: " + ex.Message);
+        }
+    }
+
     [HttpGet("admin/active-plades")]
     [Authorize]
     public async Task<ActionResult<List<AdminPladeResponse>>> GetAllActivePlades()
