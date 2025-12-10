@@ -10,6 +10,9 @@ export function useTogglePigeon() {
     const [showAlertMax, setShowAlertMax] = useState(false);
     const [showAlertMin, setShowAlertMin] = useState(false);
 
+    const [isGameAvailable, setIsGameAvailable] = useState<boolean>(true);
+    const [loadingStatus, setLoadingStatus] = useState<boolean>(true);
+
     const [priceList, setPriceList] = useState<Record<number, number>>({});
 
     const buyPlade = async (userId: number, isRepeat: boolean) => {
@@ -129,6 +132,23 @@ export function useTogglePigeon() {
         }
     };
 
+    const checkShopStatus = async () => {
+        setLoadingStatus(true);
+        try {
+
+            const response = await fetch(`${baseUrl}/api/Plade/check-status`);
+            if (response.ok) {
+                const data = await response.json();
+                setIsGameAvailable(data.isOpen);
+            }
+        } catch (err) {
+            console.error("Could not check shop status", err);
+            setIsGameAvailable(false);
+        } finally {
+            setLoadingStatus(false);
+        }
+    };
+
 
 
     return {selectedPigeons,
@@ -140,5 +160,8 @@ export function useTogglePigeon() {
     ,handleAlertMin,
     showAlertMin,
     showAlertMax,
-    buyPlade};
+    buyPlade,
+    checkShopStatus,
+    isGameAvailable,
+    loadingStatus};
 }

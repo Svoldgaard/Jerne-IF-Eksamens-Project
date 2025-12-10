@@ -19,7 +19,7 @@ function AktivePlader() {
     //     {brugernavn: "Franziska_Schulz", transaktionsNr: "TX-1009", pris: 40},
     // ]
 
-    const { adminPlades, isLoading, error, updateBetalt } = useAdminPlades();
+    const { adminPlades, isLoading, error, updateBetalt, closeCurrentWeek } = useAdminPlades();
 
     const navigate = useNavigate();
 
@@ -33,6 +33,22 @@ function AktivePlader() {
 
             alert("Kunne ikke opdatere gentag status ")
 
+        }
+    }
+
+    const handleCloseWeek = async () => {
+        if (!window.confirm("Er du sikker på at du vil lukke ugen? Dette kan ikke fortrydes ")) {
+            return;
+        }
+
+        const success = await closeCurrentWeek();
+
+        if (success) {
+            alert("Uge lukket succesfuldt!");
+
+            navigate("/vindertal-admin");
+        } else {
+            alert("Kunne ikke lukke ugen.!")
         }
     }
 
@@ -74,7 +90,8 @@ function AktivePlader() {
 
                     <button
                         className="button-luk-uge"
-                        onClick={() => navigate("/vindertal-admin")}>
+                        onClick={handleCloseWeek}
+                        disabled={isLoading}>
                         Luk Uge
                     </button>
                 </div>

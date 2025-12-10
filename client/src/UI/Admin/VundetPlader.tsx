@@ -3,6 +3,7 @@ import Logo from "../../Assets/Logo.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 import {useNavigate} from "react-router-dom";
+import {useAdminPlades} from "../../Hooks/useAdminPlades.ts";
 
 function VundetPlader() {
     const data = [
@@ -12,7 +13,25 @@ function VundetPlader() {
         {brugernavn: "Babara-Schneider", transaktionsNr: "TX-1006", pris: 20, udbetalt: true},
         {brugernavn: "Franziska_Schulz", transaktionsNr: "TX-1009", pris: 40, udbetalt: true},
     ]
+
+    const {handleStartNewWeek, isLoading} = useAdminPlades();
+
     const navigate = useNavigate();
+
+    const onStartNewWeek = async () => {
+       if(!window.confirm("Er du sikker på, at du vil starte en nye uge? Dette vil åbne spillet for brugerne igen. ")) {
+           return;
+       }
+
+       const success: any = await handleStartNewWeek();
+
+       if(success) {
+           alert("En ny uge er startet!")
+           navigate("/forside-admin");
+       }else{
+           alert("Kunne ikke starte ny uge :(")
+       }
+    };
 
     return (
         <div className="page-vundet-plader">
@@ -46,8 +65,11 @@ function VundetPlader() {
                         </tbody>
                     </table>
 
-                    <button className="button-luk-uge" onClick={() => navigate("/forside-admin")}>
-                        Start ny uge
+                    <button className="button-luk-uge"
+                            onClick={onStartNewWeek}
+                            disabled={isLoading}
+                            style={{ cursor: isLoading ? 'wait' : 'pointer', opacity: isLoading ? 0.7 : 1 }}>
+                        {isLoading ? "Starter..." : "Start ny uge"}
                     </button>
 
                 </div>

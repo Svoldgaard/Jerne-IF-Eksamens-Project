@@ -7,8 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services;
 
+
+
 public class PladeService(MyDbContext context) : IPladeService
 {
+    
     public async Task<Plade> CreatePladeAsync(PladeRequest request)
     {
         var newPladeId = Guid.NewGuid().ToString();
@@ -23,16 +26,9 @@ public class PladeService(MyDbContext context) : IPladeService
         var spiluge = await context.Spiluges
             .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
 
-        if (spiluge == null)
+        if (spiluge == null || spiluge.Status == false)
         {
-            spiluge = new Spiluge
-            {
-                Ugetal = weekNo,
-                Årstal = year,
-                Status = true
-            };
-            context.Spiluges.Add(spiluge);
-            await context.SaveChangesAsync();
+            throw new InvalidOperationException($"Spillet for uge {weekNo} er lukket. Du kan ikke købe plader lige nu.");
         }
 
         var newPlade = new Plade
@@ -50,7 +46,7 @@ public class PladeService(MyDbContext context) : IPladeService
 
         context.Plades.Add(newPlade);
         await context.SaveChangesAsync();
-        await UpdateBoardWinnerStatusAsync(newPladeId);
+        //await UpdateBoardWinnerStatusAsync(newPladeId);
         return newPlade;
     }
 
@@ -127,6 +123,8 @@ public class PladeService(MyDbContext context) : IPladeService
         context.Entry(updateStatusBetalt).State = EntityState.Detached;
 
     }
+
+  
     /// /// /// /// ///
        
     
@@ -236,4 +234,83 @@ public class PladeService(MyDbContext context) : IPladeService
         }).ToList();
     }
     
+    public async Task CloseCurrenWeekAsync()
+    {
+        var currentCulture = CultureInfo.CurrentCulture;
+        var weekNo = currentCulture.Calendar.GetWeekOfYear(
+            DateTime.Now,
+            currentCulture.DateTimeFormat.CalendarWeekRule,
+            currentCulture.DateTimeFormat.FirstDayOfWeek);
+        var year = DateTime.Now.Year;
+        
+        var activeSpiluge = await context.Spiluges
+            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
+
+        if (activeSpiluge == null)
+        {
+            throw new InvalidOperationException($"No active spiluge found for week {weekNo}, {year}.");
+        }
+
+        activeSpiluge.Status = false;
+        
+        context.Spiluges.Update(activeSpiluge);
+        
+        await context.SaveChangesAsync();
+    }
+
+    public async Task StartNewWeekAsync()
+    {
+        var currentCulture = CultureInfo.CurrentCulture;
+        var weekNo = currentCulture.Calendar.GetWeekOfYear(
+            DateTime.Now,
+            currentCulture.DateTimeFormat.CalendarWeekRule,
+            currentCulture.DateTimeFormat.FirstDayOfWeek);
+        // var fakeFutureDate = DateTime.Now.AddDays(7); 
+        // var weekNo = currentCulture.Calendar.GetWeekOfYear(
+        //     fakeFutureDate,
+        //     currentCulture.DateTimeFormat.CalendarWeekRule,
+        //     currentCulture.DateTimeFormat.FirstDayOfWeek);
+        var year = DateTime.Now.Year;
+        
+        var currentSpiluge = await context.Spiluges
+            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
+
+        if (currentSpiluge != null)
+        {
+            currentSpiluge.Status = true;
+            context.Spiluges.Update(currentSpiluge);
+        }
+        else
+        {
+            var newSpiluge = new Spiluge
+            {
+                Ugetal = weekNo,
+                Årstal = year,
+                Status = true
+            };
+            context.Spiluges.Add(newSpiluge);
+        }
+        await context.SaveChangesAsync();
+    }
+
+    public async Task<WeekStatusResponse> GetWeekStatusAsync()
+    {
+        var currentCulture = CultureInfo.CurrentCulture;
+        var weekNo = currentCulture.Calendar.GetWeekOfYear(
+            DateTime.Now,
+            currentCulture.DateTimeFormat.CalendarWeekRule,
+            currentCulture.DateTimeFormat.FirstDayOfWeek);
+        var year = DateTime.Now.Year;
+
+        
+        var spiluge = await context.Spiluges
+            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
+
+        return new WeekStatusResponse
+        {
+            IsOpen = spiluge?.Status ?? false,
+            Week = weekNo,
+            Year = year
+        };
+    }
 }
