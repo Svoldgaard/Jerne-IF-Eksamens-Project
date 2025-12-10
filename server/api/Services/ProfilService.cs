@@ -67,16 +67,13 @@ public class ProfilService(MyDbContext ctx) : IProfilService
 
     public async Task<bool> UpdateStatus(ProfilDto dto)
     {
-        // Find profile by email
         var profil = await ctx.Profils.FirstOrDefaultAsync(p => p.Email == dto.Email);
         if (profil == null) return false;
-
-        // Force EF to mark property as modified
+        
         profil.Aktiv = dto.Aktiv;
         ctx.Entry(profil).Property(p => p.Aktiv).IsModified = true;
 
-        var changes = await ctx.SaveChangesAsync();
-        Console.WriteLine($"Changes saved: {changes}");
+        await ctx.SaveChangesAsync();
         return true;
     }
 

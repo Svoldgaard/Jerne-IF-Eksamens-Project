@@ -704,7 +704,7 @@ export class ProfilClient {
         return Promise.resolve<ProfilDto[]>(null as any);
     }
 
-    updateStatus(dto: ProfilDto): Promise<boolean> {
+    updateStatus(dto: { Fnavn: string; Lnavn: string; Email: string | undefined; Aktiv: boolean }): Promise<boolean> {
         let url_ = this.baseUrl + "/api/Profil/UpdateStatus";
         url_ = url_.replace(/[?&]$/, "");
 
