@@ -1,4 +1,4 @@
-import '../CSS/ProfilAdmin.css';
+import '../CSS/OverblikAdmin.css';
 import Logo from "../../Assets/Logo.png";
 import Header from "../../Component/Header";
 import Footer from "../../Component/Footer";
