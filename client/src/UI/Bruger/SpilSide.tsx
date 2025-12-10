@@ -32,7 +32,6 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
 
 
 
-
     //const activeSet = new Set(activeIndices);
 
     const {selectedPigeons,
@@ -41,10 +40,17 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
         handleAlertMin,
         showAlertMin,
         showAlertMax,
-        buyPlade} = useTogglePigeon();
+        buyPlade,
+        checkShopStatus,
+        isGameAvailable,
+        loadingStatus} = useTogglePigeon();
+
+
 
 
 useEffect(() => {
+
+
     const fetchUser = async () => {
         try{
             const userData = await authClient.userInfo();
@@ -55,9 +61,14 @@ useEffect(() => {
             console.warn("Error fetching user info: ", error);
             setCurrentUser(null);
         }
+        if (checkShopStatus) {
+            await checkShopStatus();
+        }
     }
     fetchUser();
 }, []);
+
+
 
     const handlePayment = async () => {
          const isValid = handleAlertMin();
@@ -65,11 +76,13 @@ useEffect(() => {
 
         if(!currentUser || !currentUser.userId){
             alert("Du skal være logget ind for at købe en plade.");
-
             return;
         }
 
-
+        if (!isGameAvailable) {
+            alert("Spillet er desværre lukket for denne uge. Vent venligst på at admin åbner næste uge.");
+            return;
+        }
 
         const success = await buyPlade(currentUser.userId, isRepeatCheked);
 
@@ -98,8 +111,15 @@ useEffect(() => {
                         <a className="text-uge"> Nuværende spil: Uge 48 2025</a>
                     </div>
 
+                    {!loadingStatus && !isGameAvailable && (
+                        <div style={{textAlign: 'center', padding: '20px', backgroundColor: '#ffebee', color: '#c62828', margin: '10px', borderRadius: '5px'}}>
+                            <h3>Spillet er lukket for denne uge</h3>
+                            <p>Afventer at en administrator åbner for næste uge.</p>
+                        </div>
+                    )}
 
-                    <div className={`cg-container ${className}`}>
+
+                    <div className={`cg-container ${className}`} style={{ opacity: isGameAvailable ? 1 : 0.5, pointerEvents: isGameAvailable ? 'auto' : 'none' }}>
                         <div
                         role="grid"
                         aria-rowcount={rows}
@@ -145,10 +165,12 @@ useEffect(() => {
                         )}
 
                         <button
-                            className={`button-gem ${isBetaleButtonActive ? 'button-pay-active' : ''}`}
+                            className={`button-gem ${isBetaleButtonActive && isGameAvailable ? 'button-pay-active' : ''}`}
+                            disabled={!isGameAvailable}
                             onClick={handlePayment}
+                            style={{ cursor: isGameAvailable ? 'pointer' : 'not-allowed', backgroundColor: isGameAvailable ? '' : 'grey' }}
                         >
-                            Betal
+                            {isGameAvailable ? "Betal" : "Lukket"}
                         </button>
 
 

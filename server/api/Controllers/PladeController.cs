@@ -175,4 +175,59 @@ public class PladeController : ControllerBase
         }
     }
 
+    [HttpPatch(nameof(CloseCurrentWeek))]
+    [Authorize]
+    public async Task<IActionResult> CloseCurrentWeek()
+    {
+        try
+        {
+            await _pladeService.CloseCurrenWeekAsync();
+
+            return NoContent();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Error closing week: " + ex.Message);
+        }
+    }
+
+    [HttpPost(nameof(StartNewWeek))]
+    [AllowAnonymous]
+    public async Task<IActionResult> StartNewWeek()
+    {
+        try
+        {
+            await _pladeService.StartNewWeekAsync();
+            
+            return NoContent();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Error opening week: " + ex.Message);
+        }
+    }
+
+    [HttpGet("check-status")]
+    [AllowAnonymous]
+    public async Task<IActionResult> CheckStatus()
+    {
+        try
+        {
+            var result = await _pladeService.GetWeekStatusAsync();
+            return Ok(result);
+        }
+        catch(Exception ex)
+        {
+            return StatusCode(500, "Error getting week status" + ex.Message);
+        }
+    }
+
 }
