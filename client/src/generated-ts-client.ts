@@ -699,47 +699,6 @@ export class ProfilClient {
         this.baseUrl = baseUrl ?? "";
     }
 
-    getProfil(id: number): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/Profil/{id}";
-        if (id === undefined || id === null)
-            throw new globalThis.Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "GET",
-            headers: {
-                "Accept": "application/octet-stream"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetProfil(_response);
-        });
-    }
-
-    protected processGetProfil(response: Response): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
-            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
-            if (fileName) {
-                fileName = decodeURIComponent(fileName);
-            } else {
-                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            }
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<FileResponse>(null as any);
-    }
-
     updateProfil(id: number, dto: ProfilUpdateDto): Promise<FileResponse> {
         let url_ = this.baseUrl + "/api/Profil/{id}";
         if (id === undefined || id === null)
@@ -826,46 +785,74 @@ export class ProfilClient {
         return Promise.resolve<FileResponse>(null as any);
     }
 
-    createProfil(profil: Profil): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/Profil";
+    getAllProfil(): Promise<ProfilDto[]> {
+        let url_ = this.baseUrl + "/api/Profil/GetAllProfile";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(profil);
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetAllProfil(_response);
+        });
+    }
+
+    protected processGetAllProfil(response: Response): Promise<ProfilDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProfilDto[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ProfilDto[]>(null as any);
+    }
+
+    updateStatus(dto: { Fnavn: string; Lnavn: string; Email: string | undefined; Aktiv: boolean }): Promise<boolean> {
+        let url_ = this.baseUrl + "/api/Profil/UpdateStatus";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(dto);
 
         let options_: RequestInit = {
             body: content_,
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             }
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processCreateProfil(_response);
+            return this.processUpdateStatus(_response);
         });
     }
 
-    protected processCreateProfil(response: Response): Promise<FileResponse> {
+    protected processUpdateStatus(response: Response): Promise<boolean> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
-            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
-            if (fileName) {
-                fileName = decodeURIComponent(fileName);
-            } else {
-                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            }
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as boolean;
+            return result200;
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<FileResponse>(null as any);
+        return Promise.resolve<boolean>(null as any);
     }
 }
 
@@ -939,6 +926,7 @@ export interface AdminPladeResponse {
     transaktionsNr?: string;
     pris?: number;
     betalt?: boolean;
+    tal?: number[];
 }
 
 export interface PriceResponse {
@@ -946,77 +934,18 @@ export interface PriceResponse {
     price?: number;
 }
 
-export interface Profil {
-    id?: number;
-    fnavn?: string;
-    lnavn?: string;
-    email?: string;
-    mobil?: string | undefined;
-    brugerid?: number;
-    aktiv?: boolean;
-    rolleid?: number;
-    bruger?: Login;
-    rolle?: Rolle;
-}
-
-export interface Login {
-    brugerid?: number;
-    brugernavn?: string;
-    password?: string;
-    rolleid?: number;
-    plades?: Plade[];
-    profils?: Profil[];
-    rolle?: Rolle;
-}
-
-export interface Plade {
-    id?: string;
-    ugetalid?: number;
-    valgtetal?: number[] | undefined;
-    gentag?: boolean;
-    brugerid?: number;
-    priceid?: number | undefined;
-    iswinner?: boolean;
-    status?: boolean;
-    bruger?: Login;
-    price?: Pricing | undefined;
-    ugetal?: Spiluge;
-}
-
-export interface Pricing {
-    id?: number;
-    price?: number;
-    plades?: Plade[];
-}
-
-export interface Spiluge {
-    id?: number;
-    ugetal?: number | undefined;
-    "årstal"?: number | undefined;
-    status?: boolean | undefined;
-    plades?: Plade[];
-    vindersekvens?: Vindersekven[];
-}
-
-export interface Vindersekven {
-    id?: number;
-    vindertal?: number[] | undefined;
-    spilugeid?: number;
-    spiluge?: Spiluge;
-}
-
-export interface Rolle {
-    rolleid?: number;
-    rollenavn?: string;
-    logins?: Login[];
-    profils?: Profil[];
-}
-
 export interface ProfilUpdateDto {
     fnavn?: string;
     lnavn?: string;
     email?: string;
     mobil?: string;
+}
+
+export interface ProfilDto {
+    fnavn?: string;
+    lnavn?: string;
+    email?: string;
+    aktiv?: boolean;
 }
 
 export interface FileResponse {

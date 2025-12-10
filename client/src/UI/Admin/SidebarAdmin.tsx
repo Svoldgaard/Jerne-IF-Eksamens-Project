@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import {useNavigate} from "react-router";
 import '../../UI/CSS/Sidebar.css';
 import {useClickOutside} from "../../Hooks/useClickOutside.ts";
@@ -22,10 +22,6 @@ function SidebarAdmin(){
                         Forside
                     </div>
 
-                    <div onClick={() => {navigate("/profil-admin"); setMenuOpen(false);}}>
-                        Profil
-                    </div>
-
                     <div onClick={() => {navigate("/regler-admin"); setMenuOpen(false);}}>
                         Regler
                     </div>
@@ -36,6 +32,10 @@ function SidebarAdmin(){
 
                     <div onClick={() => {navigate("/spilhistorik-admin"); setMenuOpen(false);}}>
                         Spilhistorik
+                    </div>
+
+                    <div onClick={() => {navigate("/overblik-admin"); setMenuOpen(false);}}>
+                        Overblik over Brugere
                     </div>
 
                 </div>

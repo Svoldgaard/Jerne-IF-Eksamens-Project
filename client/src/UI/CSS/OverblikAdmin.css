@@ -1,4 +1,29 @@
 
+/* Context menu container */
+.context-menu {
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 1000;
+    width: 150px;
+    border-radius: 4px;
+    padding: 5px 0;
+}
+
+/* Individual menu items */
+.context-menu-item {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #000000;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.context-menu-item:hover {
+    background-color: #d9d9d9;
+}
+
 .background-profil-admin {
     /*margin-top: 50px;*/
 
@@ -18,7 +43,6 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    overflow: hidden; /* prevents unnecessary scroll */
     margin: 0;
 }
 
@@ -26,51 +50,6 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-}
-
-.input-profil-admin{
-    height: 40px;
-    width: 100%;
-    font-size: 16px;
-    /*margin-left: -50px;*/
-}
-
-.input-profil-admin::placeholder{
-    color: #000000;
-    padding-left: 2px;
-
-}
-
-.button-gem-profil-admin{
-    background: #d9d9d9;
-    color: #000000;
-    border: none;
-    height: 40px;
-    width: 150px;
-    font-size: 16px;
-    margin-left: 950px;
-    margin-top: 50px;
-    cursor: pointer;
-}
-
-.button-gem-profil-admin:hover{
-    background: #c3c3c3;
-}
-
-.profil-admin-row{
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 15px;
-
-}
-
-.profil-admin-row label{
-    width: 120px;
-    color: #000000;
-    font-weight: 600;
-    text-align: left;
-    /*margin-left: 40px*/
 }
 
 .header-profil-admin{
@@ -88,6 +67,11 @@
     /*margin-bottom: -20px;*/
     font-size: 16px;
     font-family: Source Sans Pro, sans-serif;
+    cursor: pointer;
+}
+
+.tr-admin:hover{
+    background-color: #D9D9D9;
 }
 
 .profil-admin-content{
@@ -106,7 +90,6 @@
 .profil-admin-right{
     flex: 2;
 }
-
 
 /*=== Mobile styles ===*/
 
@@ -157,18 +140,7 @@
         font-size: 24px;
     }
 
-    .button-gem-profil-admin {
-        width: 100%;
-        max-width: 260px;
-        padding: 12px;
-        font-size: 16px;
-        margin: 25px auto 0 auto;
-        display: block;
-    }
-
-    .page-profil-admin {
-        overflow-x: hidden;
-    }
+    .
 
     .profil-admin-content {
         flex-direction: column;

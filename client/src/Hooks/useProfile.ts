@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { profileClient } from "../api-clients";
 import { useAtom } from "jotai";
 import { userAtom } from "../Atoms/Auth";
 import {type ProfilApi, updateProfil} from "../Core/ProfilApi.ts";
