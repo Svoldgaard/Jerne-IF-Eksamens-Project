@@ -818,7 +818,7 @@ export class ProfilClient {
         return Promise.resolve<ProfilDto[]>(null as any);
     }
 
-    updateStatus(dto: { Fnavn: string; Lnavn: string; Email: string | undefined; Aktiv: boolean }): Promise<boolean> {
+    updateStatus(dto: ProfilDto): Promise<boolean> {
         let url_ = this.baseUrl + "/api/Profil/UpdateStatus";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -926,7 +926,6 @@ export interface AdminPladeResponse {
     transaktionsNr?: string;
     pris?: number;
     betalt?: boolean;
-    tal?: number[];
 }
 
 export interface PriceResponse {
