@@ -21,4 +21,10 @@ public interface IPladeService
     Task<List<AdminPladeResponse>> GetAllActivePladesAsync();
 
     Task UpdateBetaltStatusAsync(string pladeId, bool newStatus);
+
+    Task CloseCurrenWeekAsync();
+
+    Task StartNewWeekAsync();
+
+    Task<WeekStatusResponse> GetWeekStatusAsync();
 }

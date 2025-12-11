@@ -71,5 +71,42 @@ export const useAdminPlades = ()=> {
         }
     };
 
-    return {adminPlades, isLoading, error, updateBetalt};
+    const closeCurrentWeek = async (): Promise<boolean> => {
+        try{
+            const response = await customFetch(`${baseUrl}/api/plade/CloseCurrentWeek`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if(!response.ok){
+                throw new Error("Failed to close week");
+            }
+            return true;
+        }catch(error){
+            console.error("Close week failed:", error);
+            return false;
+        }
+    };
+
+    const handleStartNewWeek = async () => {
+        setIsLoading(true);
+        try {
+            const response = await fetch(`${baseUrl}/api/Plade/StartNewWeek`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            if(!response.ok) throw new Error("Failed to start week");
+            return true;
+
+        } catch (error) {
+            console.error("Start week error:", error);
+            return false;
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    return {adminPlades, isLoading, error, updateBetalt, closeCurrentWeek, handleStartNewWeek};
 };
