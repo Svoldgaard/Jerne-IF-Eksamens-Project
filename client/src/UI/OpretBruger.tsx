@@ -1,11 +1,12 @@
 import React from "react";
 import '../UI/CSS/OpretBruger.css';
 import Logo from "../Assets/Logo.png";
+import BackArrow from "../Assets/BackArrow.png";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import {useOpretbruger} from "../Hooks/useOpretBruger.ts";
 
-const ProfilBruger = () => {
+const OpretBruger = () => {
     const {
         email,
         setEmail,
@@ -24,8 +25,18 @@ const ProfilBruger = () => {
             <span className="logo-plade">
                 <img src={Logo} alt="Logo"/>
             </span>
+
             <div className="main-container">
-                <Header/>
+
+                <div className="opretbruger-header">
+                    <img
+                        src={BackArrow}
+                        alt="Back Arrow"
+                        className="back-arrow"
+                        onClick={() => {window.history.back()}}
+                    />
+                </div>
+
                 <form className="background-profil" onSubmit={handleRegister}>
                     <h1 className="header-opretbruger">Opret Bruger</h1>
                     <div className="opretbruger-row">
@@ -81,4 +92,4 @@ const ProfilBruger = () => {
     );
 }
 
-export default ProfilBruger;
+export default OpretBruger;
