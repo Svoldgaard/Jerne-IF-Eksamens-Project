@@ -926,7 +926,6 @@ export interface AdminPladeResponse {
     transaktionsNr?: string;
     pris?: number;
     betalt?: boolean;
-    tal?: number[];
 }
 
 export interface PriceResponse {
