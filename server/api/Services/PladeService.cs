@@ -11,24 +11,25 @@ namespace Api.Services;
 
 public class PladeService(MyDbContext context) : IPladeService
 {
-    
+
     public async Task<Plade> CreatePladeAsync(PladeRequest request)
     {
         var newPladeId = Guid.NewGuid().ToString();
-        
+
         var currentCulture = CultureInfo.CurrentCulture;
         var weekNo = currentCulture.Calendar.GetWeekOfYear(
             DateTime.Now,
             currentCulture.DateTimeFormat.CalendarWeekRule,
             currentCulture.DateTimeFormat.FirstDayOfWeek);
         var year = DateTime.Now.Year;
-        
+
         var spiluge = await context.Spiluges
             .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
 
         if (spiluge == null || spiluge.Status == false)
         {
-            throw new InvalidOperationException($"Spillet for uge {weekNo} er lukket. Du kan ikke købe plader lige nu.");
+            throw new InvalidOperationException(
+                $"Spillet for uge {weekNo} er lukket. Du kan ikke købe plader lige nu.");
         }
 
         var newPlade = new Plade
@@ -41,7 +42,7 @@ public class PladeService(MyDbContext context) : IPladeService
             Valgtetal = request.SelectedNumbers,
             Iswinner = false,
             Status = true
-            
+
         };
 
         context.Plades.Add(newPlade);
@@ -58,6 +59,14 @@ public class PladeService(MyDbContext context) : IPladeService
             currentCulture.DateTimeFormat.FirstDayOfWeek);
         var year = DateTime.Now.Year;
         
+        // var fakeDate = DateTime.Now.AddDays(7); 
+    
+        // var weekNo = currentCulture.Calendar.GetWeekOfYear(
+        //     fakeDate, // <--- Use fakeDate here
+        //     currentCulture.DateTimeFormat.CalendarWeekRule,
+        //     currentCulture.DateTimeFormat.FirstDayOfWeek);
+        // var year = fakeDate.Year; // <--- Use fakeDate here
+
         var activeSpiluge = await context.Spiluges
             .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
 
@@ -65,8 +74,8 @@ public class PladeService(MyDbContext context) : IPladeService
         {
             return new List<PladeResponse>();
         }
-        
-        
+
+
         var plades = await context.Plades
             .Where(p => p.Brugerid == userId)
             .Where(p => p.Ugetalid == activeSpiluge.Id)
@@ -74,7 +83,7 @@ public class PladeService(MyDbContext context) : IPladeService
             .Include(p => p.Ugetal)
             .OrderByDescending(p => p.Ugetal.Ugetal)
             .ToListAsync();
-        
+
         return plades.Select(p => new PladeResponse
         {
             Id = p.Id,
@@ -84,13 +93,13 @@ public class PladeService(MyDbContext context) : IPladeService
             Tal = p.Valgtetal ?? new List<int>()
         }).ToList();
     }
-    
+
     /// <summary>
     /// Two methods below is for checkboxes
     /// </summary>
     /// <param name="pladeId"></param>
     /// <param name="newStatus"></param>
-    
+
     public async Task UpdateGentagStatusAsync(string pladeId, bool newStatus)
     {
         var updatePlade = new Plade
@@ -98,13 +107,13 @@ public class PladeService(MyDbContext context) : IPladeService
             Id = pladeId,
             Gentag = newStatus
         };
-         context.Plades.Attach(updatePlade);
-         context.Entry(updatePlade).Property(p => p.Gentag).IsModified = true;
-         
-         await context.SaveChangesAsync();
+        context.Plades.Attach(updatePlade);
+        context.Entry(updatePlade).Property(p => p.Gentag).IsModified = true;
 
-         context.Entry(updatePlade).State = EntityState.Detached;
-         
+        await context.SaveChangesAsync();
+
+        context.Entry(updatePlade).State = EntityState.Detached;
+
     }
 
     public async Task UpdateBetaltStatusAsync(string pladeId, bool newStatus)
@@ -116,18 +125,18 @@ public class PladeService(MyDbContext context) : IPladeService
         };
         context.Plades.Attach(updateStatusBetalt);
         context.Entry(updateStatusBetalt).Property(p => p.Status).IsModified = true;
-        
+
         await context.SaveChangesAsync();
-        
+
         context.Entry(updateStatusBetalt).State = EntityState.Detached;
 
     }
 
-  
+
     /// /// /// /// ///
-       
-    
-    
+
+
+
     public async Task<List<AdminPladeResponse>> GetAllActivePladesAsync()
     {
         var currentCulture = CultureInfo.CurrentCulture;
@@ -135,19 +144,19 @@ public class PladeService(MyDbContext context) : IPladeService
             DateTime.Now,
             currentCulture.DateTimeFormat.CalendarWeekRule,
             currentCulture.DateTimeFormat.FirstDayOfWeek);
-        var year =  DateTime.Now.Year;
+        var year = DateTime.Now.Year;
 
         var activeSpiluge = await context.Spiluges
             .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
 
         if (activeSpiluge == null) return new List<AdminPladeResponse>();
-        
+
         var plades = await context.Plades
             .Where(p => p.Ugetalid == activeSpiluge.Id)
             .Include(p => p.Bruger)
             .Include(p => p.Price)
             .ToListAsync();
-        
+
         return plades.Select(p => new AdminPladeResponse
         {
             PladeId = p.Id,
@@ -166,7 +175,7 @@ public class PladeService(MyDbContext context) : IPladeService
             currentCulture.DateTimeFormat.CalendarWeekRule,
             currentCulture.DateTimeFormat.FirstDayOfWeek);
         var year = DateTime.Now.Year;
-        
+
         var activeSpiluge = await context.Spiluges
             .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
 
@@ -176,29 +185,42 @@ public class PladeService(MyDbContext context) : IPladeService
         }
 
         activeSpiluge.Status = false;
-        
+
         context.Spiluges.Update(activeSpiluge);
-        
+
         await context.SaveChangesAsync();
     }
 
     public async Task StartNewWeekAsync()
     {
         var currentCulture = CultureInfo.CurrentCulture;
+        
         var weekNo = currentCulture.Calendar.GetWeekOfYear(
             DateTime.Now,
             currentCulture.DateTimeFormat.CalendarWeekRule,
             currentCulture.DateTimeFormat.FirstDayOfWeek);
-        // var fakeFutureDate = DateTime.Now.AddDays(7); 
-        // var weekNo = currentCulture.Calendar.GetWeekOfYear(
-        //     fakeFutureDate,
-        //     currentCulture.DateTimeFormat.CalendarWeekRule,
-        //     currentCulture.DateTimeFormat.FirstDayOfWeek);
         var year = DateTime.Now.Year;
         
+        ///below is commented chunk of code to test if it works when opened new week
+        
+        // var fakeDate = DateTime.Now.AddDays(7); 
+    
+        // var weekNo = currentCulture.Calendar.GetWeekOfYear(
+        //     fakeDate,
+        //     currentCulture.DateTimeFormat.CalendarWeekRule,
+        //     currentCulture.DateTimeFormat.FirstDayOfWeek);
+        // var year = fakeDate.Year;
+
+        var prevDate = DateTime.Now;
+        var prevWeekNo = currentCulture.Calendar.GetWeekOfYear(
+            prevDate,
+            currentCulture.DateTimeFormat.CalendarWeekRule,
+            currentCulture.DateTimeFormat.FirstDayOfWeek);
+        var prevYear = prevDate.Year;
+
         var currentSpiluge = await context.Spiluges
             .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
-        
+
 
         if (currentSpiluge != null)
         {
@@ -207,16 +229,68 @@ public class PladeService(MyDbContext context) : IPladeService
         }
         else
         {
-            var newSpiluge = new Spiluge
+            currentSpiluge = new Spiluge
             {
                 Ugetal = weekNo,
                 Årstal = year,
                 Status = true
             };
-            context.Spiluges.Add(newSpiluge);
+            context.Spiluges.Add(currentSpiluge);
+            await context.SaveChangesAsync();
+        }
+        
+        
+        var previousSpiluge = await context.Spiluges
+            .FirstOrDefaultAsync(s => s.Ugetal == prevWeekNo && s.Årstal == prevYear);
+
+        if (previousSpiluge != null)
+        {
+            var repeatingPlade = await context.Plades
+                .Where(p => p.Ugetalid == previousSpiluge.Id && p.Gentag == true)
+                .ToListAsync();
+
+            if (repeatingPlade.Count > 0)
+            {
+                var newPladeList = new List<Plade>();
+                
+                Console.WriteLine($"DEBUG: Looking for repeating plates in Week: {prevWeekNo} Year: {prevYear}");
+                
+                foreach (var oldPlade in repeatingPlade)
+                {
+                    bool alreadyExists = await context.Plades.AnyAsync(p =>
+                        p.Ugetalid == currentSpiluge.Id &&
+                        p.Brugerid == oldPlade.Brugerid &&
+                        p.Valgtetal == oldPlade.Valgtetal);
+
+
+                    if (!alreadyExists)
+                    {
+
+                        newPladeList.Add(new Plade
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Brugerid = oldPlade.Brugerid,
+                            Priceid = oldPlade.Priceid,
+                            Ugetalid = currentSpiluge.Id,
+                            Gentag = true,
+                            Valgtetal = oldPlade.Valgtetal,
+                            Iswinner = false,
+                            Status = false
+                        });
+                    }
+                }
+
+                if (newPladeList.Count > 0)
+                {
+                    context.Plades.AddRange(newPladeList);
+                }
+            }
         }
         await context.SaveChangesAsync();
+        
     }
+
+
 
     public async Task<WeekStatusResponse> GetWeekStatusAsync()
     {
