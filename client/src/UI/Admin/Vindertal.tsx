@@ -17,12 +17,37 @@ const Vindertal = () => {
     const ugetalID = Number(`${currentWeek}${currentYear}`);
 
     const handleChange = (index: number, value: string) => {
+
+        const num = Number(value);
+
+        if(value !== "" && (isNaN(num) || num < 1 || num > 16)) {
+            return;
+        }
+
         const newVals = [...vindertal];
         newVals[index] = Number(value);
         setVindertal(newVals);
     };
 
     const handleSubmit = async () => {
+        if (vindertal.some(v => v === 0)) {
+            alert("Alle tre vindertal skal udfyldes.");
+            return;
+        }
+
+        // Check for duplicates
+        const isUnique = new Set(vindertal).size === vindertal.length;
+        if (!isUnique) {
+            alert("Vindertallene skal være unikke. Det samme tal kan ikke bruges flere gange.");
+            return;
+        }
+
+        // Check valid range
+        if (!vindertal.every(v => v >= 1 && v <= 16)) {
+            alert("Alle vindertal skal være mellem 1 og 16.");
+            return;
+        }
+
         const vindertalString = vindertal.join(" - ");
 
         const confirmed: boolean = window.confirm("venligst bekræft du har tastet de rigtige vindertal: " + vindertalString);
@@ -47,7 +72,9 @@ const Vindertal = () => {
                         {vindertal.map((val, idx) => (
                             <React.Fragment key={idx}>
                                 <input
-                                    type="text"
+                                    type="Text"
+                                    min="1"
+                                    max="16"
                                     value={val || ""}
                                     onChange={(e) => handleChange(idx, e.target.value)}
                                     className="input-vindertal"

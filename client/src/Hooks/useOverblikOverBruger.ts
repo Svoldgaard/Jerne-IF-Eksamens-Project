@@ -19,7 +19,6 @@ export const useOverblikOverBruger = () => {
         profile: null,
     });
 
-    // Load profiles
     useEffect(() => {
         const loadProfiles = async () => {
             try {
@@ -35,7 +34,6 @@ export const useOverblikOverBruger = () => {
         loadProfiles();
     }, []);
 
-    // Close menu when clicking outside
     useEffect(() => {
         const close = () =>
             setContextMenu((prev) => ({ ...prev, visible: false }));
@@ -43,7 +41,7 @@ export const useOverblikOverBruger = () => {
         return () => window.removeEventListener("click", close);
     }, []);
 
-    // Show right-click menu
+
     const onRowRightClick = (e: React.MouseEvent, profile: ProfilDto) => {
         e.preventDefault();
         setContextMenu({
@@ -60,7 +58,7 @@ export const useOverblikOverBruger = () => {
         const profile = contextMenu.profile;
 
         const updatedProfile = {
-            Fnavn: profile.fnavn ?? "",   // send empty string if undefined
+            Fnavn: profile.fnavn ?? "",
             Lnavn: profile.lnavn ?? "",
             Email: profile.email,
             Aktiv: !profile.aktiv,
@@ -68,7 +66,7 @@ export const useOverblikOverBruger = () => {
 
         console.log("Sending to API:", updatedProfile);
 
-        // Optimistic UI update
+
         setProfiles((prev) =>
             prev.map((p) =>
                 p.email === profile.email ? { ...p, aktiv: !p.aktiv } : p
@@ -83,7 +81,6 @@ export const useOverblikOverBruger = () => {
             console.error(err);
             alert("Kunne ikke ændre status");
 
-            // Revert UI
             setProfiles((prev) =>
                 prev.map((p) =>
                     p.email === profile.email ? profile : p
