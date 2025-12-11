@@ -15,14 +15,12 @@ export default function SpilhistorikBruger() {
     const cols = 4;
     const total = rows * cols;
 
-
-
     const navigate = useNavigate();
     const user = useAtomValue(userAtom);
 
     const brugerId = user?.userId;
 
-    console.log("BRUGER ID:", brugerId);
+    // console.log("BRUGER ID:", brugerId);
 
     const { plader, spiluger, loading, error } = useSpilhistorikBruger(brugerId);
 
@@ -49,12 +47,12 @@ export default function SpilhistorikBruger() {
             boards: pladerByWeek[key] ?? [],
             hasBoards: (pladerByWeek[key] ?? []).length > 0
         }
-    })
+    });
 
     filteredWeeks.sort((a, b) => {
         if (a.year !== b.year) return b.year - a.year;
         return b.uge - a.uge;
-    })
+    });
 
     return (
         <div className="page-spilhistorik-bruger">

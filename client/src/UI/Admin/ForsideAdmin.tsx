@@ -41,10 +41,10 @@ function ForsideAdmin() {
                             <span className="arrow-icon">▶</span>
                         </div>
                     </button>
-                    <button className="button-forside" onClick={() => navigate("/profil-admin")}>
+                    <button className="button-forside" onClick={() => navigate("/overblik-admin")}>
                         <img src={Person} alt="Person" className="image-forside"/>
                         <div className="button-label-forside">
-                            <span>Profil</span>
+                            <span>Overblik over Brugere</span>
                             <span className="arrow-icon">▶</span>
                         </div>
                     </button>

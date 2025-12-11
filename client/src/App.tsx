@@ -61,7 +61,7 @@ const App = () => {
             element: <ForsideAdmin/>
         },
         {
-            path: "/profil-admin",
+            path: "/overblik-admin",
             element: <OverblikOverBruger/>
         },
         {

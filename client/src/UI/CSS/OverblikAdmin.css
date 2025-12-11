@@ -21,7 +21,7 @@
 }
 
 .context-menu-item:hover {
-    background-color: #f0f0f0;
+    background-color: #d9d9d9;
 }
 
 .background-profil-admin {
@@ -52,51 +52,6 @@
     flex-grow: 1;
 }
 
-.input-profil-admin{
-    height: 40px;
-    width: 100%;
-    font-size: 16px;
-    /*margin-left: -50px;*/
-}
-
-.input-profil-admin::placeholder{
-    color: #000000;
-    padding-left: 2px;
-
-}
-
-.button-gem-profil-admin{
-    background: #d9d9d9;
-    color: #000000;
-    border: none;
-    height: 40px;
-    width: 150px;
-    font-size: 16px;
-    margin-left: 950px;
-    margin-top: 50px;
-    cursor: pointer;
-}
-
-.button-gem-profil-admin:hover{
-    background: #c3c3c3;
-}
-
-.profil-admin-row{
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 15px;
-
-}
-
-.profil-admin-row label{
-    width: 120px;
-    color: #000000;
-    font-weight: 600;
-    text-align: left;
-    /*margin-left: 40px*/
-}
-
 .header-profil-admin{
     color: #000000;
     text-align: left;
@@ -112,6 +67,11 @@
     /*margin-bottom: -20px;*/
     font-size: 16px;
     font-family: Source Sans Pro, sans-serif;
+    cursor: pointer;
+}
+
+.tr-admin:hover{
+    background-color: #D9D9D9;
 }
 
 .profil-admin-content{
@@ -130,7 +90,6 @@
 .profil-admin-right{
     flex: 2;
 }
-
 
 /*=== Mobile styles ===*/
 
