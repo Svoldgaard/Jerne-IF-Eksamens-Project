@@ -46,7 +46,6 @@ public class PladeService(MyDbContext context) : IPladeService
 
         context.Plades.Add(newPlade);
         await context.SaveChangesAsync();
-        //await UpdateBoardWinnerStatusAsync(newPladeId);
         return newPlade;
     }
 
