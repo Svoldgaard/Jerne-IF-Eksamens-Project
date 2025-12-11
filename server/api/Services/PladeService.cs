@@ -274,6 +274,7 @@ public class PladeService(MyDbContext context) : IPladeService
         
         var currentSpiluge = await context.Spiluges
             .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
+        
 
         if (currentSpiluge != null)
         {
