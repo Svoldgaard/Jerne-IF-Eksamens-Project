@@ -27,20 +27,20 @@ public class ProfilService(MyDbContext ctx) : IProfilService
         var profil = await GetProfilAsync(id);  
 
         if (profil == null)
-            return null;
+            throw new KeyNotFoundException($"Profil med id {id} findes ikke");
 
         profil.Fnavn = dto.Fnavn;
         profil.Lnavn = dto.Lnavn;
         profil.Email = dto.Email;
-        profil.Mobil = dto.Mobil;
 
-        await ctx.SaveChangesAsync();   
+        Console.WriteLine(profil);
+        
+        var changes = await ctx.SaveChangesAsync(); 
+        Console.WriteLine(changes);
         return profil;
     }
 
-
-
-
+    
     public async Task<bool> DeleteProfilAsync(int id)
     {
         var profil = await ctx.Profils.FindAsync(id);
