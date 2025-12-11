@@ -4,6 +4,7 @@ import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 import {useNavigate} from "react-router-dom";
 import {useAdminPlades} from "../../Hooks/useAdminPlades.ts";
+import {useEffect, useRef} from "react";
 
 
 function AktivePlader() {
@@ -19,9 +20,32 @@ function AktivePlader() {
     //     {brugernavn: "Franziska_Schulz", transaktionsNr: "TX-1009", pris: 40},
     // ]
 
-    const { adminPlades, isLoading, error, updateBetalt, closeCurrentWeek } = useAdminPlades();
+    const { adminPlades,
+        isLoading,
+        error,
+        updateBetalt,
+        closeCurrentWeek,
+        checkAdminWeekStatus } = useAdminPlades();
+
+    const hasCheckedStatus = useRef(false);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if(hasCheckedStatus.current) return;
+
+        hasCheckedStatus.current = true;
+
+        const verifyStatus = async () => {
+            const isOpen = await checkAdminWeekStatus();
+
+            if (!isOpen) {
+                alert("Den nuværende uge er allerede lukket. Du vil blive omdirigeret til vindertal siden.");
+                navigate("/vindertal-admin");
+            }
+        };
+        verifyStatus();
+    },  []);
 
     const handleBetaltStatus = async (pladeId: string, e: React.ChangeEvent<HTMLInputElement>)  => {
 

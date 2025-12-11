@@ -108,5 +108,28 @@ export const useAdminPlades = ()=> {
         }
     }
 
-    return {adminPlades, isLoading, error, updateBetalt, closeCurrentWeek, handleStartNewWeek};
+    const checkAdminWeekStatus = async () => {
+        try {
+            const response = await customFetch(`${baseUrl}/api/Plade/check-status`);
+
+            if (response.ok) {
+                const data = await response.json();
+                return data.isOpen;
+            }
+            return false;
+        }catch(error){
+            console.error("Check week status failed:", error);
+            return false;
+        }
+    };
+
+
+
+    return {adminPlades,
+        isLoading,
+        error,
+        updateBetalt,
+        closeCurrentWeek,
+        handleStartNewWeek,
+        checkAdminWeekStatus};
 };

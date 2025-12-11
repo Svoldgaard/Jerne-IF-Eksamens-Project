@@ -36,6 +36,7 @@ public class Program
         builder.Services.AddScoped<ITokenService, JwtService>();
         builder.Services.AddScoped<IPriceService, PriceService>();
         builder.Services.AddScoped<IPladeService, PladeService>();
+        builder.Services.AddScoped<ISpilhistorikService, SpilhistorikService>();
         builder.Services.AddScoped<VindertalService>();
         
 
