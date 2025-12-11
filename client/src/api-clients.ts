@@ -1,15 +1,15 @@
 import { TOKEN_KEY, tokenStorage } from "./Atoms/Auth.ts";
-import {AuthClient, PladeClient, ProfilClient,VinderTalClient} from "./generated-ts-client.ts";
+import { AuthClient, PladeClient, ProfilClient, VinderTalClient } from "./generated-ts-client.ts";
 
 export const customFetch = async (url: RequestInfo, init?: RequestInit) => {
     const token = tokenStorage.getItem(TOKEN_KEY, null);
 
-    if(token){
+    if (token) {
         init = {
             ...(init ?? {}),
             headers: {
-            ...(init?.headers?? {}),
-            "Authorization": `Bearer ${token}`,
+                ...(init?.headers ?? {}),
+                "Authorization": `Bearer ${token}`,
             },
         };
     }
@@ -17,10 +17,9 @@ export const customFetch = async (url: RequestInfo, init?: RequestInit) => {
 };
 
 
-const baseUrl = "http://localhost:5233";
+const apiUrl = import.meta.env.VITE_API_URL;
 
-
-export const authClient = new AuthClient(baseUrl, { fetch: customFetch });
-export const pladeClient = new PladeClient(baseUrl, { fetch: customFetch });
-export const profileClient = new ProfilClient(baseUrl, { fetch: customFetch });
-export const vinderTalClient = new VinderTalClient(baseUrl, { fetch: customFetch });
+export const authClient = new AuthClient(apiUrl, { fetch: customFetch });
+export const pladeClient = new PladeClient(apiUrl, { fetch: customFetch });
+export const profileClient = new ProfilClient(apiUrl, { fetch: customFetch });
+export const vinderTalClient = new VinderTalClient(apiUrl, { fetch: customFetch });
