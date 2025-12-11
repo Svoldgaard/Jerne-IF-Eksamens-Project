@@ -17,6 +17,7 @@ export const useProfile = () => {
 
 
     useEffect(() => {
+        if (!user) return;
         if (!user.userId) return;
 
         setFirstName(user.firstName ?? "");
