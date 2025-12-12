@@ -81,4 +81,11 @@ public class SpilhistorikController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("admin/week/{year}/{week}")]
+    public async Task<IActionResult> GetWeekPlades(int year, int week)
+    {
+        var result = await _spilhistorikService.GetPladerForWeekAsync(year, week);
+        return Ok(result);
+    }
+
 }

@@ -80,4 +80,28 @@ public class SpilhistorikService(MyDbContext context) : ISpilhistorikService
             Vindertal = s.Vindersekvens.FirstOrDefault()?.Vindertal ?? new List<int>()
         }).ToList();
     }
+    
+    public async Task<List<AdminPladeResponse>> GetPladerForWeekAsync(int year, int week)
+    {
+        var spiluge = await context.Spiluges
+            .FirstOrDefaultAsync(s => s.Ugetal == week && s.Årstal == year);
+    
+        if (spiluge == null)
+            return new List<AdminPladeResponse>();
+        
+        var plades = await context.Plades
+            .Where(p => p.Ugetalid == spiluge.Id)
+            .Include(p => p.Bruger)
+            .ThenInclude(b => b.Profils)
+            .ToListAsync();
+        
+        return plades.Select(p => new AdminPladeResponse
+        {
+            PladeId = p.Id,
+            Email = p.Bruger.Profils.FirstOrDefault()?.Email,
+            Tal = p.Valgtetal,
+            TransaktionsNr = p.Id
+        }).ToList();
+    }
+    
 }
