@@ -46,10 +46,7 @@ public class AuthController : ControllerBase
             return BadRequest(new { message = "Login failed", detail = ex.Message });
         }
     }
-
-
-
-
+    
     [AllowAnonymous]
     [HttpPost("register")]
     public async Task<ActionResult<RegisterResponse>> Register([FromBody] RegisterRequest request)

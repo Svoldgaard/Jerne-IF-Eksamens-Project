@@ -24,23 +24,45 @@ public class ProfilService(MyDbContext ctx) : IProfilService
 
     public async Task<Profil> UpdateProfilAsync(int id, ProfilUpdateDto dto)
     {
-        var profil = await GetProfilAsync(id);  
 
+        var profil = await ctx.Profils.FindAsync(id);
         if (profil == null)
-            return null;
+        {
+            Console.WriteLine($"Profil med id {id} findes ikke!");
+            throw new KeyNotFoundException($"Profil med id {id} findes ikke");
+        }
 
-        profil.Fnavn = dto.Fnavn;
-        profil.Lnavn = dto.Lnavn;
-        profil.Email = dto.Email;
-        profil.Mobil = dto.Mobil;
 
-        await ctx.SaveChangesAsync();   
+        Console.WriteLine($"Before update: {profil.Fnavn}, {profil.Lnavn}, {profil.Email}");
+
+
+        profil.Fnavn = dto.Fnavn?.Trim();
+        profil.Lnavn = dto.Lnavn?.Trim();
+        profil.Email = dto.Email?.Trim();
+
+        ctx.Entry(profil).Property(p => p.Fnavn).IsModified = true;
+        ctx.Entry(profil).Property(p => p.Lnavn).IsModified = true;
+        ctx.Entry(profil).Property(p => p.Email).IsModified = true;
+
+         try
+        {
+            var changes = await ctx.SaveChangesAsync();
+            Console.WriteLine($"Rows updated: {changes}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("SaveChangesAsync fejlede:");
+            Console.WriteLine(ex.ToString());
+            throw;
+        }
+
+
+        Console.WriteLine($"After update: {profil.Fnavn}, {profil.Lnavn}, {profil.Email}");
+
         return profil;
     }
 
-
-
-
+    
     public async Task<bool> DeleteProfilAsync(int id)
     {
         var profil = await ctx.Profils.FindAsync(id);

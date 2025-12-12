@@ -1,31 +1,48 @@
 import { useAtom } from "jotai";
-import { tokenAtom, userAtom } from "../Atoms/Auth";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { tokenAtom, userAtom } from "../Atoms/Auth";
 import { authClient } from "../api-clients";
+
 import type { AuthUserInfoDto } from "../generated-ts-client";
 
 export const useAuth = () => {
-    const [, setToken] = useAtom(tokenAtom);
-    const [, setUser] = useAtom(userAtom);
+
+    // global atoms
+    const [token, setToken] = useAtom(tokenAtom);
+    const [user, setUser] = useAtom(userAtom);
+
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+
+        if (storedToken && !token) {
+            setToken(storedToken);
+        }
+    }, []);
+
 
     const login = async ({ username, password }: { username: string; password: string }) => {
         try {
-
             const response = await authClient.login({ username, password });
 
             if (!response.jwt) {
-                throw new Error("Login failed: no token returned");
+                throw new Error("Login failed: missing token.");
             }
+
 
             setToken(response.jwt);
+            localStorage.setItem("token", response.jwt);
+
 
             if (response.user) {
-                const user: AuthUserInfoDto = response.user;
-                setUser(user);
+                setUser(response.user);
             }
 
-            // Navigate based on role
+
             if (response.user?.roleId === 2) {
                 navigate("/forside-admin");
             } else {
@@ -33,6 +50,7 @@ export const useAuth = () => {
             }
 
         } catch (err) {
+            console.error("Login error", err);
             throw err;
         }
     };
@@ -41,8 +59,17 @@ export const useAuth = () => {
     const logout = () => {
         setToken(null);
         setUser(null);
+
+        localStorage.removeItem("token");
+
         navigate("/");
     };
 
-    return { login, logout };
+    return {
+        user,
+        setUser,
+        token,
+        login,
+        logout
+    };
 };

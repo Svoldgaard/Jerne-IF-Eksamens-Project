@@ -31,27 +31,25 @@ public class AuthService : IAuthService
 
     public async Task<AuthUserInfoDto> AuthenticateAsync(LoginRequest request)
     {
-        try
-        {
-            var profile = _profileRepository.Query().SingleOrDefault(p => p.Email == request.Username);
-            _logger.LogInformation("Login request: {Username}", request.Username);
-            if (profile == null) throw new AuthenticationError();
+        var login = _loginRepository.Query()
+            .SingleOrDefault(l => l.Brugernavn == request.Username);
 
-            var login = _loginRepository.Query().SingleOrDefault(l => l.Brugerid == profile.Brugerid);
-            if (login == null) throw new AuthenticationError();
-
-            var result = _passwordHasher.VerifyHashedPassword(login, login.Password, request.Password);
-            _logger.LogInformation("Password verification result: {Result}", result);
-            if (result != PasswordVerificationResult.Success) throw new AuthenticationError();
-
-
-            return login.ToDto(profile);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Authenticate error");
+        if (login == null)
             throw new AuthenticationError();
-        }
+
+        var result =
+            _passwordHasher.VerifyHashedPassword(login, login.Password, request.Password);
+
+        if (result != PasswordVerificationResult.Success)
+            throw new AuthenticationError();
+
+        var profile = _profileRepository.Query()
+            .SingleOrDefault(p => p.Brugerid == login.Brugerid);
+
+        if (profile == null)
+            throw new AuthenticationError();
+
+        return login.ToDto(profile);
     }
 
     public async Task<AuthUserInfoDto> RegisterAsync(RegisterRequest request)

@@ -19,16 +19,23 @@ public class ProfilController : ControllerBase
     
     
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProfil(int id, [FromBody] ProfilUpdateDto dto)
+    [HttpPost("UpdateProfil")]
+    [Produces("application/json")]
+    public async Task<ActionResult<ProfilUpdateDto>> UpdateProfil([FromBody] ProfilUpdateDto dto)
     {
-        var profil = await _profilService.UpdateProfilAsync(id, dto);
+        if (dto == null || dto.UserId == 0)
+            return BadRequest("Ugyldigt DTO");
+
+        var profil = await _profilService.UpdateProfilAsync(dto.UserId, dto);
 
         if (profil == null)
             return NotFound();
 
         return Ok(profil);
     }
+
+
+
 
 
     
