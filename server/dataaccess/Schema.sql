@@ -75,6 +75,7 @@ CREATE TABLE jerneif.Plade (
                                priceID INT,
                                isWinner BOOLEAN NOT NULL DEFAULT FALSE,
                                Status BOOLEAN NOT NULL DEFAULT FALSE,
+                               Ubetalt BOOLEAN NOT NULL DEFAULT FALSE,
                                CONSTRAINT fk_plade_login
                                    FOREIGN KEY (BrugerID)
                                        REFERENCES jerneif.Login (BrugerID)
