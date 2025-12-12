@@ -33,6 +33,8 @@ function VundetPlader() {
        }
     };
 
+
+
     return (
         <div className="page-vundet-plader">
             <span className="logo-plade">
