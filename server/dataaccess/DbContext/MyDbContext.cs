@@ -25,7 +25,7 @@ public partial class MyDbContext : DbContext
     public virtual DbSet<Spiluge> Spiluges { get; set; }
 
     public virtual DbSet<Vindersekven> Vindersekvens { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Login>(entity =>
@@ -68,6 +68,9 @@ public partial class MyDbContext : DbContext
             entity.Property(e => e.Status)
                 .HasDefaultValue(false)
                 .HasColumnName("status");
+            entity.Property(e => e.Udbetalt)
+                .HasDefaultValue(false)
+                .HasColumnName("udbetalt");
             entity.Property(e => e.Ugetalid).HasColumnName("ugetalid");
             entity.Property(e => e.Valgtetal).HasColumnName("valgtetal");
 
@@ -160,18 +163,11 @@ public partial class MyDbContext : DbContext
 
             entity.ToTable("vindersekvens", "jerneif");
 
-            entity.Property(e => e.Id)
-                .HasColumnName("id")
-                .ValueGeneratedOnAdd(); // <-- tell EF Core this is auto-increment
-
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Spilugeid).HasColumnName("spilugeid");
+            entity.Property(e => e.Vindertal).HasColumnName("vindertal");
 
-            entity.Property(e => e.Vindertal)
-                .HasColumnName("vindertal")
-                .HasColumnType("integer[]"); // <-- if using PostgreSQL array
-
-            entity.HasOne(d => d.Spiluge)
-                .WithMany(p => p.Vindersekvens)
+            entity.HasOne(d => d.Spiluge).WithMany(p => p.Vindersekvens)
                 .HasForeignKey(d => d.Spilugeid)
                 .HasConstraintName("fk_vindersekvens_spiluge");
         });
