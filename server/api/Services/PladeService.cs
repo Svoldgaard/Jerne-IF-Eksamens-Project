@@ -194,14 +194,11 @@ public class PladeService(MyDbContext context) : IPladeService
     public async Task StartNewWeekAsync()
     {
         var currentCulture = CultureInfo.CurrentCulture;
-        
         var weekNo = currentCulture.Calendar.GetWeekOfYear(
             DateTime.Now,
             currentCulture.DateTimeFormat.CalendarWeekRule,
             currentCulture.DateTimeFormat.FirstDayOfWeek);
         var year = DateTime.Now.Year;
-        
-        ///below is commented chunk of code to test if it works when opened new week
         
         // var fakeDate = DateTime.Now.AddDays(7); 
     
@@ -287,10 +284,7 @@ public class PladeService(MyDbContext context) : IPladeService
             }
         }
         await context.SaveChangesAsync();
-        
     }
-
-
 
     public async Task<WeekStatusResponse> GetWeekStatusAsync()
     {
