@@ -1013,6 +1013,7 @@ export interface AdminPladeResponse {
     betalt?: boolean;
     tal?: number[];
     email?: string;
+    isWinner?: boolean;
 }
 
 export interface PriceResponse {

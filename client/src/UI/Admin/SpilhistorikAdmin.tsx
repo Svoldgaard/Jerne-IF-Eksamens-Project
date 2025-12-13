@@ -77,13 +77,27 @@ function SpilhistorikAdmin() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        {weekPlayers[week.key].map(p => (
-                                            <tr key={p.pladeId}>
-                                                <td>{p.email}</td>
-                                                <td>{p.transaktionsNr}</td>
-                                                <td>{p.tal.join(", ")}</td>
-                                            </tr>
-                                        ))}
+                                        {/*{weekPlayers[week.key].map(p => (*/}
+                                        {/*    <tr key={p.pladeId}*/}
+                                        {/*        className={p.isWinner ? "winner-row" : ""}>*/}
+                                        {/*        <td>{p.email}</td>*/}
+                                        {/*        <td>{p.transaktionsNr}</td>*/}
+                                        {/*        <td>{p.tal.join(", ")}</td>*/}
+                                        {/*    </tr>*/}
+                                        {/*))}*/}
+                                        {weekPlayers[week.key].map(p => {
+                                            console.log("ROW DATA:", p);
+                                            return (
+                                                <tr
+                                                    key={p.pladeId}
+                                                    className={p.isWinner ? "winner-row" : ""}
+                                                >
+                                                    <td>{p.email}</td>
+                                                    <td>{p.transaktionsNr}</td>
+                                                    <td>{p.tal.join(", ")}</td>
+                                                </tr>
+                                            );
+                                        })}
                                         </tbody>
                                     </table>
                                 </div>
