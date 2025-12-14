@@ -123,6 +123,21 @@ export const useAdminPlades = ()=> {
         }
     };
 
+    const checkWinningNumbers = async () => {
+        try {
+            const response = await customFetch(`${baseUrl}/vindertal/check-winning-numbers`);
+
+            if (response.ok) {
+                const data = await response.json();
+                return data.hasWinningNumbers;
+            }
+            return false;
+        }catch(error){
+            console.error("Check winning numbers failed:", error);
+            return false;
+        }
+    };
+
 
 
     return {adminPlades,
@@ -131,5 +146,6 @@ export const useAdminPlades = ()=> {
         updateBetalt,
         closeCurrentWeek,
         handleStartNewWeek,
-        checkAdminWeekStatus};
+        checkAdminWeekStatus,
+    checkWinningNumbers};
 };

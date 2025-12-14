@@ -21,6 +21,8 @@ public partial class Plade
 
     public bool Status { get; set; }
 
+    public bool Udbetalt { get; set; }
+
     public virtual Login Bruger { get; set; } = null!;
 
     public virtual Pricing? Price { get; set; }
