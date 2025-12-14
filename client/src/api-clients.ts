@@ -18,6 +18,7 @@ export const customFetch = async (url: RequestInfo, init?: RequestInit) => {
 
 
 const apiUrl = import.meta.env.VITE_API_URL;
+console.log("API URL:", import.meta.env.VITE_API_URL);
 
 export const authClient = new AuthClient(apiUrl, { fetch: customFetch });
 export const pladeClient = new PladeClient(apiUrl, { fetch: customFetch });
