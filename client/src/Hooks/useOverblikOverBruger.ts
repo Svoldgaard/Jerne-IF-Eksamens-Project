@@ -77,6 +77,7 @@ export const useOverblikOverBruger = () => {
 
         try {
             await profileClient.updateStatus(updatedProfile);
+            // changed so it works
         } catch (err) {
             console.error(err);
             alert("Kunne ikke ændre status");
