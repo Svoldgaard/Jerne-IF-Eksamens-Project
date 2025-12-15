@@ -21,4 +21,9 @@ public interface IPladeService
     Task StartNewWeekAsync();
 
     Task<WeekStatusResponse> GetWeekStatusAsync();
+
+    Task<List<WinningPladeResponse>> GetAllWinningPladesAsync();
+
+    Task UpdateUdbetaltStatusasync(string pladeId, bool newStatus);
+    
 }

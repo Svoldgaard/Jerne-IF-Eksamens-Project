@@ -4,6 +4,7 @@ using Api.Models.Dtos.Responses;
 using dataaccess.Entity;
 using dataaccess.MyDbContext;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Api.Services;
 
@@ -306,4 +307,48 @@ public class PladeService(MyDbContext context) : IPladeService
             Year = year
         };
     }
+
+    public async Task<List<WinningPladeResponse>> GetAllWinningPladesAsync()
+    {
+        var currentCulture = CultureInfo.CurrentCulture;
+        var weekNo = currentCulture.Calendar.GetWeekOfYear(
+            DateTime.Now,
+            currentCulture.DateTimeFormat.CalendarWeekRule,
+            currentCulture.DateTimeFormat.FirstDayOfWeek);
+        var year = DateTime.Now.Year;
+
+        
+        var activeSpiluge = await context.Spiluges
+            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
+        
+        if (activeSpiluge == null) return new List<WinningPladeResponse>();
+        
+        var winners = await context.Plades
+            .Where(p => p.Ugetalid == activeSpiluge.Id)
+            .Where(p => p.Iswinner == true)
+            .Include(p => p.Bruger)
+            .Include(p => p.Price)
+            .ToListAsync();
+        
+        return winners.Select(p => new WinningPladeResponse
+        {
+            PladeId = p.Id,
+            Brugernavn = p.Bruger.Brugernavn,
+            TransaktionsNr = p.Id,
+            Pris = p.Price?.Price ?? 0,
+            Udbetalt = p.Udbetalt
+        }).ToList();
+    }
+
+    public async Task UpdateUdbetaltStatusasync(string pladeId, bool newStatus)
+    {
+        var plade = new Plade { Id = pladeId, Udbetalt = newStatus };
+        context.Plades.Attach(plade);
+        context.Entry(plade).Property(p => p.Udbetalt).IsModified = true;
+        await context.SaveChangesAsync();
+    }
+    
+   
+
+
 }

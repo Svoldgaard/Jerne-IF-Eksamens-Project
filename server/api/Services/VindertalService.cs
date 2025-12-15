@@ -56,5 +56,46 @@ public class VindertalService
         
         return spiluge.Vindersekvens != null && spiluge.Vindersekvens.Any();
     }
+    
+    public async Task CalculateAndMarkWinnersAsync(int spilugeId)
+    {
+        
+        var spiluge = await context.Spiluges
+        .Include(s => s.Vindersekvens)
+        .FirstOrDefaultAsync(s => s.Id == spilugeId);
+        
+        if (spiluge == null) throw new Exception("Spiluge not found");
+        
+        var winningNumbers = spiluge.Vindersekvens.FirstOrDefault()?.Vindertal;
+
+        if (winningNumbers == null || winningNumbers.Count == 0)
+        {
+            throw new Exception("No winning numbers found for the specified spiluge.");
+        }
+        
+        var platesInWeek = await context.Plades
+            .Where(p => p.Ugetalid == spilugeId)
+            .ToListAsync();
+        
+        bool anyChanges = false;
+
+        foreach (var plade in platesInWeek)
+        {
+            bool isWinner = winningNumbers.All(winNum => plade.Valgtetal.Contains(winNum));
+
+            if (plade.Iswinner != isWinner)
+            {
+                plade.Iswinner = isWinner;
+                
+                context.Plades.Update(plade);
+                
+                anyChanges = true;
+            }
+        }
+        if (anyChanges)
+        {
+            await context.SaveChangesAsync();
+        }
+    }
 
 }

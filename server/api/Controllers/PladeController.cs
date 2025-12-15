@@ -174,4 +174,34 @@ public class PladeController : ControllerBase
         }
     }
 
+    [HttpGet("admin/winning-plades")]
+    [Authorize]
+    public async Task<ActionResult<List<WinningPladeResponse>>> GetAllWinningPlades()
+    {
+        try
+        {
+            var result = await _pladeService.GetAllWinningPladesAsync();
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [HttpPatch("admin/update-udbetalt")]
+    [Authorize]
+    public async Task<IActionResult> UpdateUdbetaltStatus([FromBody] UpdatePladeRequest request)
+    {
+        try
+        {
+            await _pladeService.UpdateBetaltStatusAsync(request.PladeId, request.Udbetalt);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
 }
