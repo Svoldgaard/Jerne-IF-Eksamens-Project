@@ -9,4 +9,9 @@ public class AdminPladeResponse
     
     public bool Betalt {get; set;}
     
+    public List<int> Tal {get; set;}
+    public string Email {get; set;}
+    
+    public bool IsWinner {get; set;}
+    
 }

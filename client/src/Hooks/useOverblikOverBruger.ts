@@ -58,10 +58,10 @@ export const useOverblikOverBruger = () => {
         const profile = contextMenu.profile;
 
         const updatedProfile = {
-            Fnavn: profile.fnavn ?? "",
-            Lnavn: profile.lnavn ?? "",
-            Email: profile.email,
-            Aktiv: !profile.aktiv,
+            fnavn: profile.fnavn ?? "",
+            lnavn: profile.lnavn ?? "",
+            email: profile.email,
+            aktiv: !profile.aktiv,
         };
 
         console.log("Sending to API:", updatedProfile);
@@ -77,6 +77,7 @@ export const useOverblikOverBruger = () => {
 
         try {
             await profileClient.updateStatus(updatedProfile);
+
         } catch (err) {
             console.error(err);
             alert("Kunne ikke ændre status");

@@ -482,6 +482,7 @@ $RECYCLE.BIN/
 *.swp
 
 appsettings.json
+appsettings.development.json
 
 .git/
 .obj/

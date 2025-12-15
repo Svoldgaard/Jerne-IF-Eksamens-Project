@@ -9,14 +9,21 @@ namespace Api.Security;
 public class JwtService : ITokenService
 {
     private readonly IConfiguration _config;
+    private const string JwtKey = "JwtKey";
+    private const string SignatureAlgorithm = SecurityAlgorithms.HmacSha512;
 
     public JwtService(IConfiguration config)
     {
         _config = config;
+        
+        var jwtKey = _config.GetValue<string>(JwtKey);
+        if (string.IsNullOrWhiteSpace(jwtKey))
+        {
+            throw new InvalidOperationException(
+                "JwtKey is missing. Configure it via environment variables or appsettings.Development.json"
+            );
+        }
     }
-
-    private const string JwtKey = "JwtKey";
-    private const string SignatureAlgorithm = SecurityAlgorithms.HmacSha512;
 
     public string CreateToken(AuthUserInfoDto user)
     {
