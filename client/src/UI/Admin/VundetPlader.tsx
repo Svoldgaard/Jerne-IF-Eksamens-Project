@@ -4,19 +4,24 @@ import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 import {useNavigate} from "react-router-dom";
 import {useAdminPlades} from "../../Hooks/useAdminPlades.ts";
+import {useEffect} from "react";
 
 function VundetPlader() {
-    const data = [
-        {brugernavn: "Karl-Heinz-Schmidt", transaktionsNr: "TX-1002", pris: 40, udbetalt: true},
-        {brugernavn: "LeopoldHoffmann", transaktionsNr: "TX-1003", pris: 160, udbetalt: true},
-        {brugernavn: "Maximiliam_Wagner", transaktionsNr: "TX-1004", pris: 20, udbetalt: true},
-        {brugernavn: "Babara-Schneider", transaktionsNr: "TX-1006", pris: 20, udbetalt: true},
-        {brugernavn: "Franziska_Schulz", transaktionsNr: "TX-1009", pris: 40, udbetalt: true},
-    ]
+    // const data = [
+    //     {brugernavn: "Karl-Heinz-Schmidt", transaktionsNr: "TX-1002", pris: 40, udbetalt: true},
+    //     {brugernavn: "LeopoldHoffmann", transaktionsNr: "TX-1003", pris: 160, udbetalt: true},
+    //     {brugernavn: "Maximiliam_Wagner", transaktionsNr: "TX-1004", pris: 20, udbetalt: true},
+    //     {brugernavn: "Babara-Schneider", transaktionsNr: "TX-1006", pris: 20, udbetalt: true},
+    //     {brugernavn: "Franziska_Schulz", transaktionsNr: "TX-1009", pris: 40, udbetalt: true},
+    // ]
 
-    const {handleStartNewWeek, isLoading} = useAdminPlades();
+    const {handleStartNewWeek, isLoading, fetchWinners, winningPlades, updateUdbetalt} = useAdminPlades();
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        fetchWinners();
+    }, []);
 
     const onStartNewWeek = async () => {
        if(!window.confirm("Er du sikker på, at du vil starte en nye uge? Dette vil åbne spillet for brugerne igen. ")) {
@@ -31,6 +36,10 @@ function VundetPlader() {
        }else{
            alert("Kunne ikke starte ny uge :(")
        }
+    };
+
+    const handleCheckboxChange = (pladeId: string, e: React.ChangeEvent<HTMLInputElement>) => {
+        updateUdbetalt(pladeId, e.target.checked);
     };
 
 
@@ -54,13 +63,17 @@ function VundetPlader() {
                         </tr>
                         </thead>
                         <tbody>
-                        {data.map((row) => (
-                            <tr key={row.brugernavn}>
+                        {winningPlades.map((row) =>
+                            (
+                            <tr key={row.pladeId}>
                                 <td>{row.brugernavn}</td>
                                 <td>{row.transaktionsNr}</td>
                                 <td>
-                                    {row.udbetalt}
-                                    <input type="checkbox" className="checkbox-vundet-plader"/>
+
+                                    <input type="checkbox"
+                                           className="checkbox-vundet-plader"
+                                           checked={row.udbetalt}
+                                           onChange={(e) => handleCheckboxChange(row.pladeId!, e)}/>
                                 </td>
                             </tr>
                         ))}

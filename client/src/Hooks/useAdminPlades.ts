@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {customFetch} from "../api-clients.ts";
-import type {PladeResponse} from "../generated-ts-client.ts";
+import type {PladeResponse, WinningPladeResponse} from "../generated-ts-client.ts";
 
 const baseUrl = "http://localhost:5233";
 
@@ -10,20 +10,20 @@ export type AdminPladeResponse = {
     transaktionsNr: string;
     pris: number;
     betalt: boolean;
+    udbetalt: boolean;
 }
 
 export const useAdminPlades = ()=> {
     const [adminPlades, setAdminPlades] = useState<AdminPladeResponse[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
-    //const [betaltPlades, setBetaltPlades] = useState<AdminPladeResponse[]>([]);
+    const [winningPlades, setWinningPlades] = useState<WinningPladeResponse[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             try{
-                const response = await customFetch(`${baseUrl}/api/plade/admin/active-plades`);
+                const response = await customFetch(`${baseUrl}/api/Plade/admin/active-plades`);
 
                 if (!response.ok)
                     throw new Error("Failed to fetch to Admin");
@@ -45,7 +45,7 @@ export const useAdminPlades = ()=> {
 
     const updateBetalt = async (pladeId: string, newStatus: boolean)=>{
         try {
-            const response = await customFetch(`${baseUrl}/api/plade/admin/update-betalt`, {
+            const response = await customFetch(`${baseUrl}/api/Plade/admin/update-betalt`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ export const useAdminPlades = ()=> {
 
     const closeCurrentWeek = async (): Promise<boolean> => {
         try{
-            const response = await customFetch(`${baseUrl}/api/plade/CloseCurrentWeek`, {
+            const response = await customFetch(`${baseUrl}/api/Plade/CloseCurrentWeek`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -138,6 +138,36 @@ export const useAdminPlades = ()=> {
         }
     };
 
+    const fetchWinners = async () => {
+        try {
+            const response = await customFetch(`${baseUrl}/api/Plade/admin/winning-plades`);
+            if (response.ok) {
+                const data = await response.json();
+                setWinningPlades(data);
+            }
+        }catch(error){
+            console.error("Fetch winning plades failed:", error);
+        }
+    };
+
+    const updateUdbetalt = async (pladeId: string, newStatus: boolean)=>{
+        try{
+            await customFetch(`${baseUrl}/api/Plade/admin/update-udbetalt`, {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    pladeId: pladeId,
+                    udbetalt: newStatus
+                })
+            });
+            setWinningPlades(prevPlades => prevPlades.map(p =>
+            p.pladeId === pladeId ? {...p, udbetalt: newStatus} : p));
+            return true;
+        }catch(error){
+            return false;
+        }
+    }
+
 
 
     return {adminPlades,
@@ -147,5 +177,8 @@ export const useAdminPlades = ()=> {
         closeCurrentWeek,
         handleStartNewWeek,
         checkAdminWeekStatus,
-    checkWinningNumbers};
+    checkWinningNumbers,
+    fetchWinners,
+    updateUdbetalt,
+    winningPlades};
 };
