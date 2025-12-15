@@ -8,6 +8,7 @@ using Moq;
 using dataaccess.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
+using Xunit;
 
 public class AuthServiceTest
 {
@@ -16,26 +17,40 @@ public class AuthServiceTest
     private readonly Mock<IRepository<Login>> _loginRepo = new();
     private readonly Mock<IRepository<Profil>> _profileRepo = new();
 
-    private AuthService CreateService() => 
-        new AuthService(_logger.Object, _passwordHasher.Object, _loginRepo.Object, _profileRepo.Object);
-    
-    
+    private AuthService CreateService() =>
+        new AuthService(
+            _logger.Object,
+            _passwordHasher.Object,
+            _loginRepo.Object,
+            _profileRepo.Object
+        );
+
     [Fact]
     public async Task AuthenticateAsync_HappyPath_ReturnsUserDto()
     {
         // Arrange
-        var login = new Login { Brugerid = 1, Password = "hashed" };
-        var profile = new Profil { Brugerid = 1, Email = "user@test.com" };
+        var login = new Login
+        {
+            Brugerid = 1,
+            Brugernavn = "user1",
+            Password = "hashed"
+        };
 
-        _profileRepo.Setup(r => r.Query()).Returns(new[] { profile }.AsQueryable());
+        var profile = new Profil
+        {
+            Brugerid = 1,
+            Email = "user@test.com"
+        };
+
         _loginRepo.Setup(r => r.Query()).Returns(new[] { login }.AsQueryable());
+        _profileRepo.Setup(r => r.Query()).Returns(new[] { profile }.AsQueryable());
+
         _passwordHasher
-            .Setup(h => h.VerifyHashedPassword(It.IsAny<Login>(), It.IsAny<string>(), "1234"))
+            .Setup(h => h.VerifyHashedPassword(login, "hashed", "1234"))
             .Returns(PasswordVerificationResult.Success);
 
         var service = CreateService();
-
-        var request = new LoginRequest("user@test.com", "1234");   // ✅ must match profile.Email
+        var request = new LoginRequest("user1", "1234");
 
         // Act
         var result = await service.AuthenticateAsync(request);
@@ -46,26 +61,35 @@ public class AuthServiceTest
         Assert.Equal("user@test.com", result.Email);
     }
 
-
     [Fact]
     public async Task AuthenticateAsync_UnhappyPath_InvalidPassword_ThrowsError()
     {
         // Arrange
-        var login = new Login { Brugerid = 1, Password = "hashed" };
-        var profile = new Profil { Brugerid = 1, Email = "user@test.com" };
+        var login = new Login
+        {
+            Brugerid = 1,
+            Brugernavn = "user1",
+            Password = "hashed"
+        };
 
-        _profileRepo.Setup(r => r.Query()).Returns(new[] { profile }.AsQueryable());
+        var profile = new Profil
+        {
+            Brugerid = 1,
+            Email = "user@test.com"
+        };
+
         _loginRepo.Setup(r => r.Query()).Returns(new[] { login }.AsQueryable());
-        _passwordHasher.Setup(h => h.VerifyHashedPassword(login, "hashed", "wrong"))
-                       .Returns(PasswordVerificationResult.Failed);
+        _profileRepo.Setup(r => r.Query()).Returns(new[] { profile }.AsQueryable());
+
+        _passwordHasher
+            .Setup(h => h.VerifyHashedPassword(login, "hashed", "wrong"))
+            .Returns(PasswordVerificationResult.Failed);
 
         var service = CreateService();
 
         // Act + Assert
         await Assert.ThrowsAsync<AuthenticationError>(() =>
-            service.AuthenticateAsync(
-                new LoginRequest("user@test.com", "wrong")
-            )
+            service.AuthenticateAsync(new LoginRequest("user1", "wrong"))
         );
     }
 
@@ -75,6 +99,10 @@ public class AuthServiceTest
         // Arrange
         _profileRepo.Setup(r => r.Query()).Returns(Enumerable.Empty<Profil>().AsQueryable());
         _loginRepo.Setup(r => r.Query()).Returns(Enumerable.Empty<Login>().AsQueryable());
+
+        _passwordHasher
+            .Setup(h => h.HashPassword(It.IsAny<Login>(), "pwd"))
+            .Returns("hashed");
 
         var service = CreateService();
 
@@ -93,6 +121,7 @@ public class AuthServiceTest
         // Assert
         _loginRepo.Verify(r => r.Add(It.IsAny<Login>()), Times.Once);
         _profileRepo.Verify(r => r.Add(It.IsAny<Profil>()), Times.Once);
+
         Assert.Equal("new@test.com", result.Email);
         Assert.Equal("newuser", result.UserName);
     }
@@ -101,29 +130,48 @@ public class AuthServiceTest
     public async Task RegisterAsync_UnhappyPath_EmailAlreadyExists_ThrowsValidation()
     {
         // Arrange
-        var existing = new Profil { Email = "exist@test.com" };
+        var existingProfile = new Profil
+        {
+            Email = "exist@test.com"
+        };
 
-        _profileRepo.Setup(r => r.Query())
-            .Returns(new[] { existing }.AsQueryable());
+        _profileRepo
+            .Setup(r => r.Query())
+            .Returns(new[] { existingProfile }.AsQueryable());
+
+        _loginRepo
+            .Setup(r => r.Query())
+            .Returns(Enumerable.Empty<Login>().AsQueryable());
 
         var service = CreateService();
 
         // Act + Assert
         await Assert.ThrowsAsync<ValidationException>(() =>
             service.RegisterAsync(
-                new RegisterRequest { Email = "exist@test.com", UserName = "abc" }
+                new RegisterRequest
+                {
+                    Email = "exist@test.com",
+                    UserName = "abc"
+                }
             )
         );
     }
-
-    
 
     [Fact]
     public async Task GetUserInfoAsync_HappyPath_ReturnsInfo()
     {
         // Arrange
-        var login = new Login { Brugerid = 7 };
-        var profile = new Profil { Brugerid = 7, Email = "test@test.com" };
+        var login = new Login
+        {
+            Brugerid = 7,
+            Brugernavn = "user7"
+        };
+
+        var profile = new Profil
+        {
+            Brugerid = 7,
+            Email = "test@test.com"
+        };
 
         _loginRepo.Setup(r => r.Query()).Returns(new[] { login }.AsQueryable());
         _profileRepo.Setup(r => r.Query()).Returns(new[] { profile }.AsQueryable());
@@ -131,7 +179,10 @@ public class AuthServiceTest
         var service = CreateService();
 
         var principal = new ClaimsPrincipal(
-            new ClaimsIdentity(new[] { new Claim("sub", "7") })
+            new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, "7")
+            })
         );
 
         // Act
@@ -148,7 +199,7 @@ public class AuthServiceTest
     {
         // Arrange
         var service = CreateService();
-        var principal = new ClaimsPrincipal(); 
+        var principal = new ClaimsPrincipal();
 
         // Act
         var result = await service.GetUserInfoAsync(principal);

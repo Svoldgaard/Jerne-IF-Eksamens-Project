@@ -1,5 +1,6 @@
 using api.Models.Dtos;
 using Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -18,5 +19,19 @@ public class VinderTalController : ControllerBase
     {
         var result = await _vintertalService.CreateVindersekvens(dto);
         return Ok(result);
+    }
+
+    [HttpGet("check-winning-numbers")]
+    [Authorize]
+    public async Task<IActionResult> CheckWinningNumbers()
+    {
+        try
+        {
+            bool hasWinningNumbers = await _vintertalService.CheckWinningNumbers();
+            return Ok(new { hasWinningNumbers = hasWinningNumbers });
+        }catch (Exception ex)
+        {
+            return StatusCode(500, "Error checking winning numbers: " + ex.Message);
+        }
     }
 }

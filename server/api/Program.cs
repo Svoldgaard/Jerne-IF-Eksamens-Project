@@ -87,7 +87,20 @@ public class Program
         builder.Services.AddProblemDetails();
 
         // CORS
-        builder.Services.AddCors();
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("FrontendPolicy", policy =>
+            {
+                policy
+                    .WithOrigins(
+                        "https://jerne-if-doede-duer.fly.dev", 
+                        "http://localhost:5173"
+                    )
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+        });
+
     }
 
     public static async Task Main(string[] args)
@@ -103,17 +116,17 @@ public class Program
         app.UseExceptionHandler();
         app.UseRouting();
 
-        app.UseCors(config => config
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowAnyOrigin());
+        app.UseCors("FrontendPolicy");
 
         app.UseAuthentication();
         app.UseAuthorization();
 
         app.UseOpenApi();
         app.UseSwaggerUi();
-        await app.GenerateApiClientsFromOpenApi("/../../client/src/generated-ts-client.ts");
+        if (app.Environment.IsDevelopment())
+        {
+            await app.GenerateApiClientsFromOpenApi("/../../client/src/generated-ts-client.ts");
+        }
 
         app.MapControllers();
 

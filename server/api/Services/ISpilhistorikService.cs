@@ -9,4 +9,6 @@ public interface ISpilhistorikService
     Task<List<SpilugeResponse>> GetAllSpilugeAsync();
 
     Task UpdateBoardWinnerStatusAsync(string pladeId);
+    
+    Task<List<AdminPladeResponse>> GetPladerForWeekAsync(int year, int week);
 }

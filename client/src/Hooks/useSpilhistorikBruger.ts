@@ -37,7 +37,7 @@ export function useSpilhistorikBruger(brugerId?: number) {
                 // console.log("token", token);
                 if(!token) return;
 
-                const ugeRes = await fetch(`${baseUrl}/api/plade/spiluger`, {
+                const ugeRes = await fetch(`${baseUrl}/api/spilhistorik/spiluger`, {
                     headers: {
                         "Authorization": `Bearer ${token}`
                     }
@@ -45,7 +45,7 @@ export function useSpilhistorikBruger(brugerId?: number) {
 
                 const ugeData = await ugeRes.json();
 
-                const pladeRes = await fetch(`${baseUrl}/api/plade/spilhistorik`, {
+                const pladeRes = await fetch(`${baseUrl}/api/spilhistorik/spilhistorik`, {
                     headers: {
                         "Authorization": `Bearer ${token}`,
                         "Content-Type": "application/json"

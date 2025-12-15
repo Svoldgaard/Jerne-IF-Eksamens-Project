@@ -1,4 +1,6 @@
+using System.Globalization;
 using api.Models.Dtos;
+using Api.Models.Dtos.Responses;
 using dataaccess.Entity;
 using dataaccess.MyDbContext;
 using Microsoft.EntityFrameworkCore;
@@ -34,4 +36,25 @@ public class VindertalService
             throw;
         }
     }
+
+    public async Task<bool> CheckWinningNumbers()
+    {
+        var currentCulture = CultureInfo.CurrentCulture;
+        var weekNo = currentCulture.Calendar.GetWeekOfYear(
+            DateTime.Now,
+            currentCulture.DateTimeFormat.CalendarWeekRule,
+            currentCulture.DateTimeFormat.FirstDayOfWeek);
+        var year = DateTime.Now.Year;
+
+        
+        var spiluge = await context.Spiluges
+            .Include(s => s.Vindersekvens)
+            .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
+        
+        
+        if (spiluge == null) return false;
+        
+        return spiluge.Vindersekvens != null && spiluge.Vindersekvens.Any();
+    }
+
 }
