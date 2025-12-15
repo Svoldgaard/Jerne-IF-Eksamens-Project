@@ -87,6 +87,18 @@ public class ProfilService(MyDbContext ctx) : IProfilService
             }).ToListAsync();
     }
 
+    public async Task<List<Profil>> GetAllProfils(int profilId)
+    {
+        return await ctx.Profils
+            .Select(p => new Profil
+            {
+                Fnavn = p.Fnavn,
+                Lnavn = p.Lnavn,
+                Email = p.Email,
+                Aktiv = p.Aktiv,
+            }).ToListAsync();
+    }
+
     public async Task<bool> UpdateStatus(ProfilDto dto)
     {
         var profil = await ctx.Profils.FirstOrDefaultAsync(p => p.Email == dto.Email);
