@@ -1,5 +1,6 @@
 import {useEffect, useMemo, useState} from "react";
-import {PriceClient, type PriceResponse} from "../generated-ts-client.ts";
+import {type AuthUserInfoDto, PriceClient, type PriceResponse} from "../generated-ts-client.ts";
+import {authClient} from "../api-clients.ts";
 const baseUrl = "http://localhost:5233";
 
 const MIN_SELECTION = 5;
@@ -149,6 +150,26 @@ export function useTogglePigeon() {
         }
     };
 
+    const [currentUser, setCurrentUser] = useState<AuthUserInfoDto | null>(null);
+
+    const fetchUser = async () => {
+        try{
+            const userData = await authClient.userInfo();
+
+            console.log("User loaded: ", userData)
+            setCurrentUser(userData);
+        }catch(error){
+            console.warn("Error fetching user info: ", error);
+            setCurrentUser(null);
+        }
+        if (checkShopStatus) {
+            await checkShopStatus();
+        }
+    }
+    useEffect(() => {
+        fetchUser();
+    }, []);
+
 
 
     return {selectedPigeons,
@@ -163,5 +184,6 @@ export function useTogglePigeon() {
     buyPlade,
     checkShopStatus,
     isGameAvailable,
-    loadingStatus};
+    loadingStatus,
+    currentUser};
 }

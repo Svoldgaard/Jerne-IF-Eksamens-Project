@@ -19,9 +19,6 @@ function VundetPlader() {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        fetchWinners();
-    }, []);
 
     const onStartNewWeek = async () => {
        if(!window.confirm("Er du sikker på, at du vil starte en nye uge? Dette vil åbne spillet for brugerne igen. ")) {

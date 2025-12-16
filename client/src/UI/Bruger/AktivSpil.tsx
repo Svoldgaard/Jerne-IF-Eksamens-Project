@@ -9,8 +9,6 @@ import {getCurrentWeekNumber, getCurrentYear} from "../../Utils/dateUtils.ts";
 
 
 
-
-
 export default function AktivSpil() {
 
     const rows = 4;
