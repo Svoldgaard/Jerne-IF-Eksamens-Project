@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\api\api.csproj" />
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+    <ProjectReference Include="..\dataaccess\dataaccess.csproj" />
   </ItemGroup>
 
 </Project>
