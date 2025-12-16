@@ -14,7 +14,7 @@ public class ProfilServiceTest
     public async Task ReturnForAdmin()
     {
         var options = new DbContextOptionsBuilder<MyDbContext>()
-            .UseInMemoryDatabase(databaseName: "TestDb_Update")
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
 
         using var ctx = new MyDbContext(options);
@@ -35,8 +35,7 @@ public class ProfilServiceTest
         ctx.SaveChanges();
 
         var result = await service.GetAllProfils();
-
-        Assert.NotNull(result);
+        
         Assert.Single(result);                  
         Assert.Equal("Admin", result[0].Fnavn);
     }
