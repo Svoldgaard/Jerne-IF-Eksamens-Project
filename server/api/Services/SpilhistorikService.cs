@@ -19,13 +19,9 @@ public class SpilhistorikService(MyDbContext context) : ISpilhistorikService
         
         return plades.Select(p =>
         {
-            // Console.WriteLine($"Plade {p.Id} tal: {string.Join(",", p.Valgtetal ?? [])}");
-
             var winning = p.Ugetal!.Vindersekvens.FirstOrDefault()?.Vindertal ?? new List<int>();
             
             var isWinner = winning.Count > 0 && winning.All(n => p.Valgtetal.Contains(n));
-            
-            // Console.WriteLine($"WIN CHECK BACKEND: {p.Id}  chosen=[{string.Join(",", p.Valgtetal)}]  winning=[{string.Join(",", winning)}]  -> {isWinner}");
             
             return new PladeResponse
             {
@@ -37,7 +33,6 @@ public class SpilhistorikService(MyDbContext context) : ISpilhistorikService
                 IsWinner = isWinner,
                 Tal = p.Valgtetal ?? new List<int>(),
                 Vindertal = winning
-                // Vindertal = p.Ugetal!.Vindersekvens.FirstOrDefault()?.Vindertal ?? new List<int>()
             };
         }).ToList();
     }
