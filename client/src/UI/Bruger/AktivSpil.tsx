@@ -10,6 +10,7 @@ import {getCurrentWeekNumber, getCurrentYear} from "../../Utils/dateUtils.ts";
 
 
 export default function AktivSpil() {
+
     const rows = 4;
     const cols = 4;
     const total = rows * cols;

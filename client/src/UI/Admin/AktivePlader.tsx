@@ -5,9 +5,15 @@ import Footer from "../../Component/Footer.tsx";
 import {useNavigate} from "react-router-dom";
 import {useAdminPlades} from "../../Hooks/useAdminPlades.ts";
 import {useEffect, useRef} from "react";
+import {getCurrentWeekNumber, getCurrentYear} from "../../Utils/dateUtils.ts";
 
 
-function AktivePlader() {
+const AktivePlader = () => {
+
+    const currentWeek = getCurrentWeekNumber();
+    const currentYear = getCurrentYear();
+
+
 
     const { adminPlades,
         isLoading,
@@ -56,7 +62,7 @@ function AktivePlader() {
             <div className="main-container">
                 <Header/>
                 <div className="background-aktive-plader">
-                    <h2 className="header-aktive-plader">Nuværende spil: Uge 48 2025</h2>
+                    <h2 className="header-aktive-plader">Nuværende spil: Uge {currentWeek} {currentYear} </h2>
                     <table className="price-table-aktive-plader">
                         <thead>
                             <tr>

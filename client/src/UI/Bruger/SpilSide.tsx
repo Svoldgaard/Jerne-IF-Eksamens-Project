@@ -1,6 +1,5 @@
 import '../CSS/SpilSide.css'
 import Logo from "../../Assets/Logo.png";
-//import Baggrund from "../../Component/Baggrund.tsx";
 import Header from "../../Component/Header.tsx";
 import {useTogglePigeon} from "../../Hooks/PigeonGameBoard.ts";
 import Footer from "../../Component/Footer.tsx";
@@ -11,6 +10,7 @@ import {useEffect, useState} from "react";
 
 import {authClient} from "../../api-clients.ts";
 import {type AuthUserInfoDto} from "../../generated-ts-client.ts";
+import {getCurrentWeekNumber, getCurrentYear} from "../../Utils/dateUtils.ts";
 
 
 export type ClickableGridUIProps ={
@@ -20,6 +20,10 @@ export type ClickableGridUIProps ={
 };
 
 export default function SpilSide({ className =""}: ClickableGridUIProps) {
+
+    const currentWeek = getCurrentWeekNumber();
+    const currentYear = getCurrentYear();
+
 
     const rows = 4;
     const cols = 4;
@@ -82,7 +86,7 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
                 <div className="background-spilside">
 
                     <div>
-                        <a className="text-uge"> Nuværende spil: Uge 48 2025</a>
+                        <a className="text-uge"> Nuværende spil: Uge {currentWeek} {currentYear}</a>
                     </div>
 
                     {!loadingStatus && !isGameAvailable && (

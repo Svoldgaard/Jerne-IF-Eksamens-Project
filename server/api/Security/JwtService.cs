@@ -33,7 +33,7 @@ public class JwtService : ITokenService
         var tokenHandler = new JwtSecurityTokenHandler();
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(user.ToClaims()), // claims from ClaimsExtension
+            Subject = new ClaimsIdentity(user.ToClaims()), 
             Expires = DateTime.UtcNow.AddDays(7),
             SigningCredentials = new SigningCredentials(securityKey, SignatureAlgorithm)
         };

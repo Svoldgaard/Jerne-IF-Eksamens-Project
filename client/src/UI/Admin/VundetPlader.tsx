@@ -5,15 +5,15 @@ import Footer from "../../Component/Footer.tsx";
 import {useNavigate} from "react-router-dom";
 import {useAdminPlades} from "../../Hooks/useAdminPlades.ts";
 import {useEffect} from "react";
+import {getCurrentWeekNumber, getCurrentYear} from "../../Utils/dateUtils.ts";
 
 function VundetPlader() {
-    // const data = [
-    //     {brugernavn: "Karl-Heinz-Schmidt", transaktionsNr: "TX-1002", pris: 40, udbetalt: true},
-    //     {brugernavn: "LeopoldHoffmann", transaktionsNr: "TX-1003", pris: 160, udbetalt: true},
-    //     {brugernavn: "Maximiliam_Wagner", transaktionsNr: "TX-1004", pris: 20, udbetalt: true},
-    //     {brugernavn: "Babara-Schneider", transaktionsNr: "TX-1006", pris: 20, udbetalt: true},
-    //     {brugernavn: "Franziska_Schulz", transaktionsNr: "TX-1009", pris: 40, udbetalt: true},
-    // ]
+
+
+    const currentWeek = getCurrentWeekNumber();
+    const currentYear = getCurrentYear();
+
+    const ugetalID = Number(`${currentWeek}${currentYear}`);
 
     const {handleStartNewWeek, isLoading, fetchWinners, winningPlades, updateUdbetalt} = useAdminPlades();
 
@@ -50,7 +50,7 @@ function VundetPlader() {
                 <Header/>
                 <div className="background-vundet-plader">
 
-                    <h2 className="header-vundet-plader">Nuværende spil: Uge 48 2025</h2>
+                    <h2 className="header-vundet-plader">Nuværende spil: Uge {currentWeek} {currentYear} </h2>
                     <table className="price-table-vundet-plader">
                         <thead>
                         <tr>
