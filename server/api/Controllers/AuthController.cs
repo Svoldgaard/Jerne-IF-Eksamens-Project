@@ -17,11 +17,13 @@ public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
     private readonly ITokenService _tokenService;
+    private readonly ILogger _logger;
 
-    public AuthController(IAuthService authService, ITokenService tokenService)
+    public AuthController(IAuthService authService, ITokenService tokenService, ILogger logger)
     {
         _authService = authService;
         _tokenService = tokenService;
+        _logger =  logger;
     }
 
     [AllowAnonymous]
@@ -43,6 +45,7 @@ public class AuthController : ControllerBase
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex.ToString(), ex);
             return BadRequest(new { message = "Login failed", detail = ex.Message });
         }
     }
@@ -54,9 +57,7 @@ public class AuthController : ControllerBase
         var userInfo = await _authService.RegisterAsync(request);
         return Ok(new RegisterResponse(userInfo.UserId, userInfo.UserName, userInfo.Email));
     }
-
-
-
+    
     [HttpPost("logout")]
     public IActionResult Logout()
     {
