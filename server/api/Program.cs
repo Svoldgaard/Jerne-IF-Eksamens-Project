@@ -7,9 +7,6 @@ using dataaccess.Entity;
 using dataaccess.MyDbContext;
 using DataAccess.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using DataAccess.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
