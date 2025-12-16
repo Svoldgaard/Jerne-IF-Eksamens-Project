@@ -10,5 +10,6 @@ public class PladeResponse
     public bool IsWinner {get; set;}
     public List<int> Tal {get; set;}
     public List<int> Vindertal {get; set;}
+    public bool Betalt {get; set;}
     
 }

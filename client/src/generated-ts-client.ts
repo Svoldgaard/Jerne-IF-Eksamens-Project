@@ -1072,6 +1072,7 @@ export interface PladeResponse {
     isWinner?: boolean;
     tal?: number[];
     vindertal?: number[];
+    betalt?: boolean;
 }
 
 export interface UpdatePladeRequest {
