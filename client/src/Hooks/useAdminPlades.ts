@@ -1,6 +1,7 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {customFetch} from "../api-clients.ts";
 import type {PladeResponse, WinningPladeResponse} from "../generated-ts-client.ts";
+import {useNavigate} from "react-router-dom";
 
 const baseUrl = "http://localhost:5233";
 
@@ -13,35 +14,61 @@ export type AdminPladeResponse = {
     udbetalt: boolean;
 }
 
-export const useAdminPlades = ()=> {
+export const useAdminPlades = (protectActiveWeek: boolean = false)=> {
     const [adminPlades, setAdminPlades] = useState<AdminPladeResponse[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [winningPlades, setWinningPlades] = useState<WinningPladeResponse[]>([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            try{
-                const response = await customFetch(`${baseUrl}/api/Plade/admin/active-plades`);
+    const hasCheckedStatus = useRef(false);
+    const navigate = useNavigate();
 
-                if (!response.ok)
-                    throw new Error("Failed to fetch to Admin");
+    const fetchData = async () => {
+        setIsLoading(true);
+        try{
+            const response = await customFetch(`${baseUrl}/api/Plade/admin/active-plades`);
 
-                const data = await response.json();
-                setAdminPlades(data);
+            if (!response.ok)
+                throw new Error("Failed to fetch to Admin");
 
-            } catch(error) {
+            const data = await response.json();
+            setAdminPlades(data);
+
+        } catch(error) {
 
             console.error(error)
             setError("Failed to fetch to Admin");
 
-            } finally {
-                setIsLoading(false);
-            }
-        };
+        } finally {
+            setIsLoading(false);
+        }
+    }
+    useEffect(() => {
         fetchData();
     }, []);
+
+
+    useEffect(() => {
+
+        if(!protectActiveWeek) return;
+
+        if(hasCheckedStatus.current) return;
+        hasCheckedStatus.current = true;
+
+        const verifyStatus = async () => {
+            const isOpen = await checkAdminWeekStatus();
+
+            if (!isOpen) {
+                alert("Den nuværende uge er allerede lukket. Du vil blive omdirigeret til vindertal siden.");
+                navigate("/vindertal-admin");
+            }
+        };
+
+
+        verifyStatus();
+    }, [protectActiveWeek, navigate]);
+
+
 
     const updateBetalt = async (pladeId: string, newStatus: boolean)=>{
         try {
@@ -149,6 +176,9 @@ export const useAdminPlades = ()=> {
             console.error("Fetch winning plades failed:", error);
         }
     };
+    useEffect(() => {
+        fetchWinners();
+    }, []);
 
     const updateUdbetalt = async (pladeId: string, newStatus: boolean)=>{
         try{

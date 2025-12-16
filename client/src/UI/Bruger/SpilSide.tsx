@@ -20,6 +20,7 @@ export type ClickableGridUIProps ={
 };
 
 export default function SpilSide({ className =""}: ClickableGridUIProps) {
+
     const rows = 4;
     const cols = 4;
     const total = rows * cols;
@@ -27,12 +28,7 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
     const navigate = useNavigate();
 
     const [isRepeatCheked, setIsRepeat] = useState(false);
-    const [currentUser, setCurrentUser] = useState<AuthUserInfoDto | null>(null);
 
-
-
-
-    //const activeSet = new Set(activeIndices);
 
     const {selectedPigeons,
         togglePigeon,
@@ -41,32 +37,10 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
         showAlertMin,
         showAlertMax,
         buyPlade,
-        checkShopStatus,
+        currentUser,
         isGameAvailable,
         loadingStatus} = useTogglePigeon();
 
-
-
-
-useEffect(() => {
-
-
-    const fetchUser = async () => {
-        try{
-            const userData = await authClient.userInfo();
-
-            console.log("User loaded: ", userData)
-            setCurrentUser(userData);
-        }catch(error){
-            console.warn("Error fetching user info: ", error);
-            setCurrentUser(null);
-        }
-        if (checkShopStatus) {
-            await checkShopStatus();
-        }
-    }
-    fetchUser();
-}, []);
 
 
 

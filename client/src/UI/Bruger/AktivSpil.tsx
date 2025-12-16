@@ -8,13 +8,6 @@ import {useActivePladesClient} from "../../Hooks/useActivePlades.ts";
 import {getCurrentWeekNumber, getCurrentYear} from "../../Utils/dateUtils.ts";
 
 
-// export type Board = {
-//     id: string;
-//     activeIndices: number[];
-//     gentag: boolean;
-//     pris: number;
-// }
-
 
 export default function AktivSpil() {
     const rows = 4;

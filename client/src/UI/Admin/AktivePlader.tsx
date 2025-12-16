@@ -8,44 +8,16 @@ import {useEffect, useRef} from "react";
 
 
 function AktivePlader() {
-    // const data = [
-    //     {brugernavn: "GertrudHansen", transaktionsNr: "TX-1001", pris: 20, betalt: true},
-    //     {brugernavn: "Karl-Heinz-Schmidt", transaktionsNr: "TX-1002", pris: 40},
-    //     {brugernavn: "LeopoldHoffmann", transaktionsNr: "TX-1003", pris: 160},
-    //     {brugernavn: "Maximiliam_Wagner", transaktionsNr: "TX-1004", pris: 20},
-    //     {brugernavn: "franzweber", transaktionsNr: "TX-1005", pris: 80},
-    //     {brugernavn: "Babara-Schneider", transaktionsNr: "TX-1006", pris: 20},
-    //     {brugernavn: "HanneloreFischer", transaktionsNr: "TX-1007", pris: 160},
-    //     {brugernavn: "ferdinand-becker", transaktionsNr: "TX-1008", pris: 40},
-    //     {brugernavn: "Franziska_Schulz", transaktionsNr: "TX-1009", pris: 40},
-    // ]
 
     const { adminPlades,
         isLoading,
-        error,
         updateBetalt,
         closeCurrentWeek,
-        checkAdminWeekStatus } = useAdminPlades();
+         } = useAdminPlades();
 
-    const hasCheckedStatus = useRef(false);
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if(hasCheckedStatus.current) return;
-
-        hasCheckedStatus.current = true;
-
-        const verifyStatus = async () => {
-            const isOpen = await checkAdminWeekStatus();
-
-            if (!isOpen) {
-                alert("Den nuværende uge er allerede lukket. Du vil blive omdirigeret til vindertal siden.");
-                navigate("/vindertal-admin");
-            }
-        };
-        verifyStatus();
-    },  []);
 
     const handleBetaltStatus = async (pladeId: string, e: React.ChangeEvent<HTMLInputElement>)  => {
 
