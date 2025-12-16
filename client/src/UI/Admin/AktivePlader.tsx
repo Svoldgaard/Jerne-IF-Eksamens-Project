@@ -5,20 +5,15 @@ import Footer from "../../Component/Footer.tsx";
 import {useNavigate} from "react-router-dom";
 import {useAdminPlades} from "../../Hooks/useAdminPlades.ts";
 import {useEffect, useRef} from "react";
+import {getCurrentWeekNumber, getCurrentYear} from "../../Utils/dateUtils.ts";
 
 
-function AktivePlader() {
-    // const data = [
-    //     {brugernavn: "GertrudHansen", transaktionsNr: "TX-1001", pris: 20, betalt: true},
-    //     {brugernavn: "Karl-Heinz-Schmidt", transaktionsNr: "TX-1002", pris: 40},
-    //     {brugernavn: "LeopoldHoffmann", transaktionsNr: "TX-1003", pris: 160},
-    //     {brugernavn: "Maximiliam_Wagner", transaktionsNr: "TX-1004", pris: 20},
-    //     {brugernavn: "franzweber", transaktionsNr: "TX-1005", pris: 80},
-    //     {brugernavn: "Babara-Schneider", transaktionsNr: "TX-1006", pris: 20},
-    //     {brugernavn: "HanneloreFischer", transaktionsNr: "TX-1007", pris: 160},
-    //     {brugernavn: "ferdinand-becker", transaktionsNr: "TX-1008", pris: 40},
-    //     {brugernavn: "Franziska_Schulz", transaktionsNr: "TX-1009", pris: 40},
-    // ]
+const AktivePlader = () => {
+
+    const currentWeek = getCurrentWeekNumber();
+    const currentYear = getCurrentYear();
+
+
 
     const { adminPlades,
         isLoading,
@@ -84,7 +79,7 @@ function AktivePlader() {
             <div className="main-container">
                 <Header/>
                 <div className="background-aktive-plader">
-                    <h2 className="header-aktive-plader">Nuværende spil: Uge 48 2025</h2>
+                    <h2 className="header-aktive-plader">Nuværende spil: Uge {currentWeek} {currentYear} </h2>
                     <table className="price-table-aktive-plader">
                         <thead>
                             <tr>

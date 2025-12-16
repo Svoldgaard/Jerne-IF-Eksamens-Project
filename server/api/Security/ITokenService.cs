@@ -1,4 +1,3 @@
-using Api.Models.Dtos.Responses;
 
 namespace Api.Security;
 
