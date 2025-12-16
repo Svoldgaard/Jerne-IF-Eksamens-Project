@@ -92,8 +92,8 @@ public class SpilhistorikServiceTest : IClassFixture<TestFixture>
     {
         // Arrange
         _myDbContext.Spiluges.AddRange(
-            new Spiluge {Ugetal = 47, Årstal = 2025},
-            new Spiluge {Ugetal = 48, Årstal = 2025}
+            new Spiluge {Ugetal = 48, Årstal = 2025},
+            new Spiluge {Ugetal = 47, Årstal = 2025}
         );
         await _myDbContext.SaveChangesAsync();
 
