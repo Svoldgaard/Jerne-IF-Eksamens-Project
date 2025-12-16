@@ -19,7 +19,7 @@ public class AuthController : ControllerBase
     private readonly ITokenService _tokenService;
     private readonly ILogger _logger;
 
-    public AuthController(IAuthService authService, ITokenService tokenService, ILogger logger)
+    public AuthController(IAuthService authService, ITokenService tokenService, ILogger<AuthController> logger)
     {
         _authService = authService;
         _tokenService = tokenService;

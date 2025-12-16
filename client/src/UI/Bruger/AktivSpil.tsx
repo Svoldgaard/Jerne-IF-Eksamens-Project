@@ -27,6 +27,7 @@ export default function AktivSpil() {
         id: plade.id || "N/A",
         activeIndices: plade.tal ? plade.tal.map(num => num - 1) : [],
         gentage: plade.gentag || false,
+        isBetalt: plade.betalt,
         pris: plade.pris || 0
     }));
 
@@ -102,7 +103,7 @@ export default function AktivSpil() {
                                                 Transaktionsnr: {board.id}
                                             </div>
                                             <div className="board-header">
-                                                Status: Ikke aktiv
+                                                Status: {board.isBetalt ? "Aktiv" : "Ikke aktiv"}
                                             </div>
                                         </div>
                                     </div>

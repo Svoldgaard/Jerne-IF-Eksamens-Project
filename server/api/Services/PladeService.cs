@@ -42,7 +42,7 @@ public class PladeService(MyDbContext context) : IPladeService
             Gentag = request.Repeat,
             Valgtetal = request.SelectedNumbers,
             Iswinner = false,
-            Status = true
+            Status = false
 
         };
 
@@ -91,7 +91,8 @@ public class PladeService(MyDbContext context) : IPladeService
             Uge = p.Ugetal.Ugetal ?? 0,
             Gentag = p.Gentag,
             Pris = p.Price?.Price ?? 0,
-            Tal = p.Valgtetal ?? new List<int>()
+            Tal = p.Valgtetal ?? new List<int>(),
+            Betalt = p.Status
         }).ToList();
     }
 
