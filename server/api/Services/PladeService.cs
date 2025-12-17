@@ -202,15 +202,8 @@ public class PladeService(MyDbContext context) : IPladeService
             currentCulture.DateTimeFormat.FirstDayOfWeek);
         var year = DateTime.Now.Year;
         
-        // var fakeDate = DateTime.Now.AddDays(7); 
-    
-        // var weekNo = currentCulture.Calendar.GetWeekOfYear(
-        //     fakeDate,
-        //     currentCulture.DateTimeFormat.CalendarWeekRule,
-        //     currentCulture.DateTimeFormat.FirstDayOfWeek);
-        // var year = fakeDate.Year;
 
-        var prevDate = DateTime.Now;
+        var prevDate = DateTime.Now.AddDays(-7);
         var prevWeekNo = currentCulture.Calendar.GetWeekOfYear(
             prevDate,
             currentCulture.DateTimeFormat.CalendarWeekRule,

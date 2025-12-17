@@ -195,7 +195,7 @@ public class PladeController : ControllerBase
     {
         try
         {
-            await _pladeService.UpdateBetaltStatusAsync(request.PladeId, request.Udbetalt);
+            await _pladeService.UpdateUdbetaltStatusasync(request.PladeId, request.Udbetalt);
             return NoContent();
         }
         catch (Exception ex)
