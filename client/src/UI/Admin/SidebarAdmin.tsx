@@ -1,46 +1,40 @@
-import {useRef, useState} from "react";
 import {useNavigate} from "react-router";
 import '../../UI/CSS/Sidebar.css';
-import {useClickOutside} from "../../Hooks/useClickOutside.ts";
+import { useSidebarMenu } from "../../Hooks/useSidebarMenu";
 
-function SidebarAdmin(){
-    const [menuOpen, setMenuOpen] = useState(false);
+const SidebarAdmin = () => {
+
     const navigate = useNavigate();
-    const menuRef = useRef<HTMLDivElement>(null);
 
-    useClickOutside(menuRef, menuOpen, () => setMenuOpen(false));
+    const {
+        menuOpen,
+        menuRef,
+        toggleMenu,
+        closeMenu,
+    } = useSidebarMenu();
+
+    const handleNavigate = (path: string) => {
+        navigate(path);
+        closeMenu();
+    };
+
 
     return (
         <div className="sidebar-wrapper" ref={menuRef}>
-            <button className="sidebar-button" onClick={() => setMenuOpen(prev => !prev)}>
+            <button className="sidebar-button" onClick={toggleMenu}>
                 ☰
             </button>
 
             {menuOpen && (
-                <div className={`sidebar-menu ${menuOpen ? "open" : "closed"}`}>
-                    <div onClick={() => {navigate("/forside-admin"); setMenuOpen(false);}}>
-                        Forside
-                    </div>
-
-                    <div onClick={() => {navigate("/regler-admin"); setMenuOpen(false);}}>
-                        Regler
-                    </div>
-
-                    <div onClick={() => {navigate("/aktive-plader-admin"); setMenuOpen(false);}}>
-                        Aktive Plader
-                    </div>
-
-                    <div onClick={() => {navigate("/spilhistorik-admin"); setMenuOpen(false);}}>
-                        Spilhistorik
-                    </div>
-
-                    <div onClick={() => {navigate("/overblik-admin"); setMenuOpen(false);}}>
-                        Overblik over Brugere
-                    </div>
-
+                <div className="sidebar-menu open">
+                    <div onClick={() => handleNavigate("/forside")}>Forside</div>
+                    <div onClick={() => handleNavigate("/profil-bruger")}>Profil</div>
+                    <div onClick={() => handleNavigate("/regler")}>Regler</div>
+                    <div onClick={() => handleNavigate("/aktiv-spil")}>Aktive Spil</div>
+                    <div onClick={() => handleNavigate("/spilhistorik")}>Spilhistorik</div>
+                    <div onClick={() => handleNavigate("/køb-plade")}>Køb Plade</div>
                 </div>
             )}
-
         </div>
     );
 }
