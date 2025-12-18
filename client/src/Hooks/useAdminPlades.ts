@@ -3,7 +3,8 @@ import {customFetch} from "../api-clients.ts";
 import type {PladeResponse, WinningPladeResponse} from "../generated-ts-client.ts";
 import {useNavigate} from "react-router-dom";
 
-const baseUrl = "http://localhost:5233";
+//const baseUrl = "http://localhost:5233";
+const baseUrl = "https://jerne-if-api.fly.dev/swagger/index.html"
 
 export type AdminPladeResponse = {
     pladeId: string;
