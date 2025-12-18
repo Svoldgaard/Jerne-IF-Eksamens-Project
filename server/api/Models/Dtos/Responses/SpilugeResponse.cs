@@ -1,6 +1,4 @@
-﻿using dataaccess.Entity;
-
-namespace Api.Models.Dtos.Responses;
+﻿namespace Api.Models.Dtos.Responses;
 
 public class SpilugeResponse
 {

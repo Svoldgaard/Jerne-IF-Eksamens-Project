@@ -1,6 +1,4 @@
 ﻿using Api.Services;
-using dataaccess.MyDbContext;
-using dataaccess.Entity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers;
@@ -16,8 +14,6 @@ public class ProfilController : ControllerBase
     {
         _profilService = profilService;
     }
-    
-    
 
     [HttpPost("UpdateProfil")]
     [Produces("application/json")]
@@ -33,11 +29,6 @@ public class ProfilController : ControllerBase
 
         return Ok(profil);
     }
-
-
-
-
-
     
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteProfil(int id)

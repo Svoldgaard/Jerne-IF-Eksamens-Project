@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using Api.Models.Dtos.Requests;
-using Api.Models.Dtos.Responses;
 
 namespace Api.Services;
 

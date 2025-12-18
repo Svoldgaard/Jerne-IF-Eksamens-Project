@@ -1,14 +1,13 @@
 using Api.Etc;
 using Api.Models.Dtos.Requests;
 using Api.Services;
-using DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Moq;
 using dataaccess.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
-using Xunit;
+using DataAccess.Repositories;
 
 public class AuthServiceTest
 {

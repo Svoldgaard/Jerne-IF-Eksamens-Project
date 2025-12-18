@@ -1,4 +1,3 @@
-using Api.Models.Dtos.Responses;
 using dataaccess.Entity;
 
 namespace Api.Mappers;
@@ -15,8 +14,6 @@ public static class UserMappers
             FirstName = profile?.Fnavn ?? string.Empty,
             LastName = profile?.Lnavn ?? string.Empty,
             RoleId = login.Rolleid,
-            
         };
     }
-
 }

@@ -11,5 +11,4 @@ public class PladeResponse
     public List<int> Tal {get; set;}
     public List<int> Vindertal {get; set;}
     public bool Betalt {get; set;}
-    
 }

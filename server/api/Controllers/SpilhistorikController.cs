@@ -37,32 +37,6 @@ public class SpilhistorikController : ControllerBase
     [Authorize]
     public async Task<IActionResult> UpdateWinnerStatus(string pladeId)
     {
-        // try
-        // {
-        //     // Ensure the user owns the board (optional, for security)
-        //     var idClaim = User.Claims.FirstOrDefault(c =>
-        //         c.Type == "sub" ||
-        //         c.Type == ClaimTypes.NameIdentifier);
-        //
-        //     if (idClaim == null || !int.TryParse(idClaim.Value, out int userId))
-        //     {
-        //         return Unauthorized("User not authenticated");
-        //     }
-        //
-        //     // Optional: verify ownership
-        //     var boards = await _spilhistorikService.GetPladesByUserIdAsync(userId);
-        //     if (!boards.Any(b => b.Id == pladeId))
-        //         return Forbid("You don't have permission to update this board");
-        //
-        //     // Update winner status in database
-        //     await _spilhistorikService.UpdateBoardWinnerStatusAsync(pladeId);
-        //
-        //     return NoContent();
-        // }
-        // catch (Exception ex)
-        // {
-        //     return StatusCode(500, "Database Error: " + ex.Message);
-        // }
         try
         {
             await _spilhistorikService.UpdateBoardWinnerStatusAsync(pladeId);

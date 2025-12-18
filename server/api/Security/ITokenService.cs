@@ -1,4 +1,3 @@
-
 namespace Api.Security;
 
 public interface ITokenService

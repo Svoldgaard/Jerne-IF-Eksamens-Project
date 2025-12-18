@@ -36,7 +36,5 @@ public class PriceServiceTest
         Assert.Equal(4, result.Count);
         Assert.Equal(1, result[0].Amount);
         Assert.Equal(20, result[0].Price);
-        
-
     }
 }

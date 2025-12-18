@@ -51,7 +51,6 @@ public class SpilhistorikService(MyDbContext context) : ISpilhistorikService
         
         bool isWinner = winningNumbers.Count > 0 && winningNumbers.All(n => plade.Valgtetal.Contains(n));
         
-        
         if (isWinner != plade.Iswinner)
         {
             plade.Iswinner = isWinner;
@@ -111,5 +110,4 @@ public class SpilhistorikService(MyDbContext context) : ISpilhistorikService
             };
         }).ToList();
     }
-    
 }
