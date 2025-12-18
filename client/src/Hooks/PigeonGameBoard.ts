@@ -2,7 +2,7 @@ import {useEffect, useMemo, useState} from "react";
 import {type AuthUserInfoDto, PriceClient, type PriceResponse} from "../generated-ts-client.ts";
 import {authClient} from "../api-clients.ts";
 //const baseUrl = "http://localhost:5233";
-const baseUrl = "https://jerne-if-api.fly.dev/swagger/index.html"
+const baseUrl = "https://jerne-if-api.fly.dev"
 
 const MIN_SELECTION = 5;
 const MAX_SELECTION = 8;

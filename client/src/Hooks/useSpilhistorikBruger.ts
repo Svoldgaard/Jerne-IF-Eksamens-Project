@@ -4,7 +4,7 @@ import { tokenAtom } from "../Atoms/Auth";
 import {apiUrl} from "../api-clients.ts";
 
 
-const baseUrl = "https://jerne-if-api.fly.dev/swagger/index.html"
+const baseUrl = "https://jerne-if-api.fly.dev"
 
 export interface SpilugeResponse {
     uge: number;
