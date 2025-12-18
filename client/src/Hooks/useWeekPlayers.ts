@@ -1,6 +1,7 @@
 import {useState} from "react";
 
-const baseUrl = "http://localhost:5233";
+// const baseUrl = "http://localhost:5233";
+const baseUrl = "https://jerne-if-api.fly.dev/swagger/index.html"
 
 export function useWeekPlayers() {
     const [weekPlayers, setWeekPlayers] = useState<Record<string, any[]>>({});

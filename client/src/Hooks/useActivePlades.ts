@@ -4,7 +4,8 @@ import {useState, useEffect} from 'react';
 import {customFetch, pladeClient} from "../api-clients.ts";
 import type {PladeResponse} from "../generated-ts-client.ts";
 
-const baseUrl = "http://localhost:5233";
+//const baseUrl = "http://localhost:5233";
+const baseUrl = "https://jerne-if-api.fly.dev/swagger/index.html"
 
 
 export const useActivePladesClient = () => {
