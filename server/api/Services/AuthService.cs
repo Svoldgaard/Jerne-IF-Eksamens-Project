@@ -3,7 +3,6 @@ using System.Security.Claims;
 using Api.Etc;
 using Api.Mappers;
 using Api.Models.Dtos.Requests;
-using Api.Models.Dtos.Responses;
 using dataaccess.Entity;
 using DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
@@ -54,14 +53,12 @@ public class AuthService : IAuthService
 
     public async Task<AuthUserInfoDto> RegisterAsync(RegisterRequest request)
     {
-        // Check uniqueness
         if (_profileRepository.Query().Any(p => p.Email == request.Email))
             throw new ValidationException("Email already exists.");
 
         if (_loginRepository.Query().Any(l => l.Brugernavn == request.UserName))
             throw new ValidationException("Username already exists.");
-
-        // Create login
+        
         var login = new Login
         {
             Brugernavn = request.UserName,
@@ -69,8 +66,7 @@ public class AuthService : IAuthService
         };
         login.Password = _passwordHasher.HashPassword(login, request.Password);
         await _loginRepository.Add(login);
-
-        // Create profile
+        
         var profile = new Profil
         {
             Brugerid = login.Brugerid,
@@ -88,7 +84,6 @@ public class AuthService : IAuthService
 
     public async Task<AuthUserInfoDto?> GetUserInfoAsync(ClaimsPrincipal principal)
     {
-        // NameIdentifier will now correctly map to 'sub'
         var idClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
         if (idClaim == null)
         {

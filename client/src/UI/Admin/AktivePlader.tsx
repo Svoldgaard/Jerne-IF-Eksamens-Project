@@ -4,7 +4,6 @@ import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 import {useNavigate} from "react-router-dom";
 import {useAdminPlades} from "../../Hooks/useAdminPlades.ts";
-import {useEffect, useRef} from "react";
 import {getCurrentWeekNumber, getCurrentYear} from "../../Utils/dateUtils.ts";
 
 

@@ -1,8 +1,6 @@
 ﻿using api.Controllers;
-using api.Models.Dtos;
 using dataaccess.MyDbContext;
 using dataaccess.Entity;
-using dataaccess.MyDbContext;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services;
@@ -28,14 +26,9 @@ public class ProfilService(MyDbContext ctx) : IProfilService
         var profil = await ctx.Profils.FindAsync(id);
         if (profil == null)
         {
-            Console.WriteLine($"Profil med id {id} findes ikke!");
             throw new KeyNotFoundException($"Profil med id {id} findes ikke");
         }
-
-
-        Console.WriteLine($"Before update: {profil.Fnavn}, {profil.Lnavn}, {profil.Email}");
-
-
+        
         profil.Fnavn = dto.Fnavn?.Trim();
         profil.Lnavn = dto.Lnavn?.Trim();
         profil.Email = dto.Email?.Trim();
@@ -51,11 +44,9 @@ public class ProfilService(MyDbContext ctx) : IProfilService
         }
         catch (Exception ex)
         {
-            Console.WriteLine("SaveChangesAsync fejlede:");
             Console.WriteLine(ex.ToString());
             throw;
         }
-
 
         Console.WriteLine($"After update: {profil.Fnavn}, {profil.Lnavn}, {profil.Email}");
 

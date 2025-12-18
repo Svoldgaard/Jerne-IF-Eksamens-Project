@@ -4,12 +4,8 @@ using Api.Models.Dtos.Responses;
 using dataaccess.Entity;
 using dataaccess.MyDbContext;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace Api.Services;
-
-
-
 public class PladeService(MyDbContext context) : IPladeService
 {
 
@@ -59,14 +55,6 @@ public class PladeService(MyDbContext context) : IPladeService
             currentCulture.DateTimeFormat.CalendarWeekRule,
             currentCulture.DateTimeFormat.FirstDayOfWeek);
         var year = DateTime.Now.Year;
-        
-        // var fakeDate = DateTime.Now.AddDays(7); 
-    
-        // var weekNo = currentCulture.Calendar.GetWeekOfYear(
-        //     fakeDate, // <--- Use fakeDate here
-        //     currentCulture.DateTimeFormat.CalendarWeekRule,
-        //     currentCulture.DateTimeFormat.FirstDayOfWeek);
-        // var year = fakeDate.Year; // <--- Use fakeDate here
 
         var activeSpiluge = await context.Spiluges
             .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
@@ -75,8 +63,7 @@ public class PladeService(MyDbContext context) : IPladeService
         {
             return new List<PladeResponse>();
         }
-
-
+        
         var plades = await context.Plades
             .Where(p => p.Brugerid == userId)
             .Where(p => p.Ugetalid == activeSpiluge.Id)
@@ -95,13 +82,7 @@ public class PladeService(MyDbContext context) : IPladeService
             Betalt = p.Status
         }).ToList();
     }
-
-    /// <summary>
-    /// Two methods below is for checkboxes
-    /// </summary>
-    /// <param name="pladeId"></param>
-    /// <param name="newStatus"></param>
-
+    
     public async Task UpdateGentagStatusAsync(string pladeId, bool newStatus)
     {
         var updatePlade = new Plade
@@ -133,12 +114,7 @@ public class PladeService(MyDbContext context) : IPladeService
         context.Entry(updateStatusBetalt).State = EntityState.Detached;
 
     }
-
-
-    /// /// /// /// ///
-
-
-
+    
     public async Task<List<AdminPladeResponse>> GetAllActivePladesAsync()
     {
         var currentCulture = CultureInfo.CurrentCulture;
@@ -212,8 +188,7 @@ public class PladeService(MyDbContext context) : IPladeService
 
         var currentSpiluge = await context.Spiluges
             .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
-
-
+        
         if (currentSpiluge != null)
         {
             currentSpiluge.Status = true;
@@ -230,7 +205,6 @@ public class PladeService(MyDbContext context) : IPladeService
             context.Spiluges.Add(currentSpiluge);
             await context.SaveChangesAsync();
         }
-        
         
         var previousSpiluge = await context.Spiluges
             .FirstOrDefaultAsync(s => s.Ugetal == prevWeekNo && s.Årstal == prevYear);
@@ -253,11 +227,9 @@ public class PladeService(MyDbContext context) : IPladeService
                         p.Ugetalid == currentSpiluge.Id &&
                         p.Brugerid == oldPlade.Brugerid &&
                         p.Valgtetal == oldPlade.Valgtetal);
-
-
+                    
                     if (!alreadyExists)
                     {
-
                         newPladeList.Add(new Plade
                         {
                             Id = Guid.NewGuid().ToString(),
@@ -289,7 +261,6 @@ public class PladeService(MyDbContext context) : IPladeService
             currentCulture.DateTimeFormat.CalendarWeekRule,
             currentCulture.DateTimeFormat.FirstDayOfWeek);
         var year = DateTime.Now.Year;
-
         
         var spiluge = await context.Spiluges
             .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
@@ -310,7 +281,6 @@ public class PladeService(MyDbContext context) : IPladeService
             currentCulture.DateTimeFormat.CalendarWeekRule,
             currentCulture.DateTimeFormat.FirstDayOfWeek);
         var year = DateTime.Now.Year;
-
         
         var activeSpiluge = await context.Spiluges
             .FirstOrDefaultAsync(s => s.Ugetal == weekNo && s.Årstal == year);
@@ -341,8 +311,4 @@ public class PladeService(MyDbContext context) : IPladeService
         context.Entry(plade).Property(p => p.Udbetalt).IsModified = true;
         await context.SaveChangesAsync();
     }
-    
-   
-
-
 }

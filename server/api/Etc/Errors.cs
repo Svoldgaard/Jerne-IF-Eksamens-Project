@@ -8,8 +8,6 @@ public class NotFoundError(string type, object Properties)
     public object Properties { get; } = Properties;
 }
 
-public class UnauthorizedError(string type) : AppError($"Operation not authorized for {type}!") { }
-
 public class ForbiddenError() : AppError("Forbiddden!") { }
 
 public class AuthenticationError() : AppError("Unable to authenticate!") { }

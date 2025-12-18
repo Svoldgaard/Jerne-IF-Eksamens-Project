@@ -3,9 +3,7 @@ using api.Models.Dtos.Request;
 using Api.Models.Dtos.Responses;
 using Api.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
 namespace api.Controllers;
 
 [ApiController]
@@ -59,7 +57,6 @@ public class PladeController : ControllerBase
         catch (Exception ex)
         {
             var message = ex.InnerException?.Message ?? ex.Message;
-            Console.WriteLine("DB/SERVER ERROR: " + message);
             return StatusCode(500, "Database Error: " + message);
         }
     }

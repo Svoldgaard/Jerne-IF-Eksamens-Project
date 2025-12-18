@@ -18,9 +18,7 @@ public class VinderTalController : ControllerBase
     public async Task<IActionResult> CreateVindertal([FromBody] CreateVindertalDTO dto)
     {
         var result = await _vintertalService.CreateVindersekvens(dto);
-        
         await _vintertalService.CalculateAndMarkWinnersAsync(result.Spilugeid);
-        
         return Ok(result);
     }
 

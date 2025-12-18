@@ -31,7 +31,7 @@ public class VindertalService
         }
         catch (Exception ex)
         {
-            Console.WriteLine("🔥 ERROR in CreateVindersekvens: " + ex.Message);
+            Console.WriteLine("ERROR in CreateVindersekvens: " + ex.Message);
             Console.WriteLine(ex.StackTrace);
             throw;
         }
