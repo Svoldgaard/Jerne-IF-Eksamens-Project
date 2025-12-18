@@ -4,7 +4,7 @@ import type {PladeResponse, WinningPladeResponse} from "../generated-ts-client.t
 import {useNavigate} from "react-router-dom";
 
 //const baseUrl = "http://localhost:5233";
-const baseUrl = "https://jerne-if-api.fly.dev/swagger/index.html"
+const baseUrl = "https://jerne-if-api.fly.dev"
 
 export type AdminPladeResponse = {
     pladeId: string;

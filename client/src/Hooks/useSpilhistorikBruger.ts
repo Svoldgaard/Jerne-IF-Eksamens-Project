@@ -3,7 +3,7 @@ import { useAtomValue } from "jotai";
 import { tokenAtom } from "../Atoms/Auth";
 
 //const baseUrl = "http://localhost:5233";
-const baseUrl = "https://jerne-if-api.fly.dev/swagger/index.html"
+const baseUrl = "https://jerne-if-api.fly.dev"
 
 export interface SpilugeResponse {
     uge: number;
