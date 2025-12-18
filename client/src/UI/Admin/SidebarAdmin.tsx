@@ -24,15 +24,13 @@ const SidebarAdmin = () => {
             <button className="sidebar-button" onClick={toggleMenu}>
                 ☰
             </button>
-
             {menuOpen && (
-                <div className="sidebar-menu open">
-                    <div onClick={() => handleNavigate("/forside")}>Forside</div>
-                    <div onClick={() => handleNavigate("/profil-bruger")}>Profil</div>
-                    <div onClick={() => handleNavigate("/regler")}>Regler</div>
-                    <div onClick={() => handleNavigate("/aktiv-spil")}>Aktive Spil</div>
-                    <div onClick={() => handleNavigate("/spilhistorik")}>Spilhistorik</div>
-                    <div onClick={() => handleNavigate("/køb-plade")}>Køb Plade</div>
+                <div className={`sidebar-menu ${menuOpen ? "open" : "closed"}`}>
+                    <div onClick={() => handleNavigate("/forside-admin")}>Forside</div>
+                    <div onClick={() => handleNavigate("/regler-admin")}>Regler</div>
+                    <div onClick={() => handleNavigate("/aktive-plader-admin")}>Aktive Plader</div>
+                    <div onClick={() => handleNavigate("/spilhistorik-admin")}>Spilhistorik</div>
+                    <div onClick={() => handleNavigate("/overblik-admin")}>Overblik over Brugere</div>
                 </div>
             )}
         </div>
