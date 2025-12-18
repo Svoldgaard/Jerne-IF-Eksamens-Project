@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react";
 import { useAtomValue } from "jotai";
 import { tokenAtom } from "../Atoms/Auth";
+import {apiUrl} from "../api-clients.ts";
 
-//const baseUrl = "http://localhost:5233";
+
 const baseUrl = "https://jerne-if-api.fly.dev/swagger/index.html"
 
 export interface SpilugeResponse {
@@ -38,7 +39,7 @@ export function useSpilhistorikBruger(brugerId?: number) {
                 // console.log("token", token);
                 if(!token) return;
 
-                const ugeRes = await fetch(`${baseUrl}/api/spilhistorik/spiluger`, {
+                const ugeRes = await fetch(`${apiUrl}/api/spilhistorik/spiluger`, {
                     headers: {
                         "Authorization": `Bearer ${token}`
                     }
@@ -46,7 +47,7 @@ export function useSpilhistorikBruger(brugerId?: number) {
 
                 const ugeData = await ugeRes.json();
 
-                const pladeRes = await fetch(`${baseUrl}/api/spilhistorik/spilhistorik`, {
+                const pladeRes = await fetch(`${apiUrl}/api/spilhistorik/spilhistorik`, {
                     headers: {
                         "Authorization": `Bearer ${token}`,
                         "Content-Type": "application/json"
