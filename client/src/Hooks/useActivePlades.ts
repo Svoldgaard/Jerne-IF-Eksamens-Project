@@ -3,9 +3,10 @@ import {useState, useEffect} from 'react';
 
 import {customFetch, pladeClient} from "../api-clients.ts";
 import type {PladeResponse} from "../generated-ts-client.ts";
+import {apiUrl} from "../api-clients.ts";
 
 //const baseUrl = "http://localhost:5233";
-const baseUrl = "https://jerne-if-api.fly.dev"
+//const baseUrl = "https://jerne-if-api.fly.dev"
 
 
 export const useActivePladesClient = () => {
@@ -37,7 +38,7 @@ export const useActivePladesClient = () => {
 
     const updateGentag = async (pladeId: string, newStatus: boolean)=>{
         try {
-            const response = await customFetch(`${baseUrl}/api/plade/update-gentag`, {
+            const response = await customFetch(`${apiUrl}/api/plade/update-gentag`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
