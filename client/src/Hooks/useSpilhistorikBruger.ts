@@ -30,7 +30,7 @@ interface PladeApiResponse {
     id: string;
     uge: number;
     year?: number;
-    Year?: number; // If API is inconsistent
+    Year?: number;
     gentag: boolean;
     pris: number;
     isWinner: boolean;
