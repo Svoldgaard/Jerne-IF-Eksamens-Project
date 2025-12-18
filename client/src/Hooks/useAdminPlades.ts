@@ -2,9 +2,11 @@ import {useEffect, useRef, useState} from "react";
 import {customFetch} from "../api-clients.ts";
 import type {PladeResponse, WinningPladeResponse} from "../generated-ts-client.ts";
 import {useNavigate} from "react-router-dom";
+import {apiUrl} from "../api-clients.ts";
 
 //const baseUrl = "http://localhost:5233";
-const baseUrl = "https://jerne-if-api.fly.dev"
+//const baseUrl = "https://jerne-if-api.fly.dev"
+
 
 export type AdminPladeResponse = {
     pladeId: string;
@@ -27,7 +29,7 @@ export const useAdminPlades = (protectActiveWeek: boolean = false)=> {
     const fetchData = async () => {
         setIsLoading(true);
         try{
-            const response = await customFetch(`${baseUrl}/api/Plade/admin/active-plades`);
+            const response = await customFetch(`${apiUrl}/api/Plade/admin/active-plades`);
 
             if (!response.ok)
                 throw new Error("Failed to fetch to Admin");
@@ -73,7 +75,7 @@ export const useAdminPlades = (protectActiveWeek: boolean = false)=> {
 
     const updateBetalt = async (pladeId: string, newStatus: boolean)=>{
         try {
-            const response = await customFetch(`${baseUrl}/api/Plade/admin/update-betalt`, {
+            const response = await customFetch(`${apiUrl}/api/Plade/admin/update-betalt`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -101,7 +103,7 @@ export const useAdminPlades = (protectActiveWeek: boolean = false)=> {
 
     const closeCurrentWeek = async (): Promise<boolean> => {
         try{
-            const response = await customFetch(`${baseUrl}/api/Plade/CloseCurrentWeek`, {
+            const response = await customFetch(`${apiUrl}/api/Plade/CloseCurrentWeek`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -120,7 +122,7 @@ export const useAdminPlades = (protectActiveWeek: boolean = false)=> {
     const handleStartNewWeek = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch(`${baseUrl}/api/Plade/StartNewWeek`, {
+            const response = await fetch(`${apiUrl}/api/Plade/StartNewWeek`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
             });
@@ -138,7 +140,7 @@ export const useAdminPlades = (protectActiveWeek: boolean = false)=> {
 
     const checkAdminWeekStatus = async () => {
         try {
-            const response = await customFetch(`${baseUrl}/api/Plade/check-status`);
+            const response = await customFetch(`${apiUrl}/api/Plade/check-status`);
 
             if (response.ok) {
                 const data = await response.json();
@@ -153,7 +155,7 @@ export const useAdminPlades = (protectActiveWeek: boolean = false)=> {
 
     const checkWinningNumbers = async () => {
         try {
-            const response = await customFetch(`${baseUrl}/vindertal/check-winning-numbers`);
+            const response = await customFetch(`${apiUrl}/vindertal/check-winning-numbers`);
 
             if (response.ok) {
                 const data = await response.json();
@@ -168,7 +170,7 @@ export const useAdminPlades = (protectActiveWeek: boolean = false)=> {
 
     const fetchWinners = async () => {
         try {
-            const response = await customFetch(`${baseUrl}/api/Plade/admin/winning-plades`);
+            const response = await customFetch(`${apiUrl}/api/Plade/admin/winning-plades`);
             if (response.ok) {
                 const data = await response.json();
                 setWinningPlades(data);
@@ -183,7 +185,7 @@ export const useAdminPlades = (protectActiveWeek: boolean = false)=> {
 
     const updateUdbetalt = async (pladeId: string, newStatus: boolean)=>{
         try{
-            await customFetch(`${baseUrl}/api/Plade/admin/update-udbetalt`, {
+            await customFetch(`${apiUrl}/api/Plade/admin/update-udbetalt`, {
                 method: 'PATCH',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({

@@ -1,8 +1,9 @@
 import {useEffect, useMemo, useState} from "react";
 import {type AuthUserInfoDto, PriceClient, type PriceResponse} from "../generated-ts-client.ts";
 import {authClient} from "../api-clients.ts";
+import {apiUrl} from "../api-clients.ts";
 //const baseUrl = "http://localhost:5233";
-const baseUrl = "https://jerne-if-api.fly.dev"
+//const baseUrl = "https://jerne-if-api.fly.dev"
 
 const MIN_SELECTION = 5;
 const MAX_SELECTION = 8;
@@ -27,7 +28,7 @@ export function useTogglePigeon() {
         };
 
         try {
-            const response = await fetch (`${baseUrl}/api/plade`, {
+            const response = await fetch (`${apiUrl}/api/plade`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -50,7 +51,7 @@ export function useTogglePigeon() {
 
 
     const priceClient = useMemo(() => {
-        return new PriceClient(baseUrl);
+        return new PriceClient(apiUrl);
     }, []);
 
     useEffect(() => {
@@ -138,7 +139,7 @@ export function useTogglePigeon() {
         setLoadingStatus(true);
         try {
 
-            const response = await fetch(`${baseUrl}/api/Plade/check-status`);
+            const response = await fetch(`${apiUrl}/api/Plade/check-status`);
             if (response.ok) {
                 const data = await response.json();
                 setIsGameAvailable(data.isOpen);
