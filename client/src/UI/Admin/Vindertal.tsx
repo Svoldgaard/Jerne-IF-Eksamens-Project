@@ -5,14 +5,14 @@ import Footer from "../../Component/Footer.tsx";
 import {useNavigate} from "react-router-dom";
 import {useVindertal} from "../../Hooks/useVindertal.ts";
 import {getCurrentWeekNumber, getCurrentYear} from "../../Utils/dateUtils.ts";
-import React, {useEffect, useRef} from "react";
-import {useAdminPlades} from "../../Hooks/useAdminPlades.ts";
+import {useVerifyWinningNumbers} from "../../Hooks/useVerifyWinningNumbers.ts";
+import React from "react";
 
 const Vindertal = () => {
     const navigate = useNavigate();
     const { vindertal, setVindertal, submitVindertal, loading, error } = useVindertal();
 
-    const {checkWinningNumbers} = useAdminPlades();
+    useVerifyWinningNumbers();
 
     const currentWeek = getCurrentWeekNumber();
     const currentYear = getCurrentYear();
@@ -63,23 +63,7 @@ const Vindertal = () => {
         navigate("/vundet-plader-admin");
     };
 
-    const hasCheckedStatus = useRef(false);
 
-    useEffect(() => {
-        if(hasCheckedStatus.current) return;
-
-        hasCheckedStatus.current = true;
-
-        const verifyWinningNumbers = async () => {
-            const hasWinningNumbers = await checkWinningNumbers();
-
-            if (hasWinningNumbers) {
-                alert("Den nuværende uge allerede har en vindertal. Du vil blive omdirigeret til vundet plader siden.");
-                navigate("/vundet-plader-admin");
-            }
-        };
-        verifyWinningNumbers();
-    },  []);
 
     return (
         <div className="page-vindertal">
