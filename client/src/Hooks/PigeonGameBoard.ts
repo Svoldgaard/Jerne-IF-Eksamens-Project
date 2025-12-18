@@ -2,8 +2,6 @@ import {useEffect, useMemo, useState} from "react";
 import {type AuthUserInfoDto, PriceClient, type PriceResponse} from "../generated-ts-client.ts";
 import {authClient} from "../api-clients.ts";
 import {apiUrl} from "../api-clients.ts";
-//const baseUrl = "http://localhost:5233";
-//const baseUrl = "https://jerne-if-api.fly.dev"
 
 const MIN_SELECTION = 5;
 const MAX_SELECTION = 8;
@@ -48,8 +46,6 @@ export function useTogglePigeon() {
 
     }
 
-
-
     const priceClient = useMemo(() => {
         return new PriceClient(apiUrl);
     }, []);
@@ -64,21 +60,17 @@ export function useTogglePigeon() {
                 data.forEach(item => {
                     priceMap[item.amount!] = item.price!;
                 });
-                
-                console.log("Prices loaded from DB: ", priceMap);
+
                 setPriceList(priceMap);
                 
             } catch (error) {
                 console.error('Error fetching prices:', error);
                 setPriceList({});
-                //setPriceList({5: 20, 6: 40, 7: 80, 8: 160}); // Fallback prices
             }
         };
         fetchPrices();
         
     }, [priceClient]);
-
-
 
     const calculatePrice = () => {
         const count = selectedPigeons.length;
@@ -90,20 +82,15 @@ export function useTogglePigeon() {
 
     const currentPrice = calculatePrice();
 
-
-
     const handleAlertMin = () => {
         if(!isMinSelected){
             setShowAlertMin(true);
 
             return false;
         }
-
         setShowAlertMin(false);
         return true;
-
     }
-
 
     const isSelected = (index: number) => selectedPigeons.includes(index);
     const isMinSelected = selectedPigeons.length >= MIN_SELECTION;
@@ -138,7 +125,6 @@ export function useTogglePigeon() {
     const checkShopStatus = async () => {
         setLoadingStatus(true);
         try {
-
             const response = await fetch(`${apiUrl}/api/Plade/check-status`);
             if (response.ok) {
                 const data = await response.json();
@@ -158,7 +144,6 @@ export function useTogglePigeon() {
         try{
             const userData = await authClient.userInfo();
 
-            console.log("User loaded: ", userData)
             setCurrentUser(userData);
         }catch(error){
             console.warn("Error fetching user info: ", error);
@@ -171,8 +156,6 @@ export function useTogglePigeon() {
     useEffect(() => {
         fetchUser();
     }, []);
-
-
 
     return {selectedPigeons,
         togglePigeon,

@@ -2,7 +2,6 @@ import React from "react";
 import '../UI/CSS/OpretBruger.css';
 import Logo from "../Assets/Logo.png";
 import BackArrow from "../Assets/BackArrow.png";
-import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import {useOpretbruger} from "../Hooks/useOpretBruger.ts";
 

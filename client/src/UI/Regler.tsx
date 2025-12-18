@@ -28,9 +28,6 @@ function Regler() {
                 <Header/>
                 <div className="background-profil">
                     <h1 className="header-regler">Regler for spillet Døde Duer</h1>
-                   {/* <pre className="regler">*/}
-                   {/*     {rules || "Loading Rules..."}*/}
-                   {/*</pre>*/}
 
                     <div className="text-regler">
                         {parts[0]}
@@ -71,7 +68,6 @@ function Regler() {
             </div>
             <Footer/>
         </div>
-
     )
 }
 

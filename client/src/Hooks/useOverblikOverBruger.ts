@@ -30,7 +30,6 @@ export const useOverblikOverBruger = () => {
                 setLoading(false);
             }
         };
-
         loadProfiles();
     }, []);
 
@@ -40,7 +39,6 @@ export const useOverblikOverBruger = () => {
         window.addEventListener("click", close);
         return () => window.removeEventListener("click", close);
     }, []);
-
 
     const onRowRightClick = (e: React.MouseEvent, profile: ProfilDto) => {
         e.preventDefault();
@@ -64,9 +62,6 @@ export const useOverblikOverBruger = () => {
             aktiv: !profile.aktiv,
         };
 
-        console.log("Sending to API:", updatedProfile);
-
-
         setProfiles((prev) =>
             prev.map((p) =>
                 p.email === profile.email ? { ...p, aktiv: !p.aktiv } : p
@@ -89,8 +84,6 @@ export const useOverblikOverBruger = () => {
             );
         }
     };
-
-
 
     return {
         profiles,

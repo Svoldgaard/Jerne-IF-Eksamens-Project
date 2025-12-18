@@ -42,12 +42,9 @@ p{
 }
 
 .background-spilside{
-    /*margin-top: 50px;*/
-
     width: 1140px;
     margin: 0 auto;
-
-    flex: 1; /* fills space above footer */
+    flex: 1;
     flex-direction: column;
     display: flex;
     justify-content: flex-start;
@@ -60,14 +57,13 @@ p{
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    overflow: hidden; /* prevents unnecessary scroll */
+    overflow: hidden;
     margin: 0;
 }
 
 .content-plade{
     margin-top: 0;
 }
-
 
 .logo-plade{
     position: absolute;
@@ -117,7 +113,6 @@ p{
     background: #FFFFFF;
     border: 2px solid #000000;
     border-radius: 4px;
-
     position: relative;
     cursor: pointer;
 }
@@ -159,14 +154,13 @@ p{
 }
 
 .button-pay-active {
-
-    background-color: #4CAF50; /* Green */
-    color: white; /* White text for contrast */
-    cursor: pointer; /* Explicitly show it's clickable */
+    background-color: #00A637;
+    color: white;
+    cursor: pointer;
 }
 
 .button-pay-active:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color: #00A637;
 }
 
 /*=== Mobile styles ===*/
@@ -224,16 +218,8 @@ p{
     }
 
     .button-pay-active {
-
-        background-color: #4CAF50; /* Green */
-        color: white; /* White text for contrast */
-        cursor: pointer; /* Explicitly show it's clickable */
+        background-color: #00A637;
+        color: white;
     }
-
-    .button-pay-active:hover {
-        background-color: #45a049; /* Darker green on hover */
-    }
-
-
 
 }

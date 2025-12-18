@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { useAuth } from "./useAuth";
+import { useAuth } from "./useAuth.ts";
 import { authClient } from "../api-clients";
 import type { RegisterRequest } from "../generated-ts-client";
-
 
 export const useOpretbruger = () => {
     const {login } = useAuth();

@@ -7,7 +7,6 @@ import Person from "../../Assets/Person.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 
-
 function ForsideBruger() {
     const navigate = useNavigate();
 

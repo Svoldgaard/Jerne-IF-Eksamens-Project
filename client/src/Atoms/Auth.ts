@@ -1,5 +1,3 @@
-// src/Atoms/Auth.ts
-import { atom } from "jotai";
 import { atomWithStorage, createJSONStorage } from "jotai/utils";
 import type {AuthUserInfoDto} from "../generated-ts-client";
 

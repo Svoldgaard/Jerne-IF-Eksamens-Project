@@ -7,7 +7,6 @@ import Board from "../../Assets/Board.png";
 import Person from "../../Assets/Person.png";
 import Regler from "../../Assets/Regler.png"
 
-
 function ForsideAdmin() {
     const navigate = useNavigate();
 
@@ -26,7 +25,6 @@ function ForsideAdmin() {
                             <span className="arrow-icon">▶</span>
                         </div>
                     </button>
-
                     <button className="button-forside" onClick={() => navigate("/spilhistorik-admin")}>
                         <img src={Board} alt="Board" className="image-forside"/>
                         <div className="button-label-forside">

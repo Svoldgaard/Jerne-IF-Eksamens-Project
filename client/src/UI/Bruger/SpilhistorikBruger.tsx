@@ -9,7 +9,6 @@ import {useSpilhistorikBruger} from "../../Hooks/useSpilhistorikBruger.ts";
 import {useAtomValue} from "jotai";
 import {userAtom} from "../../Atoms/Auth.ts";
 
-
 export default function SpilhistorikBruger() {
     const rows = 4;
     const cols = 4;
@@ -19,8 +18,6 @@ export default function SpilhistorikBruger() {
     const user = useAtomValue(userAtom);
 
     const brugerId = user?.userId;
-
-    // console.log("BRUGER ID:", brugerId);
 
     const { plader, spiluger, loading, error } = useSpilhistorikBruger(brugerId);
 
@@ -38,16 +35,16 @@ export default function SpilhistorikBruger() {
     const filteredWeeks = spiluger
         .filter(w => w.vindertal && w.vindertal.length > 0)
         .map(w => {
-        const key = `${w.year}-${w.uge}`;
-        return{
-            key,
-            year: w.year,
-            uge: w.uge,
-            vindertal: w.vindertal,
-            boards: pladerByWeek[key] ?? [],
-            hasBoards: (pladerByWeek[key] ?? []).length > 0
-        }
-    });
+            const key = `${w.year}-${w.uge}`;
+            return{
+                key,
+                year: w.year,
+                uge: w.uge,
+                vindertal: w.vindertal,
+                boards: pladerByWeek[key] ?? [],
+                hasBoards: (pladerByWeek[key] ?? []).length > 0
+            }
+        });
 
     filteredWeeks.sort((a, b) => {
         if (a.year !== b.year) return b.year - a.year;
@@ -65,25 +62,22 @@ export default function SpilhistorikBruger() {
 
                 <div className="background-spilhistorik-bruger">
                     {filteredWeeks.map(week => (
-                        // const [årstal, uge] = key.split("-");
+                        <Accordion
+                            key={week.key}
+                            disabled={!week.hasBoards}
+                            className={!week.hasBoards ? "accordion-disabled" :""}>
+                            <AccordionSummary
+                                expandIcon={week.hasBoards ? <ExpandMoreIcon /> : null}
+                                className={!week.hasBoards ? "accordion-disabled" : week.boards.some(b => b.isWinner) ? "accordion-vundet" : "accordion-tabt"}
+                            >
+                                <Typography component="span">Uge {week.uge} {week.year}</Typography>
+                                <Typography component="span">{week.vindertal.join(", ")}</Typography>
+                            </AccordionSummary>
 
-                            <Accordion
-                                key={week.key}
-                                disabled={!week.hasBoards}
-                                className={!week.hasBoards ? "accordion-disabled" :""}>
-                                <AccordionSummary
-                                    expandIcon={week.hasBoards ? <ExpandMoreIcon /> : null}
-                                    className={!week.hasBoards ? "accordion-disabled" : week.boards.some(b => b.isWinner) ? "accordion-vundet" : "accordion-tabt"}
-                                >
-                                    <Typography component="span">Uge {week.uge} {week.year}</Typography>
-                                    <Typography component="span">{week.vindertal.join(", ")}</Typography>
-                                </AccordionSummary>
-
-                                <AccordionDetails>
-                                    <div className="boards-container">
-                                        {week.hasBoards ? (
-                                            week.boards.map(plade => {
-                                            // console.log("winner check:", plade.id, plade.tal, plade.vindertal, plade.isWinner);
+                            <AccordionDetails>
+                                <div className="boards-container">
+                                    {week.hasBoards ? (
+                                        week.boards.map(plade => {
                                             const activeSet = new Set(plade.tal);
                                             return (
                                                 <div
@@ -97,29 +91,29 @@ export default function SpilhistorikBruger() {
                                                         {Array.from({length: total}).map((_, idx) => {
                                                             const number = idx +1;
                                                             return(
-                                                            <div
-                                                                key={idx}
-                                                                className={
-                                                                    activeSet.has(number)
-                                                                        ? "cg-cell cg-cell-active"
-                                                                        : "cg-cell"
-                                                                }
-                                                            >
-                                                                {number}
-                                                            </div>
+                                                                <div
+                                                                    key={idx}
+                                                                    className={
+                                                                        activeSet.has(number)
+                                                                            ? "cg-cell cg-cell-active"
+                                                                            : "cg-cell"
+                                                                    }
+                                                                >
+                                                                    {number}
+                                                                </div>
                                                             );
                                                         })}
                                                     </div>
                                                 </div>
                                             );
-                                         })
-                                        ) : (
-                                            <p>Ingen plader denne uge. Vindertal: {week.vindertal.join(", ")}</p>
-                                        )}
-                                    </div>
-                                </AccordionDetails>
+                                        })
+                                    ) : (
+                                        <p>Ingen plader denne uge. Vindertal: {week.vindertal.join(", ")}</p>
+                                    )}
+                                </div>
+                            </AccordionDetails>
 
-                            </Accordion>
+                        </Accordion>
                     ))}
                 </div>
             </div>
@@ -128,5 +122,3 @@ export default function SpilhistorikBruger() {
         </div>
     );
 }
-
-// export default SpilhistorikBruger;

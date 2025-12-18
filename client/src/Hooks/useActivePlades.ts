@@ -1,16 +1,9 @@
 import {useState, useEffect} from 'react';
-
-
 import {customFetch, pladeClient} from "../api-clients.ts";
 import type {PladeResponse} from "../generated-ts-client.ts";
 import {apiUrl} from "../api-clients.ts";
 
-//const baseUrl = "http://localhost:5233";
-//const baseUrl = "https://jerne-if-api.fly.dev"
-
-
 export const useActivePladesClient = () => {
-
 
     const [activePlades, setActivePlades] = useState<PladeResponse[]>([]);
     const [isLoading, setLoading] = useState(true);
@@ -21,12 +14,11 @@ export const useActivePladesClient = () => {
             setLoading(true);
             setError(null);
             try{
-
                 const data = await pladeClient.getPlades();
 
                 setActivePlades(data);
 
-            }catch(err: any){
+            }catch(err){
                 setError("Kunne ikke hente aktive spil. Tjek din login status. ");
                 console.error("Error fetching active plades: ", err);
             } finally {
@@ -63,6 +55,5 @@ export const useActivePladesClient = () => {
             return false;
         }
     };
-
     return {activePlades, isLoading, error, updateGentag};
 }

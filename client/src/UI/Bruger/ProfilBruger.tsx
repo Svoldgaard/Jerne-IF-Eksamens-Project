@@ -11,7 +11,6 @@ function ProfilBruger() {
         firstName, setFirstName,
         lastName, setLastName,
         email, setEmail,
-        mobil, setMobil,
         handleSave,
         error
     }=useProfile();
@@ -61,7 +60,6 @@ function ProfilBruger() {
                     <button className="button-gem-profil" onClick={handleSave}>
                         Gem
                     </button>
-
                 </div>
             </div>
             <Footer/>

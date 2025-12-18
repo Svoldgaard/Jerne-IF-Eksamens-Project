@@ -4,14 +4,9 @@ import Header from "../../Component/Header.tsx";
 import {useTogglePigeon} from "../../Hooks/PigeonGameBoard.ts";
 import Footer from "../../Component/Footer.tsx";
 import Alert from '@mui/material/Alert';
-
 import { useNavigate } from "react-router-dom";
-import {useEffect, useState} from "react";
-
-import {authClient} from "../../api-clients.ts";
-import {type AuthUserInfoDto} from "../../generated-ts-client.ts";
+import {useState} from "react";
 import {getCurrentWeekNumber, getCurrentYear} from "../../Utils/dateUtils.ts";
-
 
 export type ClickableGridUIProps ={
     activeIndices?: number[];
@@ -24,7 +19,6 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
     const currentWeek = getCurrentWeekNumber();
     const currentYear = getCurrentYear();
 
-
     const rows = 4;
     const cols = 4;
     const total = rows * cols;
@@ -32,7 +26,6 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
     const navigate = useNavigate();
 
     const [isRepeatCheked, setIsRepeat] = useState(false);
-
 
     const {selectedPigeons,
         togglePigeon,
@@ -44,9 +37,6 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
         currentUser,
         isGameAvailable,
         loadingStatus} = useTogglePigeon();
-
-
-
 
     const handlePayment = async () => {
          const isValid = handleAlertMin();
@@ -80,7 +70,6 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
                 <img src={Logo} alt="Logo" onClick={() => navigate("/forside")}/>
             </span>
 
-
             <div className="main-container">
                 <Header/>
                 <div className="background-spilside">
@@ -96,7 +85,6 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
                         </div>
                     )}
 
-
                     <div className={`cg-container ${className}`} style={{ opacity: isGameAvailable ? 1 : 0.5, pointerEvents: isGameAvailable ? 'auto' : 'none' }}>
                         <div
                         role="grid"
@@ -105,7 +93,6 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
                         className="cg-grid"
                         style={{gridTemplateColumns: `repeat(${cols}, 1fr)`}}
                         >
-
                             {Array.from({length: total}).map((_, idx) => {
                                 const isActive = selectedPigeons.includes(idx);
                                 return(
@@ -122,9 +109,7 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
                             })}
                         </div>
                     </div>
-
                         <p className="text"> Pris: {currentPrice} DKK </p>
-
                     <div>
                         {showAlertMax && (
                             <div style={{ maxWidth: '300px', margin: '10px auto' }}>
@@ -133,7 +118,6 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
                                 </Alert>
                             </div>
                         )}
-
                         {showAlertMin && (
                             <div style={{ maxWidth: '300px', margin: '10px auto' }}>
                                 <Alert severity="warning">
@@ -150,10 +134,7 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
                         >
                             {isGameAvailable ? "Betal" : "Lukket"}
                         </button>
-
-
                     </div>
-
                     <div className="repeat-row">
                         <p>Gentag hver uge</p>
                             <input type="checkbox"
@@ -167,5 +148,3 @@ export default function SpilSide({ className =""}: ClickableGridUIProps) {
         </div>
     );
 }
-
-//export default SpilSide;

@@ -1,12 +1,8 @@
 import {useEffect, useRef, useState} from "react";
 import {customFetch} from "../api-clients.ts";
-import type {PladeResponse, WinningPladeResponse} from "../generated-ts-client.ts";
+import type {WinningPladeResponse} from "../generated-ts-client.ts";
 import {useNavigate} from "react-router-dom";
 import {apiUrl} from "../api-clients.ts";
-
-//const baseUrl = "http://localhost:5233";
-//const baseUrl = "https://jerne-if-api.fly.dev"
-
 
 export type AdminPladeResponse = {
     pladeId: string;
@@ -38,10 +34,8 @@ export const useAdminPlades = (protectActiveWeek: boolean = false)=> {
             setAdminPlades(data);
 
         } catch(error) {
-
             console.error(error)
             setError("Failed to fetch to Admin");
-
         } finally {
             setIsLoading(false);
         }
@@ -49,7 +43,6 @@ export const useAdminPlades = (protectActiveWeek: boolean = false)=> {
     useEffect(() => {
         fetchData();
     }, []);
-
 
     useEffect(() => {
 
@@ -67,10 +60,8 @@ export const useAdminPlades = (protectActiveWeek: boolean = false)=> {
             }
         };
 
-
         verifyStatus();
     }, [protectActiveWeek, navigate]);
-
 
 
     const updateBetalt = async (pladeId: string, newStatus: boolean)=>{
@@ -200,8 +191,6 @@ export const useAdminPlades = (protectActiveWeek: boolean = false)=> {
             return false;
         }
     }
-
-
 
     return {adminPlades,
         isLoading,

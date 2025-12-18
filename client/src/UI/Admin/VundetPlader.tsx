@@ -4,28 +4,22 @@ import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 import {useNavigate} from "react-router-dom";
 import {useAdminPlades} from "../../Hooks/useAdminPlades.ts";
-import {useEffect} from "react";
 import {getCurrentWeekNumber, getCurrentYear} from "../../Utils/dateUtils.ts";
 
 function VundetPlader() {
-
-
     const currentWeek = getCurrentWeekNumber();
     const currentYear = getCurrentYear();
 
-    const ugetalID = Number(`${currentWeek}${currentYear}`);
-
-    const {handleStartNewWeek, isLoading, fetchWinners, winningPlades, updateUdbetalt} = useAdminPlades();
+    const {handleStartNewWeek, isLoading, winningPlades, updateUdbetalt} = useAdminPlades();
 
     const navigate = useNavigate();
-
 
     const onStartNewWeek = async () => {
        if(!window.confirm("Er du sikker på, at du vil starte en nye uge? Dette vil åbne spillet for brugerne igen. ")) {
            return;
        }
 
-       const success: any = await handleStartNewWeek();
+       const success = await handleStartNewWeek();
 
        if(success) {
            alert("En ny uge er startet!")
@@ -38,8 +32,6 @@ function VundetPlader() {
     const handleCheckboxChange = (pladeId: string, e: React.ChangeEvent<HTMLInputElement>) => {
         updateUdbetalt(pladeId, e.target.checked);
     };
-
-
 
     return (
         <div className="page-vundet-plader">
@@ -73,7 +65,7 @@ function VundetPlader() {
                                            onChange={(e) => handleCheckboxChange(row.pladeId!, e)}/>
                                 </td>
                             </tr>
-                        ))}
+ ))}
                         </tbody>
                     </table>
 
@@ -83,7 +75,6 @@ function VundetPlader() {
                             style={{ cursor: isLoading ? 'wait' : 'pointer', opacity: isLoading ? 0.7 : 1 }}>
                         {isLoading ? "Starter..." : "Start ny uge"}
                     </button>
-
                 </div>
             </div>
             <Footer/>

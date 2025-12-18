@@ -1,11 +1,19 @@
 import {useState} from "react";
 import {apiUrl} from "../api-clients.ts";
 
-// const baseUrl = "http://localhost:5233";
-//const baseUrl = "https://jerne-if-api.fly.dev/swagger/index.html"
+export interface WeekPlayer {
+    userId: number;
+    userName: string;
+    email: string;
+    pladeId: string;
+    transaktionsNr: string;
+    tal: number[];
+    pris: number;
+    isWinner: boolean;
+}
 
 export function useWeekPlayers() {
-    const [weekPlayers, setWeekPlayers] = useState<Record<string, any[]>>({});
+    const [weekPlayers, setWeekPlayers] = useState<Record<string, WeekPlayer[]>>({});
 
     const loadWeekData = async (year: number, week: number) => {
         const key = `${year}-${week}`;

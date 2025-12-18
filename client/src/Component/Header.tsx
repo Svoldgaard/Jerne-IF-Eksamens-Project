@@ -4,9 +4,7 @@ import '../UI/CSS/Header.css';
 import Logout from "../Assets/Logout.png";
 import {useLocation} from "react-router";
 import SidebarAdmin from "../UI/Admin/SidebarAdmin.tsx";
-import { useAuth } from "../Hooks/useAuth";
-
-
+import { useAuth } from "../Hooks/useAuth.ts";
 
 const Header: React.FC = () => {
     const location = useLocation();

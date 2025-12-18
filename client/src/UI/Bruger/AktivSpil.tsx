@@ -3,18 +3,13 @@ import Logo from "../../Assets/Logo.png";
 import Header from "../../Component/Header.tsx";
 import Footer from "../../Component/Footer.tsx";
 import {useNavigate} from "react-router-dom";
-
 import {useActivePladesClient} from "../../Hooks/useActivePlades.ts";
 import {getCurrentWeekNumber, getCurrentYear} from "../../Utils/dateUtils.ts";
 
-
-
 export default function AktivSpil() {
-
     const rows = 4;
     const cols = 4;
     const total = rows * cols;
-
 
     const navigate = useNavigate();
 
@@ -30,7 +25,6 @@ export default function AktivSpil() {
         isBetalt: plade.betalt,
         pris: plade.pris || 0
     }));
-
 
     return (
         <div className="page-aktivspil">
@@ -110,11 +104,8 @@ export default function AktivSpil() {
                                     {index < boardsToDisplay.length -1 && <hr className="separator" />}
                                 </div>
                             );
-
                         })}
-
                     </div>
-
                 </div>
             </div>
             <Footer/>

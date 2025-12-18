@@ -1,11 +1,8 @@
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { tokenAtom, userAtom } from "../Atoms/Auth";
 import { authClient } from "../api-clients";
-
-import type { AuthUserInfoDto } from "../generated-ts-client";
 
 export const useAuth = () => {
 
@@ -15,7 +12,6 @@ export const useAuth = () => {
 
     const navigate = useNavigate();
 
-
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
 
@@ -23,7 +19,6 @@ export const useAuth = () => {
             setToken(storedToken);
         }
     }, []);
-
 
     const login = async ({ username, password }: { username: string; password: string }) => {
         try {
@@ -33,15 +28,12 @@ export const useAuth = () => {
                 throw new Error("Login failed: missing token.");
             }
 
-
             setToken(response.jwt);
             localStorage.setItem("token", response.jwt);
-
 
             if (response.user) {
                 setUser(response.user);
             }
-
 
             if (response.user?.roleId === 2) {
                 navigate("/forside-admin");
@@ -54,7 +46,6 @@ export const useAuth = () => {
             throw err;
         }
     };
-
 
     const logout = () => {
         setToken(null);

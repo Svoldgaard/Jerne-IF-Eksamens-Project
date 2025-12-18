@@ -3,9 +3,6 @@ import { useAtomValue } from "jotai";
 import { tokenAtom } from "../Atoms/Auth";
 import {apiUrl} from "../api-clients.ts";
 
-
-//const  = "https://jerne-if-api.fly.dev"
-
 export interface SpilugeResponse {
     uge: number;
     year: number;
@@ -36,7 +33,6 @@ export function useSpilhistorikBruger(brugerId?: number) {
             try {
                 setLoading(true);
 
-                // console.log("token", token);
                 if(!token) return;
 
                 const ugeRes = await fetch(`${apiUrl}/api/spilhistorik/spiluger`, {

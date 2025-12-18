@@ -2,7 +2,6 @@ import { useState } from "react";
 import { vinderTalClient } from "../api-clients";
 import {type CreateVindertalDTO} from "../generated-ts-client.ts";
 
-
 export function useVindertal() {
     const [vindertal, setVindertal] = useState<number[]>([0, 0, 0]);
     const [loading, setLoading] = useState(false);

@@ -28,7 +28,6 @@ const App = () => {
             element: <OpretBruger/>
         },
 
-
         // Bruger
         {
           path: "/forside",

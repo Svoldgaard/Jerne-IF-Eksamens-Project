@@ -16,8 +16,6 @@ function SpilhistorikAdmin() {
 
     const brugerId = user?.userId;
 
-    // console.log("BRUGER ID:", brugerId);
-
     const {spiluger, loading, error } = useSpilhistorikBruger(brugerId);
     const { weekPlayers, loadWeekData } = useWeekPlayers();
 
@@ -41,7 +39,6 @@ function SpilhistorikAdmin() {
         if (a.year !== b.year) return b.year - a.year;
         return b.uge - a.uge;
     });
-
 
     return (
         <div className="page-spilhistorik-admin">
@@ -77,16 +74,7 @@ function SpilhistorikAdmin() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        {/*{weekPlayers[week.key].map(p => (*/}
-                                        {/*    <tr key={p.pladeId}*/}
-                                        {/*        className={p.isWinner ? "winner-row" : ""}>*/}
-                                        {/*        <td>{p.email}</td>*/}
-                                        {/*        <td>{p.transaktionsNr}</td>*/}
-                                        {/*        <td>{p.tal.join(", ")}</td>*/}
-                                        {/*    </tr>*/}
-                                        {/*))}*/}
                                         {weekPlayers[week.key].map(p => {
-                                            console.log("ROW DATA:", p);
                                             return (
                                                 <tr
                                                     key={p.pladeId}

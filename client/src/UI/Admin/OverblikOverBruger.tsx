@@ -73,7 +73,6 @@ const OverblikOverBruger = () => {
                     )}
                 </div>
             </div>
-
             <Footer />
         </div>
     );

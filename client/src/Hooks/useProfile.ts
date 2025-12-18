@@ -4,7 +4,6 @@ import { userAtom } from "../Atoms/Auth";
 import {profileClient} from "../api-clients.ts";
 import type {ProfilUpdateDto} from "../generated-ts-client.ts";
 
-
 export const useProfile = () => {
     const [user, setUser] = useAtom(userAtom);
     const [error, setError] = useState<string | null>(null);
@@ -12,7 +11,6 @@ export const useProfile = () => {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [mobil, setMobil] = useState("");
-
 
     useEffect(() => {
         if (!user) return;
@@ -22,8 +20,6 @@ export const useProfile = () => {
         setEmail(user.email ?? "");
         setMobil(user.mobilePhone?.toString() ?? "");
     }, [user]);
-
-
 
     const handleSave = async () => {
         if (!user?.userId) return;
@@ -35,7 +31,6 @@ export const useProfile = () => {
                 lnavn: lastName,
                 email,
             };
-
 
             const savedProfil= await profileClient.updateProfil(updatedProfil);
 
@@ -51,14 +46,12 @@ export const useProfile = () => {
                 };
             });
 
-
             alert("Profil opdateret!");
         } catch (err) {
             console.error("Profile update error:", err);
             setError("Fejl under opdatering");
         }
     };
-
 
     return {
         firstName, setFirstName,
@@ -68,5 +61,4 @@ export const useProfile = () => {
         handleSave,
         error
     };
-
 };

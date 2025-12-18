@@ -28,10 +28,6 @@
     cursor: pointer;
 }
 
-.sidebar-menu div:hover {
-    /*background: #F44336;*/
-}
-
 .sidebar-menu {
     animation: slideFromLeft 0.25s ease-out;
 }
